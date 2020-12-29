@@ -16,3 +16,4 @@ Future Plans for the app:
 - Make a new fuction for the app for comparing manually selected teams
 - Add a menu to the app for selecting different fuctions
 - Make a new fuction for adding, editing or removing player stats
+- Periodic git sync to docker
