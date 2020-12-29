@@ -22,13 +22,14 @@
                 <div class="mx-auto text-center">
                     <h1 class="mx-auto my-0 text-uppercase">Footy Team App</h1>
                     <h2 class="text-white-50 mx-auto mt-2 mb-5">An app for selecting 5 a side squads.</h2>
+                    <p><a href="{{ url_for('compare') }}">Or use this compare app!</a></p></p>
                     <!--
                     {% for name in all_players %}
-                    #<tr>
-                    #<td><input type=checkbox name="available_players" value="{{ name[0] }}"></td>
-                    #<td>{{ name[0] }}</td>
-                    #</tr>
-                    #{% endfor %}
+                    <tr>
+                    <td><input type=checkbox name="available_players" value="{{ name[0] }}"></td>
+                    <td>{{ name[0] }}</td>
+                    </tr>
+                    {% endfor %}
                     -->
                     <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
                         1. Pete <input type="checkbox" value="Pete" name="available_players">
@@ -60,14 +61,6 @@
                 </div>
             </div>
         </header>
-        <!-- Contact-->
-        <section class="contact-section bg-black">
-            <div class="container">
-                <div class="row">
-                    {% block content %}
-                    {% endblock %}
-            </div>
-        </section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © RichardBignell.co.uk 2020</div></footer>
         <!-- Bootstrap core JS-->
