@@ -10,6 +10,13 @@ You can test this by installing this docker image and cloning this repo to repla
 
 https://hub.docker.com/r/that1guy15/flask-demo
 
+docker pull that1guy15/flask-demo
+docker run -t -i -p 80:80 thatguy15/flask-demo
+docker exec -it flask /bin/bash
+cd /app
+rm -rf *
+git clone https://github.com/bignellrp/footyapp.git .
+
 Future Plans for the app:
 
 - Move class to a separate file
