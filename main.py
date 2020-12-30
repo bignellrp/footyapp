@@ -53,9 +53,9 @@ def compare():
             if obj.name in available_players_b:
                 game_players_b.append((obj.score))
         # Sum of the total score from second column
-        team_a = (sum(game_players_a))
-        team_b = (sum(game_players_b))
-        return render_template('result_compare.html', teama = team_a, teamb = team_b)
+        team_a_result = (sum(game_players_a))
+        team_b_result = (sum(game_players_b))
+        return render_template('result_compare.html', teamares = team_a_result, teambres = team_b_result)
     # If request method is not POST then reload back to compare.html
     return render_template('compare.html', player_names = player_names)
 
