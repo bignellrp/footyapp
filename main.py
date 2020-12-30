@@ -1,3 +1,6 @@
+import sys
+
+sys.dont_write_bytecode = True
 from flask import Flask, render_template, request
 from player import all_players, player_names
 app = Flask(__name__)
@@ -55,8 +58,9 @@ def compare():
         # Sum of the total score from second column
         team_a_result = (sum(game_players_a))
         team_b_result = (sum(game_players_b))
+        # Return results to result_compare.html template
         return render_template('result_compare.html', teamares = team_a_result, teambres = team_b_result)
-    # If request method is not POST then reload back to compare.html
+    # If request method is not POST then it must be GET so render compare.html including player_names
     return render_template('compare.html', player_names = player_names)
 
 if __name__ == "__main__":
