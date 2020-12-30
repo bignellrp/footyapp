@@ -23,44 +23,38 @@
                     <h1 class="mx-auto my-0 text-uppercase">Footy Team App</h1>
                     <h2 class="text-white-50 mx-auto mt-2 mb-5">An app for selecting 5 a side squads.</h2>
                     <p><a href="{{ url_for('compare') }}">Or use this compare app!</a></p></p>
-                    <!--
-                    {% for name in all_players %}
-                    <tr>
-                    <td><input type=checkbox name="available_players" value="{{ name[0] }}"></td>
-                    <td>{{ name[0] }}</td>
-                    </tr>
-                    {% endfor %}
-                    -->
-                    <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
-                        1. Pete <input type="checkbox" value="Pete" name="available_players">
-                        2. Simon <input type="checkbox" value="Simon" name="available_players">
-                        3. Rik <input type="checkbox" value="Rik" name="available_players">
-                        4. Chris <input type="checkbox" value="Chris" name="available_players">
-                        5. Joe <input type="checkbox" value="Joe" name="available_players">
-                        <br>
-                        6. Darren <input type="checkbox" value="Darren" name="available_players">
-                        7. Ferdi <input type="checkbox" value="Ferdi" name="available_players">
-                        8. Rich <input type="checkbox" value="Rich" name="available_players">
-                        9. Tom <input type="checkbox" value="Tom" name="available_players">
-                        10. Cal <input type="checkbox" value="Cal" name="available_players">
-                        <br>
-                        11. Dida <input type="checkbox" value="Dida" name="available_players">
-                        12. Matt <input type="checkbox" value="Matt" name="available_players">
-                        13. Bernard <input type="checkbox" value="Bernard" name="available_players">
-                        14. Phil <input type="checkbox" value="Phil" name="available_players">
-                        15. Kev <input type="checkbox" value="Kev" name="available_players">
-                        <br>
-                        16. Will <input type="checkbox" value="Will" name="available_players">
-                        17. Random_Level1 <input type="checkbox" value="Level1" name="available_players">
-                        18. Random_Level2 <input type="checkbox" value="Level2" name="available_players">
-                        19. Random_Level3 <input type="checkbox" value="Level3" name="available_players">
-                        20. Random_Level4 <input type="checkbox" value="Level4" name="available_players">
-                        <br>
-                        <input class="btn btn-primary js-scroll-trigger" type="submit">
-                    </form>
                 </div>
             </div>
         </header>
+        <!-- Projects-->
+        <section class="projects-section bg-light" id="projects">
+            <div class="container">
+                <!-- Featured Project Row-->
+                <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="featured-text text-center text-center">
+                            <form class="text-black-50 mx-auto mt-2 mb-5" method="POST" action="/">
+                                <table class="mx-auto text-lg-left" style="width: 40%">
+                                    <colgroup>
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 30%;">
+                                    </colgroup>
+                                    
+                                    {% for name in player_names %}
+                                    <tr>
+                                        <td><input type=checkbox name="available_players" value="{{ name }}"></td>
+                                        <td>{{ name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                
+                                </table>
+                                <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © RichardBignell.co.uk 2020</div></footer>
         <!-- Bootstrap core JS-->
@@ -69,6 +63,6 @@
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="/js/scripts.js"></script>
     </body>
 </html>

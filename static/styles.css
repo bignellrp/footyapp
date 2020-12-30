@@ -292,6 +292,7 @@ button::-moz-focus-inner,
 input[type=radio],
 input[type=checkbox] {
   box-sizing: border-box;
+  vertical-align: middle;
   padding: 0;
 }
 
