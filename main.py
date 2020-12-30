@@ -27,10 +27,17 @@ def index():
         # Put the Odd elements from the array starting from 1 
         # and counting in twos into Team B
         team_b = game_players[1::2]
-        team_a = ([row[0] for row in team_a])
-        team_b = ([row[0] for row in team_b])
+        team_a_names = ([row[0] for row in team_a])
+        team_b_names = ([row[0] for row in team_b])
+        # Calculate the score
+        team_a_score = ([row[1] for row in team_a])
+        team_b_score = ([row[1] for row in team_b])
+
+        team_a_total = (sum(team_a_score))
+        team_b_total = (sum(team_b_score))
+
         # Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a, teamb = team_b)
+        return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)
 
 #Start the Compare Web Form for pulling the checkbox data input

@@ -34,17 +34,19 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
                             <h1>Lineup:</h1>
-                            <div class="row">
-                                <p class="text-black-50 mx-auto mt-2 mb-5">Black Team:</p>
+                            <div class="row text-black-50 mx-auto mt-2 mb-5">
+                                <p>Black Team: </p>
                                 {% for item in teama %}
-                                <p class="text-black-50 mx-auto mt-2 mb-5"> {{ item }} ,</p>
+                                <p> {{ item }} ,</p>
                                 {% endfor %}
+                                <p>{{ scorea }}</p>
                             </div>
-                            <div class="row">
-                                <p class="text-black-50 mx-auto mt-2 mb-5">White Team:</p>
+                            <div class="row text-black-50 mx-auto mt-2 mb-5">
+                                <p>White Team: </p>
                                 {% for item in teamb %}
-                                <p class="text-black-50 mx-auto mt-2 mb-5"> {{ item }} ,</p>
+                                <p> {{ item }} ,</p>
                                 {% endfor %}
+                                <p>{{ scoreb }}</p>
                             </div>
                         </div>
                     </div>
