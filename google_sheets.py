@@ -6,11 +6,12 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 SAMPLE_RANGE_NAME = 'Sheet2!A2:E'
+WRITE_SAMPLE_RANGE_NAME = 'Sheet3!A2:E'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -34,9 +35,7 @@ def main():
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
-
     service = build('sheets', 'v4', credentials=creds)
-
     # Call the Sheets API
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
@@ -46,10 +45,16 @@ def main():
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
+        print('Name, Column1, Column2, Goalkeeping, Defense, Offense:')
         for row in values:
-            # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
-
+            print('%s, %s, %s, %s, %s' % (row[0], row[1], row[2], row[3], row[4]))
+    body = {
+    'values': values
+    }  
+    result = service.spreadsheets().values().update(
+        spreadsheetId=SAMPLE_SPREADSHEET_ID, range=WRITE_SAMPLE_RANGE_NAME,
+        valueInputOption='USER_ENTERED', body=body).execute()
+    print('{0} cells updated.'.format(result.get('updatedCells')))
+	
 if __name__ == '__main__':
-    main()
+	main()
