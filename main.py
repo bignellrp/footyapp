@@ -14,7 +14,7 @@ def index():
         # Use GetList to put the data from the index template into the array
         available_players = []
         available_players = request.form.getlist('available_players')
-        
+
         # Define game_players array for storing the players names 
         # and scores only if the names are listed in available_players
         game_players = []
@@ -22,40 +22,17 @@ def index():
             if obj.name in available_players:
                 game_players.append((obj.name , obj.score))
         
-        print (game_players)
-        
-        # Use a heapq heap to split players into n teams as evenly as possible. 
-        # Returns a list of lists; each sublist is a team.
-        # players is a list of tuples. Each tuple has two elements; 
-        # a str representing name, and then a score.
-        # if n isn't provided, default is 2.
-        teams = []
-        def even_teams(game_players, n=2):
-            teams = [[] for _ in range(n)]
-            totals = [(0, i) for i in range(n)]
-            heapq.heapify(totals)
-
-            for player in game_players:
-                total, index = heapq.heappop(totals)
-                teams[index].append(player)
-                heapq.heappush(totals, (total + player[1], index))
-
-        return tuple(teams)
+        #print (game_players)
 
         # Sort game_players by the key of the second column
-        #game_players.sort(key=lambda x:x[1])
-        
-        # Take the even teams elements
-        team_a, team_b = even_teams(game_players)
-        print ("Team A: " + team_a)
-        print ("Team B: " + team_b)
+        game_players.sort(key=lambda x:x[1])
         
         # Put the Even elements from the array starting from zero
         # and counting in twos into Team A
-        #team_a = game_players[0::2]
+        team_a = game_players[0::2]
         # Put the Odd elements from the array starting from 1 
         # and counting in twos into Team B
-        #team_b = game_players[1::2]
+        team_b = game_players[1::2]
 
         # Take the first column and put names into team_a and team_b
         team_a_names = ([row[0] for row in team_a])
@@ -69,6 +46,14 @@ def index():
         team_a_total = (sum(team_a_score))
         team_b_total = (sum(team_b_score))
 
+        # Post Results to Google Sheets if output is checked
+
+        output_checked = []
+        output_checked = request.form.getlist('output_checked')
+        print (output_checked)
+        if output_checked == ['Yes']:
+            print (game_players)
+        
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)

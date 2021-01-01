@@ -2,3 +2,6 @@ main.pyc
 __pycache__/player.cpython-37.pyc
 .gitignore
 player.pyc
+token.pickle
+credentials.json
+__pycache__/google.cpython-37.pyc
