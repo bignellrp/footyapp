@@ -10,8 +10,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-SAMPLE_RANGE_NAME = 'Sheet2!A2:E'
-WRITE_SAMPLE_RANGE_NAME = 'Sheet3!A2:E'
+SAMPLE_RANGE_NAME = 'Sheet2!A2:G'
+WRITE_SAMPLE_RANGE_NAME = 'Sheet3!A2:G'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -45,16 +45,11 @@ def main():
     if not values:
         print('No data found.')
     else:
-        print('Name, Column1, Column2, Goalkeeping, Defense, Offense:')
+        player_names = ([row[0] for row in values])
+        all_players = []
         for row in values:
-            print('%s, %s, %s, %s, %s' % (row[0], row[1], row[2], row[3], row[4]))
-    body = {
-    'values': values
-    }  
-    result = service.spreadsheets().values().update(
-        spreadsheetId=SAMPLE_SPREADSHEET_ID, range=WRITE_SAMPLE_RANGE_NAME,
-        valueInputOption='USER_ENTERED', body=body).execute()
-    print('{0} cells updated.'.format(result.get('updatedCells')))
-	
+            all_players.append (('%s, %s' % (row[0], row[6])))
+        #player_scores = ([row[6] for row in values])
+
 if __name__ == '__main__':
 	main()

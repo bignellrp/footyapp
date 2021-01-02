@@ -4,26 +4,60 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-
+# Import next wednesday from json_date.py
+from json_date import next_wednesday
 import sys, heapq
 sys.dont_write_bytecode = True
 from flask import Flask, render_template, request
-from player import all_players, player_names
+#from player import all_players, player_names
+#import google_sheets
+
 app = Flask(__name__)
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-SAMPLE_RANGE_NAME = 'Sheet2!A2:F'
-WRITE_SAMPLE_RANGE_NAME = 'Sheet3!A1:AA1000'
+SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
+RANGE_NAME = 'Sheet2!A2:G'
+WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
 
+creds = None
+
+if os.path.exists('token.pickle'):
+    with open('token.pickle', 'rb') as token:
+        creds = pickle.load(token)
+
+if not creds or not creds.valid:
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+    else:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'credentials.json', SCOPES)
+        creds = flow.run_local_server(port=0)
+# Save the credentials for the next run
+    with open('token.pickle', 'wb') as token:
+        pickle.dump(creds, token)
+service = build('sheets', 'v4', credentials=creds)
+
+sheet = service.spreadsheets()
+result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                range=RANGE_NAME).execute()
+values = result.get('values', [])
+player_names = ([row[0] for row in values])
+all_players = []
+class Player:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+for row in values:
+#    all_players.append (('%s, %s' % (row[0], row[6])))
+    all_players.append( Player( row[0], row[6] ))
 #Start the Web Form for pulling the checkbox data input
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST': 
-        print(request.form.getlist('available_players'))
+    if request.method == 'POST':
+#        print(request.form.getlist('available_players'))
     
         # Use GetList to put the data from the index template into the array
         available_players = []
@@ -35,8 +69,7 @@ def index():
         for obj in all_players: 
             if obj.name in available_players:
                 game_players.append((obj.name , obj.score))
-        
-        #print (game_players)
+
 
         # Sort game_players by the key of the second column
         game_players.sort(key=lambda x:x[1])
@@ -53,41 +86,38 @@ def index():
         # Calculate the score
         team_a_score = ([row[1] for row in team_a])
         team_b_score = ([row[1] for row in team_b])
-
+        team_a_score = [int(i) for i in team_a_score]
+        team_b_score = [int(i) for i in team_b_score]
         # Sum the total of the scores
         team_a_total = (sum(team_a_score))
         team_b_total = (sum(team_b_score))
-
         # Post Results to Google Sheets if output is checked
         output_checked = []
         output_checked = request.form.getlist('output_checked')
         if output_checked == ['Yes']:
-            creds = None
-
-            if os.path.exists('token.pickle'):
-                with open('token.pickle', 'rb') as token:
-                    creds = pickle.load(token)
-
-            if not creds or not creds.valid:
-                if creds and creds.expired and creds.refresh_token:
-                    creds.refresh(Request())
-                else:
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                        'credentials.json', SCOPES)
-                    creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-                with open('token.pickle', 'wb') as token:
-                    pickle.dump(creds, token)
-            service = build('sheets', 'v4', credentials=creds)
-            print (game_players)
+            # Format the google ouput into one long comma sep str
+            google_output = []
+            google_output.append((next_wednesday))
+            google_output.append(("TeamAResult?"))
+            google_output.append(("TeamBResult?"))
+            google_output.append((team_a_total))
+            google_output.append((team_b_total))
+            for obj in team_a_names: 
+                google_output.append((obj))
+            for obj in team_b_names: 
+                google_output.append((obj))
+            # Format the google body for ROWS
             body = {
                 'majorDimension': 'ROWS',
-                'values': team_a
+                'values': [
+                    google_output,
+                ],
                 }
+            # Print the result to google sheets with append enabled
             result = service.spreadsheets().values().append(
-                spreadsheetId=SAMPLE_SPREADSHEET_ID, range=WRITE_SAMPLE_RANGE_NAME,
+                spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
                 valueInputOption='USER_ENTERED', body=body).execute()
-            print('{0} cells updated.'.format(result.get('updatedCells')))
+            # print('{0} cells updated.'.format(result.get('updatedCells')))
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)
