@@ -7,3 +7,4 @@ credentials.json
 __pycache__/google.cpython-37.pyc
 __pycache__/google_sheets.cpython-37.pyc
 __pycache__/json_date.cpython-37.pyc
+json_date.pyc
