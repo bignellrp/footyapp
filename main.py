@@ -124,8 +124,8 @@ def index():
 @app.route('/compare', methods=['GET', 'POST'])
 def compare():
     if request.method == 'POST': 
-        print(request.form.getlist('available_players_a'))
-        print(request.form.getlist('available_players_b'))
+#        print(request.form.getlist('available_players_a'))
+#        print(request.form.getlist('available_players_b'))
         # Use GetList to put the data from the index template into the array
         available_players_a = []
         available_players_a = request.form.getlist('available_players_a')

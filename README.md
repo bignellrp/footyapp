@@ -35,3 +35,4 @@ Future Plans for the app:
 - Create a function for entering manually entered teams into the google sheet output (admin only checkbox)
 - Move the other functions to a menu
 - Build this into the main branch with the option to using static or google data
+- Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
