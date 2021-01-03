@@ -2,7 +2,9 @@
 import datetime 
 from datetime import date
 from json import dumps
+import sys
 sys.dont_write_bytecode = True
+
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
 
