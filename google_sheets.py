@@ -36,7 +36,7 @@ def main():
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+            pickle.dump(creds, token, protocol=2)
     service = build('sheets', 'v4', credentials=creds)
     # Call the Sheets API
     sheet = service.spreadsheets()
