@@ -17,8 +17,22 @@ cd /app
 rm -rf *
 git clone https://github.com/bignellrp/footyapp.git .
 
+This branch adds google sheets support to have the player list generated from a google sheet
+The output from the script (if admin only checkbox is checked sends the output to another google sheet.
+
+To test the google sheet function you need to follow this guide to work with the google sheets api
+For this you need to have the creditials.json and on the first run generate the token.pickle
+https://developers.google.com/sheets/api/quickstart/python
+
+Json is also required for generating the date for the closest upcoming Wednesday (the football day)
+
+docker exec -it flask /bin/bash
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib json
+
 Future Plans for the app:
 
-- Add a menu to the app for selecting different fuctions
-- Make a new fuction for adding, editing or removing player stats
-- Match teams with a while loop
+- Use heap to generate more accurate team matching
+- Create a function for entering manually entered teams into the google sheet output (admin only checkbox)
+- Move the other functions to a menu
+- Build this into the main branch with the option to using static or google data
+- Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
