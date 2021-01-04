@@ -19,6 +19,5 @@ git clone https://github.com/bignellrp/footyapp.git .
 
 Future Plans for the app:
 
-- Add a menu to the app for selecting different fuctions
-- Make a new fuction for adding, editing or removing player stats
-- Match teams with a while loop
+- Split functions into separate py files
+- Validation on number of checkboxes checked
