@@ -68,11 +68,10 @@ function validate(){
         }
     }
 
-    if (checked > 0) {
-        alert("Have you selected 10 players?");
+    if (checked > 9) {
         return true;
     } else {
-        alert("Please select CheckBoxe(s).");
+        alert("Dont you need 10 players?");
         return false;
     }
 };
