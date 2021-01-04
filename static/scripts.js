@@ -54,3 +54,25 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
+
+function validate(){
+    var checked = 0;
+
+    //Reference the Table.
+    var chks = document.getElementById("remember");
+
+    //Loop and count the number of checked CheckBoxes.
+    for (var i = 0; i < chks.length; i++) {
+        if (chks[i].checked) {
+            checked++;
+        }
+    }
+
+    if (checked > 0) {
+        alert("Have you selected 10 players?");
+        return true;
+    } else {
+        alert("Please select CheckBoxe(s).");
+        return false;
+    }
+};
