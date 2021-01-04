@@ -5,6 +5,22 @@ from flask import Flask, render_template, request
 from player import all_players, player_names
 app = Flask(__name__)
 
+# Use a heapq heap to split players into n teams as evenly as possible. 
+# Returns a list of lists; each sublist is a team.
+# players is a list of tuples. Each tuple has two elements; 
+# a str representing name, and then a score.
+# if n isn't provided, default is 2.
+        
+def even_teams(game_players, n=2):
+    teams = [[] for _ in range(n)]
+    totals = [(0, i) for i in range(n)]
+    heapq.heapify(totals)
+    for obj in game_players:
+        total, index = heapq.heappop(totals)
+        teams[index].append(obj)
+        heapq.heappush(totals, (total + obj[1], index))
+    return tuple(teams)
+
 #Start the Web Form for pulling the checkbox data input
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -20,35 +36,13 @@ def index():
         game_players = []
         for obj in all_players: 
             if obj.name in available_players:
-                game_players.append((obj.name , obj.score))
+                game_players.append((obj.name , int(obj.score)))
         
-        print (game_players)
-        
-        # Use a heapq heap to split players into n teams as evenly as possible. 
-        # Returns a list of lists; each sublist is a team.
-        # players is a list of tuples. Each tuple has two elements; 
-        # a str representing name, and then a score.
-        # if n isn't provided, default is 2.
-        teams = []
-        def even_teams(game_players, n=2):
-            teams = [[] for _ in range(n)]
-            totals = [(0, i) for i in range(n)]
-            heapq.heapify(totals)
-
-            for player in game_players:
-                total, index = heapq.heappop(totals)
-                teams[index].append(player)
-                heapq.heappush(totals, (total + player[1], index))
-
-        return tuple(teams)
-
         # Sort game_players by the key of the second column
         #game_players.sort(key=lambda x:x[1])
         
         # Take the even teams elements
         team_a, team_b = even_teams(game_players)
-        print ("Team A: " + team_a)
-        print ("Team B: " + team_b)
         
         # Put the Even elements from the array starting from zero
         # and counting in twos into Team A
