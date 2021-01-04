@@ -57,12 +57,12 @@
                                     
                                     {% for name in player_names %}
                                     <tr>
-                                        <td><input type=checkbox name="available_players" value="{{ name }}"></td>
+                                        <td><input type=checkbox name="available_players" id="remember" value="{{ name }}"></td>
                                         <td>{{ name }}</td>
                                     </tr>
                                     {% endfor %}
-                                    <tr id="remember">
-                                        <td><input type=checkbox name="output_checked" id="remember" value="Yes"></td>
+                                    <tr>
+                                        <td><input type=checkbox name="output_checked" value="Yes"></td>
                                         <td>Admin Only</td>
                                     </tr>
                                 </table>
