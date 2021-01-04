@@ -1,17 +1,11 @@
 from __future__ import print_function
-import pickle
-import os.path
+import pickle, os.path, sys, heapq
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-# Import next wednesday from json_date.py
 from json_date import next_wednesday
-import sys
-import heapq
-sys.dont_write_bytecode = True
 from flask import Flask, render_template, request
-#from player import all_players, player_names
-#import google_sheets
+sys.dont_write_bytecode = True
 
 def even_teams(game_players, n=2):
     teams = [[] for _ in range(n)]
@@ -62,13 +56,11 @@ class Player:
         self.name = name
         self.score = score
 for row in values:
-#    all_players.append (('%s, %s' % (row[0], row[6])))
     all_players.append( Player( row[0], row[6] ))
 #Start the Web Form for pulling the checkbox data input
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-#        print(request.form.getlist('available_players'))
     
         # Use GetList to put the data from the index template into the array
         available_players = []
@@ -80,28 +72,22 @@ def index():
         for obj in all_players: 
             if obj.name in available_players:
                 game_players.append((obj.name , int(obj.score)))
-        # Sort game_players by the key of the second column
-        #game_players.sort(key=lambda x:x[1])
-        # Put the Even elements from the array starting from zero
-        # and counting in twos into Team A
-        #team_a = game_players[0::2]
-        # Put the Odd elements from the array starting from 1 
-        # and counting in twos into Team B
-        #team_b = game_players[1::2]
 
+        # Add the even teams into team a and team b
         team_a, team_b = even_teams(game_players)
 
         # Take the first column and put names into team_a and team_b
         team_a_names = ([row[0] for row in team_a])
         team_b_names = ([row[0] for row in team_b])
+
         # Calculate the score
         team_a_score = ([row[1] for row in team_a])
         team_b_score = ([row[1] for row in team_b])
-        #team_a_score = [int(i) for i in team_a_score]
-        #team_b_score = [int(i) for i in team_b_score]
+
         # Sum the total of the scores
         team_a_total = (sum(team_a_score))
         team_b_total = (sum(team_b_score))
+
         # Post Results to Google Sheets if output is checked
         output_checked = []
         output_checked = request.form.getlist('output_checked')
@@ -128,7 +114,6 @@ def index():
             result = service.spreadsheets().values().append(
                 spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
                 valueInputOption='USER_ENTERED', body=body).execute()
-            # print('{0} cells updated.'.format(result.get('updatedCells')))
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)
@@ -137,8 +122,7 @@ def index():
 @app.route('/compare', methods=['GET', 'POST'])
 def compare():
     if request.method == 'POST': 
-#        print(request.form.getlist('available_players_a'))
-#        print(request.form.getlist('available_players_b'))
+
         # Use GetList to put the data from the index template into the array
         available_players_a = []
         available_players_a = request.form.getlist('available_players_a')
