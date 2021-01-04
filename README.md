@@ -31,12 +31,5 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 
 Future Plans for the app:
 
-- Use heap to generate more accurate team matching
-- Create a function for entering manually entered teams into the google sheet output (admin only checkbox)
-- Move the other functions to a menu
-- Build this into the main branch with the option to using static or google data
-<<<<<<< HEAD
 - Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
-=======
-- Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
->>>>>>> 24d2a20efdbe26e6d1e5d66cf79d8f8e436e0167
+- Checkbox validation to make sure the user cannot enter less or more than 10 (5 for the manual page)
