@@ -50,6 +50,7 @@ def index():
         # Post Results to Google Sheets if output is checked
         output_checked = []
         output_checked = request.form.getlist('output_checked')
+        
         if output_checked == ['Yes']:
             # Format the google ouput into one long comma sep str
             google_output = []

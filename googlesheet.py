@@ -14,7 +14,6 @@ WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
 
 def googlefunction():
     creds = None
-
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
