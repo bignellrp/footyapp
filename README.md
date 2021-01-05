@@ -37,7 +37,7 @@ Wednesday (the football day)
 
 ```bash
 docker exec -it flask /bin/bash
-pip install -r --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+pip install -r requirements.txt
 ```
 
 Future Plans for the app:
