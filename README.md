@@ -17,8 +17,9 @@ https://hub.docker.com/r/that1guy15/flask-demo
 docker pull that1guy15/flask-demo
 docker run -t -i -p 80:80 thatguy15/flask-demo
 docker exec -it flask /bin/bash
-cd /app
-rm -rf \*
+rm -rf /app
+mkdir app
+cd app
 git clone https://github.com/bignellrp/footyapp.git .
 ```
 
@@ -36,7 +37,7 @@ Wednesday (the football day)
 
 ```bash
 docker exec -it flask /bin/bash
-pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib json
+pip install -r --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
 Future Plans for the app:
