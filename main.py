@@ -7,8 +7,7 @@ from flask import Flask, render_template, request
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-
-from .json_date import next_wednesday
+from json_date import next_wednesday
 
 
 def even_teams(game_players, n=2):
