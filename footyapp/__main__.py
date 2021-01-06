@@ -10,6 +10,8 @@ from google.auth.transport.requests import Request
 
 from .json_date import next_wednesday
 
+# path to the footyapp folder
+
 
 def even_teams(game_players, n=2):
     teams = [[] for _ in range(n)]
@@ -33,8 +35,13 @@ WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
 
 creds = None
 
-if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
+PICKLE_PATH = os.path.join(
+    os.path.dirname(__file__),
+    'token.pickle'
+)
+
+if os.path.exists(PICKLE_PATH):
+    with open(PICKLE_PATH, 'rb') as token:
         creds = pickle.load(token)
 
 if not creds or not creds.valid:
@@ -49,7 +56,7 @@ if not creds or not creds.valid:
         )
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open('token.pickle', 'wb') as token:
+    with open(PICKLE_PATH, 'wb') as token:
         pickle.dump(creds, token, protocol=2)
 SERVICE = build('sheets', 'v4', credentials=creds)
 
