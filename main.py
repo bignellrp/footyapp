@@ -1,10 +1,10 @@
-import heapq
+import heapq, sys
 
 from flask import Flask, render_template, request
-from __json_date__ import next_wednesday
-from __getplayers__ import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
+from py.__json_date__ import next_wednesday
+from py.__getplayers__ import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
 from google.auth.transport.requests import Request
-from __teams__ import even_teams
+from py.__teams__ import even_teams
 
 app = Flask(__name__)
 

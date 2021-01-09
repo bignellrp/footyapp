@@ -1,12 +1,8 @@
-# Find the date for next wednesday
-import datetime, sys
+import datetime
 from datetime import date
 from json import dumps
-sys.dont_write_bytecode = True
 
 def json_serial(obj):
-    """JSON serializer for objects not serializable by default json code"""
-
     if isinstance(obj, (date)):
         return obj.isoformat()
     raise TypeError ("Type %s not serializable" % type(obj))
