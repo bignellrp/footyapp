@@ -1,26 +1,19 @@
-import os.path, sys, heapq
-from googlesheet import *
-from json_date import next_wednesday
-from flask import Flask, render_template, request
-sys.dont_write_bytecode = True
+import heapq
 
-def even_teams(game_players, n=2):
-    teams = [[] for _ in range(n)]
-    totals = [(0, i) for i in range(n)]
-    heapq.heapify(totals)
-    for obj in game_players:
-        total, index = heapq.heappop(totals)
-        teams[index].append(obj)
-        heapq.heappush(totals, (total + obj[1], index))
-    return tuple(teams)
+from flask import Flask, render_template, request
+from __json_date__ import next_wednesday
+from __getplayers__ import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
+from google.auth.transport.requests import Request
+from __teams__ import even_teams
 
 app = Flask(__name__)
 
-#Start the Web Form for pulling the checkbox data input
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    googlefunction()
+    """Start the Web Form for pulling the checkbox data input"""
+    all_players, player_names = _make_players(_fetch_sheet())
     if request.method == 'POST':
+
         # Use GetList to put the data from the index template into the array
         available_players = []
         available_players = request.form.getlist('available_players')
@@ -28,7 +21,7 @@ def index():
         # Define game_players array for storing the players names 
         # and scores only if the names are listed in available_players
         game_players = []
-        for obj in all_players: 
+        for obj in all_players:
             if obj.name in available_players:
                 game_players.append((obj.name , int(obj.score)))
 
@@ -50,7 +43,6 @@ def index():
         # Post Results to Google Sheets if output is checked
         output_checked = []
         output_checked = request.form.getlist('output_checked')
-        
         if output_checked == ['Yes']:
             # Format the google ouput into one long comma sep str
             google_output = []
@@ -71,18 +63,18 @@ def index():
                 ],
                 }
             # Print the result to google sheets with append enabled
-            result = service.spreadsheets().values().append(
+            result = SERVICE.spreadsheets().values().append(
                 spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
                 valueInputOption='USER_ENTERED', body=body).execute()
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
-    return render_template('index.html', player_names = player_names)
+    return render_template('index.html', player_names=player_names)
 
 #Start the Compare Web Form for pulling the checkbox data input
 @app.route('/compare', methods=['GET', 'POST'])
 def compare():
-    googlefunction()
-    if request.method == 'POST': 
+    all_players, player_names = _make_players(_fetch_sheet())
+    if request.method == 'POST':
         # Use GetList to put the data from the index template into the array
         available_players_a = []
         available_players_a = request.form.getlist('available_players_a')
@@ -133,7 +125,7 @@ def compare():
                 ],
                 }
             # Print the result to google sheets with append enabled
-            result = service.spreadsheets().values().append(
+            result = SERVICE.spreadsheets().values().append(
                 spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
                 valueInputOption='USER_ENTERED', body=body).execute()
         # Return Team A and Team B to the results template

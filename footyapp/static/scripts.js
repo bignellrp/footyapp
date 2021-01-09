@@ -56,22 +56,11 @@
 })(jQuery); // End of use strict
 
 function validate(){
-    var checked = 0;
-
-    //Reference the Table.
-    var chks = document.getElementById("remember");
-
-    //Loop and count the number of checked CheckBoxes.
-    for (var i = 0; i < chks.length; i++) {
-        if (chks[i].checked) {
-            checked++;
-        }
-    }
-
-    if (checked > 9) {
-        return true;
+    if (document.getElementsByClassName("validcheck").checked) {
+    alert("Congrats you have 10 players!");
+    return true;
     } else {
-        alert("Dont you need 10 players?");
-        return false;
+    alert("Dont you need 10 players?");
+    return false;
     }
 };
