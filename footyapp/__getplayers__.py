@@ -12,9 +12,15 @@ RANGE_NAME = 'Sheet2!A2:G'
 WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
 
 creds = None
+PICKLE_PATH = os.path.join(
+    os.path.dirname(__file__),
+    'token.pickle'
+)
 
-if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
+if os.path.exists(PICKLE_PATH):
+    with open(PICKLE_PATH, 'rb') as token:
+#if os.path.exists('token.pickle'):
+#    with open('token.pickle', 'rb') as token:
         creds = pickle.load(token)
 
 if not creds or not creds.valid:
@@ -29,7 +35,8 @@ if not creds or not creds.valid:
         )
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open('token.pickle', 'wb') as token:
+    with open(PICKLE_PATH, 'wb') as token:
+#    with open('token.pickle', 'wb') as token:
         pickle.dump(creds, token, protocol=2)
 SERVICE = build('sheets', 'v4', credentials=creds)
 
