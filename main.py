@@ -1,74 +1,12 @@
-import heapq
-import os
-import pickle
-import sys
+import heapq, sys
 
 from flask import Flask, render_template, request
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+from py.__json_date__ import next_wednesday
+from py.__getplayers__ import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
 from google.auth.transport.requests import Request
-from json_date import next_wednesday
-
-
-def even_teams(game_players, n=2):
-    teams = [[] for _ in range(n)]
-    totals = [(0, i) for i in range(n)]
-    heapq.heapify(totals)
-    for obj in game_players:
-        total, index = heapq.heappop(totals)
-        teams[index].append(obj)
-        heapq.heappush(totals, (total + obj[1], index))
-    return tuple(teams)
+from py.__teams__ import even_teams
 
 app = Flask(__name__)
-
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-
-# The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-RANGE_NAME = 'Sheet2!A2:G'
-WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
-
-creds = None
-
-if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
-        creds = pickle.load(token)
-
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            os.path.join(
-                os.path.dirname(__file__),
-                'credentials.json'
-            ), SCOPES
-        )
-        creds = flow.run_local_server(port=0)
-    # Save the credentials for the next run
-    with open('token.pickle', 'wb') as token:
-        pickle.dump(creds, token, protocol=2)
-SERVICE = build('sheets', 'v4', credentials=creds)
-
-def _fetch_sheet():
-
-    sheet = SERVICE.spreadsheets()
-    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                    range=RANGE_NAME).execute()
-def _make_players(sheet_values):
-    values = sheet_values.get('values', [])
-    player_names = ([row[0] for row in values])
-    all_players = []
-    class Player:
-        def __init__(self, name, score):
-            self.name = name
-            self.score = score
-    for row in values:
-        all_players.append( Player( row[0], row[6] ))
-    return all_players, player_names
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
