@@ -1,7 +1,5 @@
-main.pyc
-__pycache__
-*.pyc
 .gitignore
 token.pickle
 credentials.json
-venv
+*.pyc
+__pycache__/*
