@@ -26,8 +26,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index') }}">Automatic</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare') }}">Manual</a></li>
+                        <!-- Note you need the filename and blueprint name when using blueprints. e.g. index.index -->
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                     </ul>
                 </div>
             </div>
