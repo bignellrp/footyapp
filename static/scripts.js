@@ -53,14 +53,17 @@
     navbarCollapse();
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
-})(jQuery); // End of use strict
+    
+    // Check number of checkboxes
 
-function validate(){
-    if (document.getElementsByClassName("validcheck").checked) {
-    alert("Congrats you have 10 players!");
-    return true;
-    } else {
-    alert("Dont you need 10 players?");
-    return false;
-    }
-};
+    $('#validcheckid').click(function(){
+        var checkCount = $("input[name='available_players']:checked").length;
+
+        if(checkCount == 10){
+        }
+        else {
+            alert('Please choose ten players.');
+        }
+    });
+
+})(jQuery); // End of use strict
