@@ -66,4 +66,15 @@
         }
     });
 
+    $('#validcheckidcompare').click(function(){
+        var checkCount_a = $("input[name='available_players_a']:checked").length;
+        var checkCount_b = $("input[name='available_players_b']:checked").length;
+
+        if((checkCount_a == 5) || (checkCount_b == 5)){
+        }
+        else {
+            alert('Please choose 5 players per team.');
+        }
+    });
+
 })(jQuery); // End of use strict
