@@ -40,7 +40,7 @@ docker exec -it flask /bin/bash
 pip install -r requirements.txt
 ```
 
-Future Plans for the app:
+Notes:
 
 - Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
-- Checkbox validation to make sure the user cannot enter less or more than 10 (5 for the manual page)
+- TODO: Document the spreadsheet format and formulas so others can clone a fully working google app
