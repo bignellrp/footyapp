@@ -53,14 +53,28 @@
     navbarCollapse();
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
-})(jQuery); // End of use strict
+    
+    // Check number of checkboxes
 
-function validate(){
-    if (document.getElementsByClassName("validcheck").checked) {
-    alert("Congrats you have 10 players!");
-    return true;
-    } else {
-    alert("Dont you need 10 players?");
-    return false;
-    }
-};
+    $('#validcheckid').click(function(){
+        var checkCount = $("input[name='available_players']:checked").length;
+
+        if(checkCount == 10){
+        }
+        else {
+            alert('Please choose ten players.');
+        }
+    });
+
+    $('#validcheckidcompare').click(function(){
+        var checkCount_a = $("input[name='available_players_a']:checked").length;
+        var checkCount_b = $("input[name='available_players_b']:checked").length;
+
+        if((checkCount_a == 5) || (checkCount_b == 5)){
+        }
+        else {
+            alert('Please choose 5 players per team.');
+        }
+    });
+
+})(jQuery); // End of use strict

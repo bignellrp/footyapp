@@ -58,16 +58,17 @@
                                     
                                     {% for name in player_names %}
                                     <tr>
-                                        <td><input class="validcheck" type=checkbox name="available_players" value="{{ name }}"></td>
+                                        <td><input type=checkbox name="available_players" value="{{ name }}"></td>
                                         <td>{{ name }}</td>
                                     </tr>
                                     {% endfor %}
+
                                     <tr>
-                                        <td><input type=checkbox name="output_checked" value="Yes"></td>
+                                        <td><input id="validcheckid" type=checkbox name="output_checked" value="Yes"></td>
                                         <td>Admin Only</td>
                                     </tr>
                                 </table>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                <input class="btn btn-primary js-scroll-trigger validate_checkboxes" type="submit">
                                 </form>
                         </div>
                     </div>
