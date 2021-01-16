@@ -47,6 +47,7 @@ def _fetch_sheet():
 def _make_players(sheet_values):
     values = sheet_values.get('values', [])
     player_names = ([row[0] for row in values])
+    player_names.sort()
     all_players = []
     class Player:
         def __init__(self, name, score):
