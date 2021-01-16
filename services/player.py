@@ -37,3 +37,4 @@ all_players.append( Player(21,'Level4',19,18,14,17,19) )
 player_names = []
 for obj in all_players: 
     player_names.append((obj.name))
+player_names.sort()
