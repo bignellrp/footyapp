@@ -29,7 +29,7 @@ sends the output to another google sheet.
 
 To test the google sheet function you need to follow this
 [guide](https://developers.google.com/sheets/api/quickstart/python)
-to work with the google sheets api For this you need to have the creditials
+to work with the google sheets api For this you need to have the credentials
 json and on the first run generate the token.pickle.
 
 You can use [this](https://github.com/bignellrp/footyapp/blob/main/Player%20Stats.xlsx) Excel file as
