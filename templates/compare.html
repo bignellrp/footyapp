@@ -32,7 +32,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <!-- Note you need the filename and blueprint name when using blueprints. e.g. index.index -->
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                     </ul>
@@ -80,7 +79,7 @@
                                         {% endfor %}
                                     </fieldset>
                                     <fieldset data-role="controlgroup">
-                                        <label><input id="validcheckid" type=checkbox name="output_checked" value="Yes">Admin Only</label>
+                                        <label><input class="js-valid-check-compare" type=checkbox name="output_checked" value="Yes">Admin Only</label>
                                     </fieldset>
                                     <fieldset>
                                         <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-star" name="Submit" type="submit">Submit</button>
