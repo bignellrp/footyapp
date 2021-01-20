@@ -45,8 +45,8 @@ def index():
             # Format the google ouput into one long comma sep str
             google_output = []
             google_output.append((next_wednesday))
-            google_output.append(("TeamAResult?"))
-            google_output.append(("TeamBResult?"))
+            google_output.append((0))
+            google_output.append((0))
             google_output.append((team_a_total))
             google_output.append((team_b_total))
             for obj in team_a_names: 
