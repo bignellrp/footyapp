@@ -8,8 +8,8 @@ from google.auth.transport.requests import Request
 # If modifying these vars, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-RANGE_NAME = 'Sheet2!A2:G'
-WRITE_RANGE_NAME = 'Sheet3!A1:AA1000'
+RANGE_NAME = 'Players!A2:G'
+WRITE_RANGE_NAME = 'Results!A1:AA1000'
 
 creds = None
 PICKLE_PATH = os.path.join(
@@ -19,8 +19,6 @@ PICKLE_PATH = os.path.join(
 
 if os.path.exists(PICKLE_PATH):
     with open(PICKLE_PATH, 'rb') as token:
-#if os.path.exists('token.pickle'):
-#    with open('token.pickle', 'rb') as token:
         creds = pickle.load(token)
 
 if not creds or not creds.valid:
