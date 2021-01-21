@@ -54,26 +54,13 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
     
-    // Check number of checkboxes
-
-    $('#validcheckid').click(function(){
-        var checkCount = $("input[name='available_players']:checked").length;
-
-        if(checkCount == 10){
-        }
-        else {
-            alert('Please choose ten players.');
-        }
-    });
-
-    $('#validcheckidcompare').click(function(){
-        var checkCount_a = $("input[name='available_players_a']:checked").length;
-        var checkCount_b = $("input[name='available_players_b']:checked").length;
-
-        if((checkCount_a == 5) || (checkCount_b == 5)){
-        }
-        else {
-            alert('Please choose 5 players per team.');
+    // In the case of a variable like this, where it most likely won't be updated somewhere else in your code, it's good practice to declare it as a const.
+    const limit = 3;
+    $('input.single-checkbox').on('change', function(e) {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        // Changed from a .siblings() check due to how you've modified your HTML.
+        if( $('input.single-checkbox:checked').length > limit) {
+            this.checked = false;
         }
     });
 
