@@ -54,13 +54,14 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
     
-    // Check number of checkboxes
-
-    var limit = 10;
-    $('input.single-checkbox').on('change', function(evt) {
-       if($(this).siblings(':checked').length >= limit) {
-           this.checked = false;
-       }
+    // In the case of a variable like this, where it most likely won't be updated somewhere else in your code, it's good practice to declare it as a const.
+    const limit = 3;
+    $('input.single-checkbox').on('change', function(e) {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        // Changed from a .siblings() check due to how you've modified your HTML.
+        if( $('input.single-checkbox:checked').length > limit) {
+            this.checked = false;
+        }
     });
 
 })(jQuery); // End of use strict
