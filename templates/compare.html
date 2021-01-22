@@ -63,7 +63,7 @@
                                     <fieldset data-role="controlgroup">
                                         <legend>Team A:</legend>
                                         {% for name in player_names %}
-                                        <label><input type=checkbox name="available_players_a" value="{{ name }}">{{ name }}</label>
+                                        <label><input type="checkbox" name="available_players_a" value="{{ name }}">{{ name }}</label>
                                         {% endfor %}
                                     </fieldset>
                                 </table>
@@ -75,11 +75,11 @@
                                     <fieldset data-role="controlgroup">
                                         <legend>Team B:</legend>
                                         {% for name in player_names %}
-                                        <label><input type=checkbox name="available_players_b" value="{{ name }}">{{ name }}</label>
+                                        <label><input type="checkbox" name="available_players_b" value="{{ name }}">{{ name }}</label>
                                         {% endfor %}
                                     </fieldset>
                                     <fieldset data-role="controlgroup">
-                                        <label><input class="js-valid-check-compare" type=checkbox name="output_checked" value="Yes">Admin Only</label>
+                                        <label><input class="js-valid-check-compare" type="checkbox" name="output_checked" value="Yes">Admin Only</label>
                                     </fieldset>
                                     <fieldset>
                                         <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-star" name="Submit" type="submit">Submit</button>
