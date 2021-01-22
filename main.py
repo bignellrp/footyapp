@@ -8,4 +8,4 @@ app.register_blueprint(index_blueprint)
 app.register_blueprint(compare_blueprint)
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", debug=True, port=5000)
+    app.run(host="127.0.0.1", debug=False, port=5000)
