@@ -29,8 +29,11 @@ sends the output to another google sheet.
 
 To test the google sheet function you need to follow this
 [guide](https://developers.google.com/sheets/api/quickstart/python)
-to work with the google sheets api For this you need to have the creditials
+to work with the google sheets api For this you need to have the credentials
 json and on the first run generate the token.pickle.
+
+You can use [this](https://github.com/bignellrp/footyapp/blob/main/Player%20Stats.xlsx) Excel file as
+a template for the stats.
 
 Json is also required for generating the date for the closest upcoming
 Wednesday (the football day)
@@ -40,7 +43,7 @@ docker exec -it flask /bin/bash
 pip install -r requirements.txt
 ```
 
-Future Plans for the app:
+If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
 
-- Currently if you prefer not to use google for the data checkout the static branch (https://github.com/bignellrp/footyapp/tree/static)
-- Checkbox validation to make sure the user cannot enter less or more than 10 (5 for the manual page)
+TODO
+- Is there a way of overwriting the row if the Wednesday date already exists in the sheet?

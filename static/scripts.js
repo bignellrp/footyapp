@@ -82,4 +82,22 @@
         }
     });
 
+    const compalimit = 5;
+    $('input.compa-single-checkbox').on('change', function(e) {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        // Changed from a .siblings() check due to how you've modified your HTML.
+        if( $('input.compa-single-checkbox:checked').length > compalimit) {
+            this.checked = false;
+        }
+    });
+
+    const compblimit = 5;
+    $('input.compb-single-checkbox').on('change', function(e) {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        // Changed from a .siblings() check due to how you've modified your HTML.
+        if( $('input.compb-single-checkbox:checked').length > compblimit) {
+            this.checked = false;
+        }
+    });
+
 })(jQuery); // End of use strict
