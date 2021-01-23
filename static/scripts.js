@@ -99,5 +99,6 @@
     $('input.compb-single-checkbox').on('change', function() {
         var compbnumber = $('input.compb-single-checkbox:checked').length;
         $('.compbtotalchecked').html(5 - compbnumber);
+    });
 
 })(jQuery); // End of use strict
