@@ -58,7 +58,7 @@
 
     // Index Checkbox Limit
 
-    var indlimit = 10;
+    const indlimit = 10;
     $('input.single-checkbox').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.single-checkbox:checked').length > indlimit) {
@@ -68,7 +68,7 @@
 
     // Compare Team A Checkbox Limit
 
-    var compalimit = 5;
+    const compalimit = 5;
     $('input.compa-single-checkbox').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.compa-single-checkbox:checked').length > compalimit) {
@@ -78,7 +78,7 @@
 
     // Compare Team B Checkbox Limit
 
-    var compblimit = 5;
+    const compblimit = 5;
     $('input.compb-single-checkbox').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.compb-single-checkbox:checked').length > compblimit) {
@@ -86,22 +86,19 @@
         }
     });
 
-    const compalimit = 5;
-    $('input.compa-single-checkbox').on('change', function(e) {
-        // Check how many inputs of class 'single-checkbox' are checked.
-        // Changed from a .siblings() check due to how you've modified your HTML.
-        if( $('input.compa-single-checkbox:checked').length > compalimit) {
-            this.checked = false;
-        }
+    $('input.single-checkbox').on('change', function() {
+        var indexnumber = $('input.single-checkbox:checked').length;
+        $('.indextotalchecked').html(10 - indexnumber);
     });
 
-    const compblimit = 5;
-    $('input.compb-single-checkbox').on('change', function(e) {
-        // Check how many inputs of class 'single-checkbox' are checked.
-        // Changed from a .siblings() check due to how you've modified your HTML.
-        if( $('input.compb-single-checkbox:checked').length > compblimit) {
-            this.checked = false;
-        }
+    $('input.compa-single-checkbox').on('change', function() {
+        var companumber = $('input.compa-single-checkbox:checked').length;
+        $('.compatotalchecked').html(5 - companumber);
+    });
+
+    $('input.compb-single-checkbox').on('change', function() {
+        var compbnumber = $('input.compb-single-checkbox:checked').length;
+        $('.compbtotalchecked').html(5 - compbnumber);
     });
 
 })(jQuery); // End of use strict
