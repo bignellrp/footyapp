@@ -57,13 +57,11 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Choose 10 players only:</h2>
-                                    <fieldset data-role="controlgroup">
                                     {% for name in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="single-checkbox" type="checkbox" name="available_players" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>
                                     {% endfor %}
-                                    </fieldset>
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input type="checkbox" name="output_checked" value="Yes"><span>Admin</span></label></td>
                                     </tr>

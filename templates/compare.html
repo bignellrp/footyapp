@@ -57,13 +57,11 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Team A (Choose 5 only):</h2>
-                                    <fieldset data-role="controlgroup">
                                     {% for name in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="compa-single-checkbox" type="checkbox" name="available_players_a" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>
                                     {% endfor %}
-                                    </fieldset>
                                 </table>
                                 <table class="mx-auto text-lg-left" style="width: 40%">
                                     <colgroup>
@@ -71,18 +69,14 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Team B (Choose 5 only):</h2>
-                                    <fieldset data-role="controlgroup">
                                     {% for name in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="compb-single-checkbox" type="checkbox" name="available_players_b" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>
                                     {% endfor %}
-                                    </fieldset>
-                                    <fieldset>
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input type="checkbox" name="output_checked" value="Yes"><span>Admin</span></label></td>
                                     </tr>
-                                    </fieldset>
                                 </table>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
                                 </form>
