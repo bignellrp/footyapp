@@ -59,7 +59,7 @@
     // Index Checkbox Limit
 
     const indlimit = 10;
-    $('input.single-checkbox').on('change', function(e) {
+    $('input.single-checkbox').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.single-checkbox:checked').length > indlimit) {
             this.checked = false;
@@ -85,5 +85,19 @@
             this.checked = false;
         }
     });
+
+    $('input.single-checkbox').on('change', function() {
+        var indexnumber = $('input.single-checkbox:checked').length;
+        $('.indextotalchecked').html(10 - indexnumber);
+    });
+
+    $('input.compa-single-checkbox').on('change', function() {
+        var companumber = $('input.compa-single-checkbox:checked').length;
+        $('.compatotalchecked').html(5 - companumber);
+    });
+
+    $('input.compb-single-checkbox').on('change', function() {
+        var compbnumber = $('input.compb-single-checkbox:checked').length;
+        $('.compbtotalchecked').html(5 - compbnumber);
 
 })(jQuery); // End of use strict
