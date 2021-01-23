@@ -1993,7 +1993,7 @@ pre code {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
+  background-color: #878787;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -2014,7 +2014,7 @@ pre code {
 }
 .form-control:focus {
   color: #495057;
-  background-color: #fff;
+  background-color: rgb(87, 87, 87);
   border-color: #b3d1cf;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(100, 161, 157, 0.25);
@@ -6248,7 +6248,7 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: #dae0e5 !important;
 }
 
 a.bg-light:hover, a.bg-light:focus,
