@@ -46,4 +46,4 @@ pip install -r requirements.txt
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
 
 TODO
-- Is there a way of overwriting the row if the Wednesday date already exists in the sheet?
+- Formatting on the results page needs a tidy up
