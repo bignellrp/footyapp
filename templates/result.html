@@ -19,21 +19,21 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Menu</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Results</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <!-- Note you need the filename and blueprint name when using blueprints. e.g. index.index -->
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Heading-->
+        <!-- Masthead-->
+        <!--
         <header class="masthead">
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
@@ -42,28 +42,55 @@
                 </div>
             </div>
         </header>
+        -->
         <!-- Projects-->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="/static/bg-results.jpg" alt="" /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="text-white-50 text-center text-lg-left">
                             <h1>Lineup:</h1>
-                            <div class="row text-black-50 mx-auto mt-2 mb-5">
-                                <p>Black Team: </p>
-                                {% for item in teama %}
-                                <p> {{ item }} ,</p>
-                                {% endfor %}
-                                <p>{{ scorea }}</p>
+                            <div class="row text-white-50 mx-auto mt-2 mb-5">
+                                <tr>
+                                    <td><h3><b>Team A:</b></h3></td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>
+                                    {% for item in teama %}
+                                    <p>{{ item }} ,</p>
+                                    {% endfor %}
+                                    </td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>
+                                    <p>{{ scorea }}</p>
+                                    </td>
+                                </tr>
                             </div>
-                            <div class="row text-black-50 mx-auto mt-2 mb-5">
-                                <p>White Team: </p>
-                                {% for item in teamb %}
-                                <p> {{ item }} ,</p>
-                                {% endfor %}
-                                <p>{{ scoreb }}</p>
+                            <div class="row text-white-50 mx-auto mt-2 mb-5">
+                                <tr>
+                                    <td><h3><b>Team B:</b></h3></td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>
+                                    {% for item in teamb %}
+                                    <p>{{ item }} ,</p>
+                                    {% endfor %}
+                                    </td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>
+                                    <p>{{ scoreb }}</p>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="row text-white-50 mx-auto mt-2 mb-5">
+                                <!--<p><img src="/static/bg-lineup.jpg"></p>-->
                             </div>
                         </div>
                     </div>
@@ -71,13 +98,13 @@
             </div>
         </section>
         <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © RichardBignell.co.uk 2020</div></footer>
+        <footer class="footer bg-black small text-center text-white-50">
+            <div class="container">Copyright © RichardBignell.co.uk 2020</div>
+        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <!-- Core theme JS-->
         <script src="/static/scripts.js"></script>
     </body>
 </html>

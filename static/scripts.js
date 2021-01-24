@@ -3,7 +3,7 @@
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
     */
-    (function ($) {
+   (function ($) {
     "use strict"; // Start of use strict
 
     // Smooth scrolling using jQuery easing
@@ -54,27 +54,51 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
     
-    // Check number of checkboxes
+    // Custom Validation Code
 
-    $('#validcheckid').click(function(){
-        var checkCount = $("input[name='available_players']:checked").length;
+    // Index Checkbox Limit
 
-        if(checkCount == 10){
-        }
-        else {
-            alert('Please choose ten players.');
+    const indlimit = 10;
+    $('input.single-checkbox').on('change', function() {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        if( $('input.single-checkbox:checked').length > indlimit) {
+            this.checked = false;
         }
     });
 
-    $('#validcheckidcompare').click(function(){
-        var checkCount_a = $("input[name='available_players_a']:checked").length;
-        var checkCount_b = $("input[name='available_players_b']:checked").length;
+    // Compare Team A Checkbox Limit
 
-        if((checkCount_a == 5) || (checkCount_b == 5)){
+    const compalimit = 5;
+    $('input.compa-single-checkbox').on('change', function() {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        if( $('input.compa-single-checkbox:checked').length > compalimit) {
+            this.checked = false;
         }
-        else {
-            alert('Please choose 5 players per team.');
+    });
+
+    // Compare Team B Checkbox Limit
+
+    const compblimit = 5;
+    $('input.compb-single-checkbox').on('change', function() {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        if( $('input.compb-single-checkbox:checked').length > compblimit) {
+            this.checked = false;
         }
+    });
+
+    $('input.single-checkbox').on('change', function() {
+        var indexnumber = $('input.single-checkbox:checked').length;
+        $('.indextotalchecked').html(10 - indexnumber);
+    });
+
+    $('input.compa-single-checkbox').on('change', function() {
+        var companumber = $('input.compa-single-checkbox:checked').length;
+        $('.compatotalchecked').html(5 - companumber);
+    });
+
+    $('input.compb-single-checkbox').on('change', function() {
+        var compbnumber = $('input.compb-single-checkbox:checked').length;
+        $('.compbtotalchecked').html(5 - compbnumber);
     });
 
 })(jQuery); // End of use strict
