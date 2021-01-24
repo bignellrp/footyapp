@@ -52,20 +52,29 @@
                         <div class="text-white-50 text-center text-lg-left">
                             <h1>Lineup:</h1>
                             <div class="row text-white-50 mx-auto mt-2 mb-5">
-                                <p><h2><b>Team A:</b></h2> </p>
-                                <br>
-                                {% for item in teama %}
-                                <p> {{ item }} ,</p>
-                                {% endfor %}
-                                <p>{{ scorea }}</p>
+                                <tr>
+                                    <td><h3><b>Team A:</b></h3></td>
+                                    <td>
+                                    {% for item in teama %}
+                                    <p><h3>{{ item }} ,</h3></p>
+                                    {% endfor %}
+                                    <p><h3>{{ scorea }}</h3></p>
+                                    </td>
+                                </tr>
                             </div>
                             <div class="row text-white-50 mx-auto mt-2 mb-5">
-                                <p><h2><b>Team B:</b></h2> </p>
-                                <br>
-                                {% for item in teamb %}
-                                <p> {{ item }} ,</p>
-                                {% endfor %}
-                                <p>{{ scoreb }}</p>
+                                <tr>
+                                    <td><h3><b>Team B:</b></h3></td>
+                                    <td>
+                                    {% for item in teamb %}
+                                    <p><h3>{{ item }} ,</h3></p>
+                                    {% endfor %}
+                                    <p><h3>{{ scoreb }}</h3></p>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="row text-white-50 mx-auto mt-2 mb-5">
+                                <p><img src="/static/bg-lineup.jpg"></p>
                             </div>
                         </div>
                     </div>
