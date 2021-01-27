@@ -9789,6 +9789,10 @@ button.bg-black:focus {
   white-space: normal !important;
 }
 
+.text-pre {
+  white-space: pre !important;
+}
+
 .text-nowrap {
   white-space: nowrap !important;
 }
