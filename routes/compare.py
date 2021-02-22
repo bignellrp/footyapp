@@ -29,6 +29,9 @@ def compare():
         # Take the first column and put names into team_a and team_b
         team_a_names = ([row[0] for row in team_a])
         team_b_names = ([row[0] for row in team_b])
+        # Sort the names alphabetically
+        team_a_names.sort()
+        team_b_names.sort()
         # Calculate the score
         team_a_score = ([row[1] for row in team_a])
         team_b_score = ([row[1] for row in team_b])
