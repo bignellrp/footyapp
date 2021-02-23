@@ -44,6 +44,3 @@ pip install -r requirements.txt
 ```
 
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
-
-TODO
-- Formatting on the results page needs a tidy up
