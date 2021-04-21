@@ -3,3 +3,4 @@ token.pickle
 credentials.json
 *.pyc
 __pycache__/*
+.vscode/*
