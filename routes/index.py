@@ -18,13 +18,18 @@ def index():
 
         # Define game_players array for storing the players names 
         # and scores only if the names are listed in available_players
+        # Unhash print for debugging
         game_players = []
         for obj in all_players:
             if obj.name in available_players:
                 game_players.append((obj.name , int(obj.score)))
-
+        #print(game_players)
+        
         # Add the even teams into team a and team b
+        # Unhash print for debugging
         team_a, team_b = even_teams(game_players)
+        #print(team_a)
+        #print(team_b)
 
         # Take the first column and put names into team_a and team_b
         team_a_names = ([row[0] for row in team_a])
