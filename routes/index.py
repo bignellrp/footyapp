@@ -14,14 +14,18 @@ def index():
         
         # Define game_players array for storing the players names 
         # and scores only if the names are listed in available_players
+        # Unhash the prints when debugging
         game_players = []
         for obj in all_players: 
             if obj.name in available_players:
                 game_players.append((obj.name , int(obj.score)))
         
+        print(game_players)
         # Take the even teams elements from the heap function
+        # Unhash the prints when debugging
         team_a, team_b = even_teams(game_players)
-
+        print(team_a)
+        print(team_b)
         # Take the first column and put names into team_a and team_b
         team_a_names = ([row[0] for row in team_a])
         team_b_names = ([row[0] for row in team_b])

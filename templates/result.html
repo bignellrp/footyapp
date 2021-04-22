@@ -49,48 +49,15 @@
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-center text-lg-left">
+                        <div class="text-white-50 text-lg-left">
                             <h1>Lineup:</h1>
-                            <div class="row text-white-50 mx-auto mt-2 mb-5">
-                                <tr>
-                                    <td><h3><b>Team A:</b></h3></td>
-                                </tr>
-                                <br>
-                                <tr>
-                                    <td>
-                                    {% for item in teama %}
-                                    <p>{{ item }} ,</p>
-                                    {% endfor %}
-                                    </td>
-                                </tr>
-                                <br>
-                                <tr>
-                                    <td>
-                                    <p>{{ scorea }}</p>
-                                    </td>
-                                </tr>
+                            <div class="text-pre">
+                            <p><h3><b>Team A: {{ scorea }}</b></h3></p>
+                            <p>{% for item in teama %}| {{ item }} |{% endfor %}</p>
                             </div>
-                            <div class="row text-white-50 mx-auto mt-2 mb-5">
-                                <tr>
-                                    <td><h3><b>Team B:</b></h3></td>
-                                </tr>
-                                <br>
-                                <tr>
-                                    <td>
-                                    {% for item in teamb %}
-                                    <p>{{ item }} ,</p>
-                                    {% endfor %}
-                                    </td>
-                                </tr>
-                                <br>
-                                <tr>
-                                    <td>
-                                    <p>{{ scoreb }}</p>
-                                    </td>
-                                </tr>
-                            </div>
-                            <div class="row text-white-50 mx-auto mt-2 mb-5">
-                                <!--<p><img src="/static/bg-lineup.jpg"></p>-->
+                            <div class="text-pre">
+                            <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
+                            <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
                             </div>
                         </div>
                     </div>
