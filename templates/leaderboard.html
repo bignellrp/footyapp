@@ -191,18 +191,29 @@
         }
         .leaderboard ol li:nth-child(5) {
           background: #153d19;
-          border-radius: 0 0 10px 10px;
         }
         .leaderboard ol li:nth-child(5)::after {
           background: #153d19;
           box-shadow: 0 -2.5px 0 rgba(0, 0, 0, 0.12);
-          border-radius: 0 0 10px 10px;
         }
         .leaderboard ol li:nth-child(5) mark::before, .leaderboard ol li:nth-child(5) mark::after {
           top: -9px;
           bottom: auto;
           border-top: none;
           border-bottom: 8px solid #153d19;
+        }
+        .leaderboard ol li:nth-child(6) {
+          background: #0c220e;
+        }
+        .leaderboard ol li:nth-child(6)::after {
+          background: #0c220e;
+          box-shadow: 0 -2.5px 0 rgba(0, 0, 0, 0.12);
+        }
+        .leaderboard ol li:nth-child(6) mark::before, .leaderboard ol li:nth-child(6) mark::after {
+          top: -9px;
+          bottom: auto;
+          border-top: none;
+          border-bottom: 8px solid #0c220e;
         }
         .leaderboard ol li:hover {
           z-index: 2;
@@ -252,7 +263,7 @@
                           <svg class="ico-cup">
                             <use xlink:href="#cup"></use>
                           </svg>
-                          Top 5 Leaderboard
+                          Player Leaderboard
                         </h1>
                         <ol>
                         {% for item in game_stats %}
@@ -267,7 +278,7 @@
         </section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50">
-            <div class="container">Copyright © RichardBignell.co.uk 2020</div>
+            <div class="container">Copyright © RichardBignell.co.uk 2021</div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
