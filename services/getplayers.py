@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 # If modifying these vars, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-RANGE_NAME = 'Players!A2:G'
+RANGE_NAME = 'Players!A2:J'
 WRITE_RANGE_NAME = 'Results!A1:AA1000'
 
 creds = None
@@ -48,9 +48,10 @@ def _make_players(sheet_values):
     player_names.sort()
     all_players = []
     class Player:
-        def __init__(self, name, score):
+        def __init__(self, name, score, stat):
             self.name = name
             self.score = score
+            self.stat = stat
     for row in values:
-        all_players.append( Player( row[0], row[6] ))
+        all_players.append( Player( row[0], row[6], row[9] ))
     return all_players, player_names
