@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, Blueprint
 from services.json_date import next_wednesday
 from services.getplayers import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
 from google.auth.transport.requests import Request
-from services.teams import even_teams
 
 compare_blueprint = Blueprint('compare', __name__, template_folder='templates', static_folder='static')
 
