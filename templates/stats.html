@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Footy Team App</title>
+        <title>Footy Team Stats</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
@@ -14,12 +14,26 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/static/styles.css" rel="stylesheet" />
+        <style>
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+        
+            </style>
     </head>
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Results</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Stats</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -52,14 +66,24 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-lg-left">
-                            <h1>Lineup:</h1>
+                            <h1>Game Stats:</h1>
                             <div class="text-pre">
-                            <p><h3><b>Team A: {{ scorea }}</b></h3></p>
-                            <p>{% for item in teama %}| {{ item }} |{% endfor %}</p>
-                            </div>
-                            <div class="text-pre">
-                            <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
-                            <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
+                            <p>
+                            <table>
+                                    <tr>
+                                            <th>Date</th>
+                                            <th>Team A Result</th>
+                                            <th>Team B Result</th>
+                                    </tr>
+                                    {% for k, v, p in game_stats %}
+                                            <tr>
+                                                    <td>{{ k }}</td>
+                                                    <td>{{ v }}</td>
+                                                    <td>{{ p }}</td>
+                                            </tr>
+                                    {% endfor %}
+                            </table>
+                            </p>
                             </div>
                         </div>
                     </div>

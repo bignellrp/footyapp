@@ -1,49 +1,27 @@
-import os
-import pickle
-
 from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+from google.oauth2 import service_account
 
-# If modifying these vars, delete the file token.pickle.
+SERVICE_ACCOUNT_FILE = 'keys.json'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-RANGE_NAME = 'Players!A2:K'
+PLAYER_TABLE = 'Players!A2:K'
+STATS_TABLE = 'Results!A2:O'
 WRITE_RANGE_NAME = 'Results!A1:AA1000'
 
 creds = None
-PICKLE_PATH = os.path.join(
-    os.path.dirname(__file__),
-    'token.pickle'
-)
-
-if os.path.exists(PICKLE_PATH):
-    with open(PICKLE_PATH, 'rb') as token:
-        creds = pickle.load(token)
-
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            os.path.join(
-                os.path.dirname(__file__),
-                'credentials.json'
-            ), SCOPES
-        )
-        creds = flow.run_local_server(port=0)
-    # Save the credentials for the next run
-    with open(PICKLE_PATH, 'wb') as token:
-#    with open('token.pickle', 'wb') as token:
-        pickle.dump(creds, token, protocol=2)
+creds = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 SERVICE = build('sheets', 'v4', credentials=creds)
 
-def _fetch_sheet():
-    sheet = SERVICE.spreadsheets()
-    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                    range=RANGE_NAME).execute()
-def _make_players(sheet_values):
-    values = sheet_values.get('values', [])
+sheet = SERVICE.spreadsheets()
+result1 = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                    range=PLAYER_TABLE).execute()
+
+result2 = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                   range=STATS_TABLE).execute()
+
+def _make_players(result1):
+    values = result1.get('values', [])
     player_names = ([row[0] for row in values])
     player_names.sort()
     all_players = []
@@ -55,3 +33,15 @@ def _make_players(sheet_values):
     for row in values:
         all_players.append( Player( row[0], row[6], row[10] ))
     return all_players, player_names
+
+def _make_stats(result2):
+    values = result2.get('values', [])
+    all_stats = []
+    class Stats:
+        def __init__(self, date, team_a_result, team_b_result):
+            self.date = date
+            self.team_a_result = team_a_result
+            self.team_b_result = team_b_result
+    for row in values:
+        all_stats.append( Stats( row[0], row[1], row[2] ))
+    return all_stats
