@@ -26,7 +26,7 @@ def index():
         
         # Define game_players array for storing the players names 
         # and scores only if the names are listed in available_players
-
+        
         game_players = []
         for obj in all_players:
             if obj.name in available_players:

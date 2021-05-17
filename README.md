@@ -11,11 +11,11 @@ Coded using Python, HTML and Flask using
 You can test this by installing this docker image and cloning this repo to
 replace the contents of the /app folder
 
-https://hub.docker.com/r/that1guy15/flask-demo
+tiangolo/uwsgi-nginx-flask
 
 ```bash
-docker pull that1guy15/flask-demo
-docker run -t -i -p 80:80 thatguy15/flask-demo
+docker pull tiangolo/uwsgi-nginx-flask
+docker run -t -i -p 80:80 tiangolo/uwsgi-nginx-flask
 docker exec -it flask /bin/bash
 rm -rf /app
 mkdir app

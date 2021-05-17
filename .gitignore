@@ -3,6 +3,11 @@ token.pickle
 credentials.json
 *.pyc
 __pycache__/*
+<<<<<<< HEAD
 .vscode/settings.json
 services/keys.json
+=======
+.vscode/*
+.vscode/settings.json
+>>>>>>> 4119c1a22bbd6d733fbacb3e81bfb33a88d6949b
 .gitignore
