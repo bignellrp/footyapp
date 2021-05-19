@@ -12,7 +12,7 @@ def stats():
     for obj in all_stats:
         game_stats.append((obj.date , obj.team_a_result , obj.team_b_result))
     
-    for line in game_stats:
-        print(line)
+    # for line in game_stats:
+    #     print(line)
 
     return render_template('stats.html', len = len(game_stats), game_stats = game_stats)

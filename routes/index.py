@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint
 from services.json_date import next_wednesday
-from services.getplayers import _make_players, _make_stats, result1, result2, SERVICE, SPREADSHEET_ID, WRITE_RANGE_NAME
+from services.getplayers import _make_players, _make_stats, result1, SERVICE, SPREADSHEET_ID, WRITE_RANGE_NAME
 from itertools import combinations
 import random
 

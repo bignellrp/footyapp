@@ -12,6 +12,6 @@ def leaderboard():
     for obj in all_players:
         game_stats.append((obj.name , int(obj.stat)))
     game_stats = sorted(game_stats,key=itemgetter(1), reverse=True)
-    game_stats = game_stats[0:6]
+    game_stats = game_stats[0:10]
     #print(game_stats)
-    return render_template('leaderboard.html', game_stats = game_stats)
+    return render_template('leaderboard.html', len = len(game_stats), game_stats = game_stats)
