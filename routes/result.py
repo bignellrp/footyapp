@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 from services.json_date import next_wednesday
-from services.getplayers import SERVICE, SPREADSHEET_ID, WRITE_RANGE_NAME
+from services.getplayers import sheet, SPREADSHEET_ID, STATS_TABLE_WRITE
+#from array import *
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
@@ -8,13 +9,9 @@ result_blueprint = Blueprint('result', __name__, template_folder='templates', st
 def result():
     if request.method == 'POST':
         # Use GetList to put the data from the index template into the array
-        teama_passback = []
         teama_passback = request.form.getlist('teama_passback')
-        teamb_passback = []
         teamb_passback = request.form.getlist('teamb_passback')
-        scorea_passback = []
         scorea_passback = request.form.getlist('scorea_passback')
-        scoreb_passback = []
         scoreb_passback = request.form.getlist('scoreb_passback')
         # Post Results to Google Sheets if output is checked
         output_checked = []
@@ -31,6 +28,7 @@ def result():
                 google_output.append((obj))
             for obj in teamb_passback: 
                 google_output.append((obj))
+            print(google_output)
             # Format the google body for ROWS
             body = {
                 'majorDimension': 'ROWS',
@@ -39,8 +37,8 @@ def result():
                 ],
                 }
             # Print the result to google sheets with append enabled
-            result = SERVICE.spreadsheets().values().append(
-                spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
+            result = sheet.values().update(
+                spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
                 valueInputOption='USER_ENTERED', body=body).execute()
         # Return Team A and Team B to the results template
         return render_template('post.html')

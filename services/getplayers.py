@@ -6,7 +6,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 PLAYER_TABLE = 'Players!A2:K'
 STATS_TABLE = 'Results!A2:O'
-WRITE_RANGE_NAME = 'Results!A1:AA1000'
+STATS_TABLE_WRITE = 'Results!A1:AA1000'
 
 creds = None
 creds = service_account.Credentials.from_service_account_file(
