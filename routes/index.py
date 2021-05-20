@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, Blueprint
-from services.json_date import next_wednesday
-from services.getplayers import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
-from google.auth.transport.requests import Request
+from flask import render_template, request, Blueprint
+from services.getplayers import _make_players, result1
 from itertools import combinations
 import random
 
@@ -10,7 +8,7 @@ index_blueprint = Blueprint('index', __name__, template_folder='templates', stat
 @index_blueprint.route('/', methods=['GET', 'POST'])
 def index():
     """Start the Web Form for pulling the checkbox data input"""
-    all_players, player_names = _make_players(_fetch_sheet())
+    all_players, player_names = _make_players(result1)
     if request.method == 'POST':
 
         # Use GetList to put the data from the index template into the array
@@ -50,37 +48,7 @@ def index():
         team_b = comp(team_a)
         team_a_total = (team_score(team_a))
         team_b_total = (team_score(team_b))
-        #print(team_a)
-        #print(team_b)
-        #print(team_a_total)
-        #print(team_b_total)
 
-        # Post Results to Google Sheets if output is checked
-        output_checked = []
-        output_checked = request.form.getlist('output_checked')
-        if output_checked == ['Yes']:
-            # Format the google ouput into one long comma sep str
-            google_output = []
-            google_output.append((next_wednesday))
-            google_output.append((0))
-            google_output.append((0))
-            google_output.append((team_a_total))
-            google_output.append((team_b_total))
-            for obj in team_a: 
-                google_output.append((obj))
-            for obj in team_b: 
-                google_output.append((obj))
-            # Format the google body for ROWS
-            body = {
-                'majorDimension': 'ROWS',
-                'values': [
-                    google_output,
-                ],
-                }
-            # Print the result to google sheets with append enabled
-            result = SERVICE.spreadsheets().values().append(
-                spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
-                valueInputOption='USER_ENTERED', body=body).execute()
         # Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
-    return render_template('index.html', player_names=player_names)
+        return render_template('result.html', len = len(team_a), teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
+    return render_template('index.html', player_names = player_names)

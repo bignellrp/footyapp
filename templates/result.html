@@ -29,6 +29,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Leaderboard</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
                     </ul>
                 </div>
             </div>
@@ -51,6 +52,7 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-lg-left">
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                             <h1>Lineup:</h1>
                             <div class="text-pre">
                             <p><h3><b>Team A: {{ scorea }}</b></h3></p>
@@ -59,7 +61,17 @@
                             <div class="text-pre">
                             <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
                             <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
+                            <h3><b>Do you want to store this lineup?</b></h3>
+                            <input type="hidden" id="teama_passback" name="teama_passback" value="{{ teama }}">
+                            <input type="hidden" id="teamb_passback" name="teamb_passback" value="{{ teamb }}">
+                            <input type="hidden" id="scorea_passback" name="scorea_passback" value="{{ scorea }}">
+                            <input type="hidden" id="scoreb_passback" name="scoreb_passback" value="{{ scoreb }}">
+                            <!--
+                            <label><input type="checkbox" name="output_checked" value="Yes"><span>Store?</span></label>
+                            -->
+                            <input class="btn btn-primary js-scroll-trigger" type="submit">
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -31,6 +31,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Leaderboard</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
                     </ul>
                 </div>
             </div>
@@ -65,9 +66,6 @@
                                         <td><label><input class="single-checkbox" type="checkbox" name="available_players" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>
                                     {% endfor %}
-                                    <tr class="form-check checkbox-slider--default">
-                                        <td><label><input type="checkbox" name="output_checked" value="Yes"><span>Admin</span></label></td>
-                                    </tr>
                                 </table>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
                                 </form>
