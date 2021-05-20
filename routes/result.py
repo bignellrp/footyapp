@@ -14,29 +14,20 @@ def result():
         scoreb_passback = request.form.getlist('scoreb_passback')
         google_output = []
         google_output.append((next_wednesday))
-        google_output.append((0))
-        google_output.append((0))
+        google_output.append(str(0))
+        google_output.append(str(0))
         google_output.append((scorea_passback))
         google_output.append((scoreb_passback))
         google_output.append((teama_passback))
         google_output.append((teamb_passback))
-        print(google_output)
-        # for obj in teama_passback: 
-        #     google_output.append((obj))
-        # for obj in teamb_passback: 
-        #     google_output.append((obj))
-        # google_output = str(next_wednesday)[1:-1] + ',' + '0' + ',' + '0' + ',' + str(scorea_passback)[1:-1] + ',' + str(scoreb_passback)[1:-1] + ',' + teama_passback + ',' + teamb_passback
-        # str(google_output).translate(str.maketrans({"'":None}))
-        # google_list = google_output.split(",")
-        print(google_output)
 
         # Format the google body for ROWS
-        body = {
-            'majorDimension': 'ROWS',
-            'values': [
-                google_output,
-            ],
-            }
+        # body = {
+        #     'majorDimension': 'ROWS',
+        #     'values': [
+        #         google_output,
+        #     ],
+        #     }
         #Print the result to google sheets with append enabled
         # result = sheet.values().append(
         #     spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,

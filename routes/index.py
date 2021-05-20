@@ -50,5 +50,5 @@ def index():
         team_b_total = (team_score(team_b))
 
         # Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
+        return render_template('result.html', len = len(team_a), teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)
