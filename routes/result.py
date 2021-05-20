@@ -10,29 +10,31 @@ def result():
         # Use GetList to put the data from the index template into the array
         teama_passback = request.form.getlist('teama_passback')
         teamb_passback = request.form.getlist('teamb_passback')
-        scorea_passback = request.form.getlist('scorea_passback')
-        scoreb_passback = request.form.getlist('scoreb_passback')
+        scorea_passback = request.form.get('scorea_passback')
+        scoreb_passback = request.form.get('scoreb_passback')
+        teama_passback = teama_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').split()
+        teamb_passback = teamb_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').split()
         google_output = []
         google_output.append((next_wednesday))
         google_output.append(str(0))
         google_output.append(str(0))
         google_output.append((scorea_passback))
         google_output.append((scoreb_passback))
-        google_output.append((teama_passback))
-        google_output.append((teamb_passback))
-
-        # Format the google body for ROWS
-        # body = {
-        #     'majorDimension': 'ROWS',
-        #     'values': [
-        #         google_output,
-        #     ],
-        #     }
-        #Print the result to google sheets with append enabled
-        # result = sheet.values().append(
-        #     spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
-        #     valueInputOption='USER_ENTERED', body=body).execute()
-        # Return Team A and Team B to the results template
+        google_output.extend((teama_passback))
+        google_output.extend((teamb_passback))
+        #print(google_output)
+        ##Format the google body for ROWS
+        body = {
+            'majorDimension': 'ROWS',
+            'values': [
+                google_output,
+            ],
+            }
+        ##Print the result to google sheets with append enabled
+        result = sheet.values().append(
+            spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
+            valueInputOption='USER_ENTERED', body=body).execute()
+        ##Return Team A and Team B to the results template
         return render_template('post.html')
-    # If request method is not POST then it must be GET
+    ##If request method is not POST then it must be GET
     return render_template('result.html')
