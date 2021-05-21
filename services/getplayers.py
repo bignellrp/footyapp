@@ -45,3 +45,17 @@ def _make_stats(result2):
     for row in values:
         all_stats.append( Stats( row[0], row[1], row[2] ))
     return all_stats
+
+def _make_player_stats(result1):
+    values = result1.get('values', [])
+    player_stats = []
+    class PlayerStats:
+        def __init__(self, name, wins, draws, losses, total):
+            self.name = name
+            self.wins = wins
+            self.draws = draws
+            self.losses = losses
+            self.total = total
+    for row in values:
+        player_stats.append( PlayerStats( row[0], row[7], row[8], row[9], row[10] ))
+    return player_stats
