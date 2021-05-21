@@ -39,9 +39,11 @@ def score():
                 score_input_a,score_input_b
             ],
             }
+        ##row = ""
+        ##range_ = 'M'+str(row)
         ##Print the result to google sheets with append enabled
         # result = sheet.values().append(
-        #     spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
+        #     spreadsheetId=SPREADSHEET_ID, range=range_,
         #     valueInputOption='USER_ENTERED', body=body).execute()
 
         return render_template('post.html')
