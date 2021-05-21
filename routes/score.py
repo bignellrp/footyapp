@@ -11,7 +11,6 @@ def score():
     this_weeks_teams = []
     for obj in make_score:
         this_weeks_teams.append((obj.date , obj.teama_1 , obj.teama_2, obj.teama_3 , obj.teama_4, obj.teama_5 , obj.teamb_1, obj.teamb_2, obj.teamb_3 , obj.teamb_4, obj.teamb_5))
-
     team_var = this_weeks_teams[-1]
     date = team_var[0]
     str(date)
@@ -23,29 +22,30 @@ def score():
     print(teamb)
 
     if request.method == 'POST':
-        
         score_input_a = []
         score_input_a = request.form.get('score_input_a')
         score_input_b = []
         score_input_b = request.form.get('score_input_b')
-        
-        print(score_input_a)
-        print(score_input_b)
+        score_output = []
+        score_output.append((score_input_a))
+        score_output.append((score_input_b))
+        end_row = "10"
+        # end_row = sheet.values().get(
+        #     spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE).execute().getValues().size()
+        print(end_row)
         # Grab game score from google sheets and display them in a score table
         ##Format the google body for ROWS
         body = {
             'majorDimension': 'ROWS',
             'values': [
-                score_input_a,score_input_b
+                score_output
             ],
             }
-        row = "10"
-        range_ = 'B'+str(row)
+        range_ = 'Results!B'+str(end_row)
         #Print the result to google sheets with update enabled
-        result = sheet.values().update(
-            spreadsheetId=SPREADSHEET_ID, range=range_,
-            valueInputOption='USER_ENTERED', body=body).execute()
-
+        # result = sheet.values().update(
+        #     spreadsheetId=SPREADSHEET_ID, range=range_,
+        #     valueInputOption='USER_ENTERED', body=body).execute()
         return render_template('post.html')
     ##If request method is not POST then it must be GET
     return render_template('score.html', teama = teama, teamb = teamb, date = date)

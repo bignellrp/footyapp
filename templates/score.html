@@ -35,17 +35,6 @@
                 </div>
             </div>
         </nav>
-        <!-- Masthead-->
-        <!--
-        <header class="masthead">
-            <div class="container d-flex h-100 align-items-center">
-                <div class="mx-auto text-center">
-                    <h1 class="mx-auto my-0 text-uppercase">Footy Team App</h1>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Here are the results....</h2>
-                </div>
-            </div>
-        </header>
-        -->
         <!-- Projects-->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
@@ -54,13 +43,27 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-lg-left">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
-                                <h1>Enter Score for {{ date }}</h1>
+                                <h1>Enter Score:</h1>
                                 <div class="text-pre">
-                                    <p>Team A Players: {% for item in teama %}| {{ item }} |{% endfor %}</p>
-                                    <p>Team B Score:<input type="text" id="score_input_a" name="score_input_a"></p>
-                                </div>
-                                <div class="text-pre">
-                                    <p>Team B Players: {% for item in teamb %}| {{ item }} |{% endfor %}</p>
+                                    <h3>Date:</h3>
+                                    <h3>{{ date }}</h3>
+                                    <h3>Team A:</h3>
+                                    <table>
+                                        {% for item in teama %}
+                                        <tr>
+                                            <td>{{ item }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p>Team A Score:<input type="text" id="score_input_a" name="score_input_a"></p>
+                                    <h3>Team B:</h3>
+                                    <table>
+                                        {% for item in teamb %}
+                                        <tr>
+                                            <td>{{ item }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
                                     <p>Team B Score:<input type="text" id="score_input_b" name="score_input_b"></p>
                                     <h3><b>Save Scores:</b></h3>
                                     <input class="btn btn-primary js-scroll-trigger" type="submit">
