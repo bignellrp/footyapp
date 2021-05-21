@@ -1,13 +1,13 @@
 from flask import render_template, Blueprint
-from services.getplayers import _make_stats, result2, _make_player_stats, result1
+from services.getplayers import _make_stats, stats_table, _make_player_stats, player_table
 from operator import itemgetter
 
 stats_blueprint = Blueprint('stats', __name__, template_folder='templates', static_folder='static')
 
 @stats_blueprint.route('/stats', methods=['GET'])
 def stats():
-    all_stats = _make_stats(result2)
-    player_stats = _make_player_stats(result1)
+    all_stats = _make_stats(stats_table)
+    player_stats = _make_player_stats(player_table)
     # Grab game stats from google sheets and display them in a stats table
 
     game_stats = []

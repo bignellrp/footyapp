@@ -31,7 +31,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Leaderboard</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Top10</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -42,6 +42,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Leaderboard</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
                       </ul>
                 </div>
             </div>
@@ -53,8 +54,8 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                   <div class="col-xl-8 col-lg-7">
                       <div class="text-white-50 text-lg-left">
-                          <h1>Player Leaderboard:</h1>
-                          <h3>3 points for a win, 1 for a draw, 0 for a loss.</h3>
+                          <h1>Leaderboard:</h1>
+                          <h3>W(3)/D(1)/L(0)</h3>
                           <div class="text-pre">
                           <p>
                             <table>

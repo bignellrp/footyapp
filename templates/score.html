@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Footy Team App - Post</title>
+        <title>Footy Team Score</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
@@ -19,7 +19,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Results</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Stats</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -42,9 +42,34 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-lg-left">
-                            <h1>Thank You:</h1>
-                            <div class="text-pre">
-                            <p><h3><b>Results have been stored!</b></h3></p>
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
+                                <h1>Enter Score:</h1>
+                                <div class="text-pre">
+                                    <h3>Date:</h3>
+                                    <h3>{{ date }}</h3>
+                                    <h3>Team A:</h3>
+                                    <table>
+                                        {% for item in teama %}
+                                        <tr>
+                                            <td>{{ item }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p>Team A Score:<input type="text" id="score_input_a" name="score_input_a"></p>
+                                    <h3>Team B:</h3>
+                                    <table>
+                                        {% for item in teamb %}
+                                        <tr>
+                                            <td>{{ item }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p>Team B Score:<input type="text" id="score_input_b" name="score_input_b"></p>
+                                    <h3><b>Save Scores:</b></h3>
+                                    <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

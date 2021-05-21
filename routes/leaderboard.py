@@ -1,12 +1,12 @@
 from flask import render_template, Blueprint
-from services.getplayers import _make_players, result1
+from services.getplayers import _make_players, player_table
 from operator import itemgetter
 
 leaderboard_blueprint = Blueprint('leaderboard', __name__, template_folder='templates', static_folder='static')
 
 @leaderboard_blueprint.route('/leaderboard', methods=['GET'])
 def leaderboard():
-    all_players, player_names = _make_players(result1)
+    all_players, player_names = _make_players(player_table)
     # Grab game stats from google sheets and display them in a leaderboard table
     game_stats = []
     for obj in all_players:
