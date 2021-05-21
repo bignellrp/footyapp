@@ -14,14 +14,14 @@ creds = service_account.Credentials.from_service_account_file(
 SERVICE = build('sheets', 'v4', credentials=creds)
 
 sheet = SERVICE.spreadsheets()
-result1 = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+player_table = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                     range=PLAYER_TABLE).execute()
 
-result2 = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+stats_table = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                    range=STATS_TABLE).execute()
 
-def _make_players(result1):
-    values = result1.get('values', [])
+def _make_players(player_table):
+    values = player_table.get('values', [])
     player_names = ([row[0] for row in values])
     player_names.sort()
     all_players = []
@@ -34,8 +34,8 @@ def _make_players(result1):
         all_players.append( Player( row[0], row[6], row[10] ))
     return all_players, player_names
 
-def _make_stats(result2):
-    values = result2.get('values', [])
+def _make_stats(stats_table):
+    values = stats_table.get('values', [])
     all_stats = []
     class Stats:
         def __init__(self, date, team_a_result, team_b_result):
@@ -46,8 +46,8 @@ def _make_stats(result2):
         all_stats.append( Stats( row[0], row[1], row[2] ))
     return all_stats
 
-def _make_player_stats(result1):
-    values = result1.get('values', [])
+def _make_player_stats(player_table):
+    values = player_table.get('values', [])
     player_stats = []
     class PlayerStats:
         def __init__(self, name, wins, draws, losses, total):
@@ -59,3 +59,23 @@ def _make_player_stats(result1):
     for row in values:
         player_stats.append( PlayerStats( row[0], row[7], row[8], row[9], row[10] ))
     return player_stats
+
+def _make_score(stats_table):
+    values = stats_table.get('values', [])
+    score_stats = []
+    class ScoreStats:
+        def __init__(self, date, teama_1, teama_2, teama_3, teama_4, teama_5, teamb_1, teamb_2, teamb_3, teamb_4, teamb_5):
+            self.date = date
+            self.teama_1 = teama_1
+            self.teama_2 = teama_2
+            self.teama_3 = teama_3
+            self.teama_4 = teama_4
+            self.teama_5 = teama_5
+            self.teamb_1 = teamb_1
+            self.teamb_2 = teamb_2
+            self.teamb_3 = teamb_3
+            self.teamb_4 = teamb_4
+            self.teamb_5 = teamb_5
+    for row in values:
+        score_stats.append( ScoreStats( row[0], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14] ))
+    return score_stats
