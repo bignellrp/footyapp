@@ -34,7 +34,6 @@ def index():
         # Brute Force Method for comparing team scores
         # This method requires a dict with a key
         game_players = dict(game_players)
-        #print(game_players)
         players = set(game_players.keys())
         all_teams = {frozenset(team) for team in combinations(game_players, 5)}
         paired_down = set()
@@ -43,12 +42,11 @@ def index():
                 paired_down.add(team)
         sorted_teams = sorted(paired_down, key = score_diff)
         num = random.randint(0, 5)
-        #print(num)
         team_a = set(sorted_teams[num])
         team_b = comp(team_a)
         team_a_total = (team_score(team_a))
         team_b_total = (team_score(team_b))
 
         # Return Team A and Team B to the results template
-        return render_template('result.html', len = len(team_a), teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
+        return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
     return render_template('index.html', player_names = player_names)

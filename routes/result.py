@@ -7,13 +7,15 @@ result_blueprint = Blueprint('result', __name__, template_folder='templates', st
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 def result():
     if request.method == 'POST':
-        # Use GetList to put the data from the index template into the array
+        ##Use GetList to put the data from the index template into the array
         teama_passback = request.form.getlist('teama_passback')
         teamb_passback = request.form.getlist('teamb_passback')
         scorea_passback = request.form.get('scorea_passback')
         scoreb_passback = request.form.get('scoreb_passback')
-        teama_passback = teama_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').split()
-        teamb_passback = teamb_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').split()
+        ##Bringing back results from html was found to cause issues with lists
+        ##Using replace and split to reform the lists
+        teama_passback = teama_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').replace('[','').replace(']','').split()
+        teamb_passback = teamb_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').replace('[','').replace(']','').split()
         google_output = []
         google_output.append((next_wednesday))
         google_output.append(str(0))
@@ -22,7 +24,6 @@ def result():
         google_output.append((scoreb_passback))
         google_output.extend((teama_passback))
         google_output.extend((teamb_passback))
-        #print(google_output)
         ##Format the google body for ROWS
         body = {
             'majorDimension': 'ROWS',

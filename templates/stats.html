@@ -84,6 +84,27 @@
                                     {% endfor %}
                             </table>
                             </p>
+                            <h1>Player Stats (W/L/D):</h1>
+                            <p>
+                            <table>
+                                    <tr>
+                                            <th>Name</th>
+                                            <th>Wins</th>
+                                            <th>Draws</th>
+                                            <th>Losses</th>
+                                            <th>Total</th>
+                                    </tr>
+                                    {% for a, b, c, d, e in player_game_stats %}
+                                            <tr>
+                                                    <td>{{ a }}</td>
+                                                    <td>{{ b }}</td>
+                                                    <td>{{ c }}</td>
+                                                    <td>{{ d }}</td>
+                                                    <td>{{ e }}</td>
+                                            </tr>
+                                    {% endfor %}
+                            </table>
+                            </p>
                             </div>
                         </div>
                     </div>

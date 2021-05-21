@@ -37,7 +37,7 @@ def compare():
         # Sum the total of the scores
         team_a_total = (sum(team_a_score))
         team_b_total = (sum(team_b_score))
-
+        
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     # If request method is not POST then it must be GET so render compare.html including player_names
