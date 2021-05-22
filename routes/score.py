@@ -11,8 +11,6 @@ def score():
         this_weeks_teams.append((obj.date , obj.teama_1 , obj.teama_2, obj.teama_3 , obj.teama_4, obj.teama_5 , obj.teamb_1, obj.teamb_2, obj.teamb_3 , obj.teamb_4, obj.teamb_5))
     team_var = this_weeks_teams[-1]
     date = team_var[0]
-    str(date)
-    date = date[1:-1]
     teama = team_var[1],team_var[2],team_var[3],team_var[4],team_var[5]
     teamb = team_var[6],team_var[7],team_var[8],team_var[9],team_var[10]
     if request.method == 'POST':
