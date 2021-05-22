@@ -16,7 +16,7 @@ def stats():
 
     player_game_stats = []
     for obj in player_stats:
-        player_game_stats.append((obj.name , obj.wins , obj.draws, obj.losses, obj.total))
-    #player_game_stats = sorted(player_game_stats,key=itemgetter(4), reverse=True)
+        player_game_stats.append((obj.name , int(obj.wins) , int(obj.draws), int(obj.losses), int(obj.total)))
+    player_game_stats = sorted(player_game_stats,key=itemgetter(4), reverse=True)
 
     return render_template('stats.html', game_stats = game_stats, player_game_stats = player_game_stats)
