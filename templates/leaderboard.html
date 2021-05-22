@@ -61,12 +61,14 @@
                             <table>
                               <tr>
                                 <th>Rank</th>
-                                <th>Name, Score</th>
+                                <th>Name</th>
+                                <th>Score</th>
                               </tr>
-                              {% for i in range(0, len) %}
+                              {% for name, score in game_stats %}
                               <tr>
-                                <td>{{ i+1 }}</td>
-                                <td>{{ game_stats[i] }}</td>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ name }}</td>
+                                <td>{{ score }}</td>
                               </tr>
                               {% endfor %}
                             </table>

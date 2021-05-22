@@ -14,4 +14,4 @@ def leaderboard():
     game_stats = sorted(game_stats,key=itemgetter(1), reverse=True)
     game_stats = game_stats[0:10]
     #print(game_stats)
-    return render_template('leaderboard.html', len = len(game_stats), game_stats = game_stats)
+    return render_template('leaderboard.html', game_stats = game_stats)
