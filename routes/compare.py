@@ -1,11 +1,11 @@
 from flask import render_template, request, Blueprint
-from services.getplayers import _make_players, player_table
+from services.getplayers import _make_players, _fetch_player_sheet
 
 compare_blueprint = Blueprint('compare', __name__, template_folder='templates', static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
 def compare():
-    all_players, player_names = _make_players(player_table)
+    all_players, player_names = _make_players(_fetch_player_sheet())
     if request.method == 'POST':
         # Use GetList to put the data from the index template into the array
         available_players_a = []

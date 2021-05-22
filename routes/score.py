@@ -1,11 +1,11 @@
 from flask import render_template, request, Blueprint
-from services.getplayers import stats_table, _make_score, sheet, SPREADSHEET_ID
+from services.getplayers import _fetch_stats_sheet, _make_score, SPREADSHEET_ID, sheet
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
 def score():
-    make_score, end_row = _make_score(stats_table)
+    make_score, end_row = _make_score(_fetch_stats_sheet())
     this_weeks_teams = []
     for obj in make_score:
         this_weeks_teams.append((obj.date , obj.teama_1 , obj.teama_2, obj.teama_3 , obj.teama_4, obj.teama_5 , obj.teamb_1, obj.teamb_2, obj.teamb_3 , obj.teamb_4, obj.teamb_5))

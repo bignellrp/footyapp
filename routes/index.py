@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from services.getplayers import _make_players, player_table
+from services.getplayers import _make_players, _fetch_player_sheet
 from itertools import combinations
 import random
 
@@ -8,7 +8,7 @@ index_blueprint = Blueprint('index', __name__, template_folder='templates', stat
 @index_blueprint.route('/', methods=['GET', 'POST'])
 def index():
     """Start the Web Form for pulling the checkbox data input"""
-    all_players, player_names = _make_players(player_table)
+    all_players, player_names = _make_players(_fetch_player_sheet())
     if request.method == 'POST':
 
         # Use GetList to put the data from the index template into the array

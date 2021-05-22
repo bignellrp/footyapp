@@ -12,13 +12,14 @@ creds = None
 creds = service_account.Credentials.from_service_account_file(
         SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 SERVICE = build('sheets', 'v4', credentials=creds)
-
 sheet = SERVICE.spreadsheets()
-player_table = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                    range=PLAYER_TABLE).execute()
 
-stats_table = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                   range=STATS_TABLE).execute()
+def _fetch_player_sheet():
+    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                        range=PLAYER_TABLE).execute()
+def _fetch_stats_sheet():
+    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                    range=STATS_TABLE).execute()
 
 def _make_players(player_table):
     values = player_table.get('values', [])
