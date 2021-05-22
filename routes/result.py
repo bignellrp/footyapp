@@ -18,8 +18,8 @@ def result():
         teamb_passback = teamb_passback[0].replace(',','').replace("'",'').replace('{','').replace('}','').replace('[','').replace(']','').split()
         google_output = []
         google_output.append((next_wednesday))
-        google_output.append(str(0))
-        google_output.append(str(0))
+        google_output.append(str("-"))
+        google_output.append(str("-"))
         google_output.append((scorea_passback))
         google_output.append((scoreb_passback))
         google_output.extend((teama_passback))
