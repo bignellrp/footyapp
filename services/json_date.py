@@ -15,3 +15,4 @@ def next_weekday(d, weekday):
 d = date.today()
 next_wednesday = next_weekday(d, 2) # 0 = Monday, 1=Tuesday, 2=Wednesday...
 next_wednesday = (dumps(next_wednesday, default=json_serial))
+next_wednesday = next_wednesday.replace('"','')
