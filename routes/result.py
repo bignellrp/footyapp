@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 from services.json_date import next_wednesday
-from services.getplayers import sheet, SPREADSHEET_ID, STATS_TABLE_WRITE
+#from services.getplayers import sheet, SPREADSHEET_ID
+from services.store_results import _update_result, _append_result, _get_stats_date
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
@@ -32,9 +33,20 @@ def result():
             ],
             }
         ##Print the result to google sheets with append enabled
-        result = sheet.values().append(
-            spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
-            valueInputOption='USER_ENTERED', body=body).execute()
+        # result = sheet.values().append(
+        #     spreadsheetId=SPREADSHEET_ID, range=STATS_TABLE_WRITE,
+        #     valueInputOption='USER_ENTERED', body=body).execute()
+
+        ## If the last row has next wednesdays date then replace the results
+        ## Else append results on a new line
+        date,dash = _get_stats_date()
+        if date == next_wednesday and dash == "-":
+            result = _update_result(body)
+            print("Running update function")
+        else:
+            result = _append_result(body)
+            print("Running append function")
+
         ##Return Team A and Team B to the results template
         return render_template('post.html')
     ##If request method is not POST then it must be GET
