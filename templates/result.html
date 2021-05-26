@@ -52,12 +52,6 @@
                             <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
                             <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
                             <h3><b>Save lineup?</b></h3>
-                            <p>
-                                **Warning**
-                                If teams for this week are
-                                already stored then submitting
-                                again will replace.
-                            </p>
                             <input type="hidden" id="teama_passback" name="teama_passback" value="{{ teama }}">
                             <input type="hidden" id="teamb_passback" name="teamb_passback" value="{{ teamb }}">
                             <input type="hidden" id="scorea_passback" name="scorea_passback" value="{{ scorea }}">
