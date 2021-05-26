@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint
 from services.getplayers import _fetch_stats_sheet, _make_score, SPREADSHEET_ID, sheet
+from services.store_results import _get_stats_date
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
 
@@ -29,13 +30,23 @@ def score():
                 score_output
             ],
             }
-        #end_row = "10"
+        #Get dash for use in if statement (date is not used)
+        date,dash = _get_stats_date()
         end_row = end_row + 1
         range_ = 'Results!B'+str(end_row)
+        error = None
         ##Print the result to google sheets with update enabled
-        result = sheet.values().update(
-            spreadsheetId=SPREADSHEET_ID, range=range_,
-            valueInputOption='USER_ENTERED', body=body).execute()
-        return render_template('post.html')
+        if dash != "-":
+            print("Score exists already")
+            error = "Score exists already"
+        else:
+            print("Updating score")
+            result = sheet.values().update(
+                spreadsheetId=SPREADSHEET_ID, range=range_,
+                valueInputOption='USER_ENTERED', body=body).execute()
+            ##If there is a dash then post is returned after running update
+            return render_template('post.html')
+        ##If there was an error return the score page with error
+        return render_template('score.html', teama = teama, teamb = teamb, date = date, error = error)
     ##If request method is not POST then it must be GET
     return render_template('score.html', teama = teama, teamb = teamb, date = date)

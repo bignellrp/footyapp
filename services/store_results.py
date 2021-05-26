@@ -30,11 +30,9 @@ def _get_stats_date():
 ## Function to update the result using the UPDATE RANGE and the body from the results page
 def _update_result(body):
     return sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=UPDATE_RANGE,
-            valueInputOption='USER_ENTERED', body=body)
-            #.execute()
+            valueInputOption='USER_ENTERED', body=body).execute()
 
 ## Function to append the result using the APPEND RANGE and the body from the results page
 def _append_result(body):
     return sheet.values().append(spreadsheetId=SPREADSHEET_ID, range=APPEND_RANGE,
-            valueInputOption='USER_ENTERED', body=body)
-            #.execute()
+            valueInputOption='USER_ENTERED', body=body).execute()
