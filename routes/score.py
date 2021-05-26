@@ -1,6 +1,5 @@
 from flask import render_template, request, Blueprint
 from services.getplayers import _fetch_stats_sheet, _make_score, SPREADSHEET_ID, sheet
-from services.store_results import _get_stats_date
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
 
@@ -9,11 +8,13 @@ def score():
     make_score, end_row = _make_score(_fetch_stats_sheet())
     this_weeks_teams = []
     for obj in make_score:
-        this_weeks_teams.append((obj.date , obj.teama_1 , obj.teama_2, obj.teama_3 , obj.teama_4, obj.teama_5 , obj.teamb_1, obj.teamb_2, obj.teamb_3 , obj.teamb_4, obj.teamb_5))
+        this_weeks_teams.append((obj.date , obj.scorea, obj.teama_1 , obj.teama_2, obj.teama_3 , obj.teama_4, obj.teama_5 , obj.teamb_1, obj.teamb_2, obj.teamb_3 , obj.teamb_4, obj.teamb_5))
     team_var = this_weeks_teams[-1]
     date = team_var[0]
-    teama = team_var[1],team_var[2],team_var[3],team_var[4],team_var[5]
-    teamb = team_var[6],team_var[7],team_var[8],team_var[9],team_var[10]
+    #Dash is used in if statement. E.g. Only update if score is not already entered.
+    dash = team_var[1]
+    teama = team_var[2],team_var[3],team_var[4],team_var[5],team_var[6]
+    teamb = team_var[7],team_var[8],team_var[9],team_var[10],team_var[11]
     if request.method == 'POST':
         score_input_a = []
         score_input_a = request.form.get('score_input_a')
@@ -30,8 +31,6 @@ def score():
                 score_output
             ],
             }
-        #Get dash for use in if statement (date is not used)
-        date,dash = _get_stats_date()
         end_row = end_row + 1
         range_ = 'Results!B'+str(end_row)
         error = None
@@ -41,8 +40,7 @@ def score():
             error = "Score exists already"
         else:
             print("Updating score")
-            result = sheet.values().update(
-                spreadsheetId=SPREADSHEET_ID, range=range_,
+            result = sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=range_,
                 valueInputOption='USER_ENTERED', body=body).execute()
             ##If there is a dash then post is returned after running update
             return render_template('post.html')
