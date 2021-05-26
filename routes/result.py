@@ -39,7 +39,8 @@ def result():
 
         ## If the last row has next wednesdays date then replace the results
         ## Else append results on a new line
-        if _get_stats_date() == next_wednesday:
+        date,dash = _get_stats_date()
+        if date == next_wednesday and dash == "-":
             result = _update_result(body)
             print("Running update function")
         else:

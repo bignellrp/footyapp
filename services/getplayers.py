@@ -64,8 +64,10 @@ def _make_score(stats_table):
     values = stats_table.get('values', [])
     score_stats = []
     class ScoreStats:
-        def __init__(self, date, teama_1, teama_2, teama_3, teama_4, teama_5, teamb_1, teamb_2, teamb_3, teamb_4, teamb_5):
+        def __init__(self, date, scorea, scoreb, teama_1, teama_2, teama_3, teama_4, teama_5, teamb_1, teamb_2, teamb_3, teamb_4, teamb_5):
             self.date = date
+            self.scorea = scorea
+            self.scoreb = scoreb
             self.teama_1 = teama_1
             self.teama_2 = teama_2
             self.teama_3 = teama_3
@@ -77,6 +79,6 @@ def _make_score(stats_table):
             self.teamb_4 = teamb_4
             self.teamb_5 = teamb_5
     for row in values:
-        score_stats.append( ScoreStats( row[0], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14] ))
+        score_stats.append( ScoreStats( row[0], row[1], row[2], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14] ))
     end_row = len(values)
     return score_stats,end_row

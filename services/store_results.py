@@ -18,17 +18,23 @@ UPDATE_RANGE = 'Results!A'+str(_get_stats_endrow())
 def _get_stats_date():
     make_score, end_row = _make_score(_fetch_stats_sheet())
     this_weeks_teams = []
+    this_weeks_score = []
     for obj in make_score:
         this_weeks_teams.append((obj.date))
+    for obj in make_score:
+        this_weeks_score.append((obj.scorea))
     date = this_weeks_teams[-1]
-    return date
+    dash = this_weeks_score[-1]
+    return date,dash
 
 ## Function to update the result using the UPDATE RANGE and the body from the results page
 def _update_result(body):
     return sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=UPDATE_RANGE,
-            valueInputOption='USER_ENTERED', body=body).execute()
+            valueInputOption='USER_ENTERED', body=body)
+            #.execute()
 
 ## Function to append the result using the APPEND RANGE and the body from the results page
 def _append_result(body):
     return sheet.values().append(spreadsheetId=SPREADSHEET_ID, range=APPEND_RANGE,
-            valueInputOption='USER_ENTERED', body=body).execute()
+            valueInputOption='USER_ENTERED', body=body)
+            #.execute()
