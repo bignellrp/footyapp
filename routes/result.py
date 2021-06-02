@@ -34,7 +34,7 @@ def result():
             }
         ## If the last row has next wednesdays date then replace the results
         ## Else append results on a new line
-        date,dash,teama,teamb = _get_stats()
+        date,dash,_,_ = _get_stats()
         if date == next_wednesday and dash == "-":
             result = _update_result(body)
             print("Running update function")
