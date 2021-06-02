@@ -1,11 +1,14 @@
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
+#import pandas as pd
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 PLAYER_TABLE = 'Players!A2:K'
 STATS_TABLE = 'Results!A2:O'
+RESULTS_TABLE = 'Results!A1:O'
+PLAYERS_TABLE = 'Players!A1:K'
 
 creds = None
 creds = service_account.Credentials.from_service_account_file(
@@ -82,3 +85,15 @@ def _make_score(stats_table):
         score_stats.append( ScoreStats( row[0], row[1], row[2], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14] ))
     end_row = len(values) + 1
     return score_stats,end_row
+
+# def _get_results_table(stats_table):
+#     values = stats_table.get('values', [])
+#     df = pd.DataFrame(values[1:], columns=values[0])
+#     df.sort_values('Name')
+#     ##Filter Names and convert to list
+#     player_names = df['Name'].tolist()
+#     ##Filter All Players
+#     all_players = df.filter(['Name','Total','Score'])
+#     all_players = all_players.to_records(index=False)
+#     all_players = list(all_players)
+#     return all_players, player_names
