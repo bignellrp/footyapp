@@ -1,4 +1,4 @@
-from services.getplayers import sheet, SPREADSHEET_ID, _get_results_table, _fetch_results_table
+from services.get_players import sheet, SPREADSHEET_ID, _get_results_table, _fetch_results_table
 
 ## Function to update the result using the UPDATE RANGE and the body from the results page
 def _update_result(body):

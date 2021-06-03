@@ -1,7 +1,7 @@
 from flask import render_template, request, Blueprint
-from services.json_date import next_wednesday
+from services.get_date import next_wednesday
 from services.store_results import _update_result, _append_result
-from services.getplayers import _get_results_table, _fetch_results_table
+from services.get_players import _get_results_table, _fetch_results_table
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
