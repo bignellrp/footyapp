@@ -30,6 +30,11 @@ def _get_players_table(players_table):
     df = pd.DataFrame(values[1:], columns=values[0])
     df = df.sort_values(by=['Name'],ascending=True)
 
+    ##Debug: Use the lines below to print a copy of the dataset for testing
+    ##Player Table Date in player_data.py
+    #print('player_raw_data =', df.to_dict(orient='list'))
+    #print('player_df = pd.DataFrame(player_raw_data, columns = ' + str(list(df)) + ')')
+
     ##Filter Names and convert to list
     player_names = df['Name'].tolist()
 
@@ -62,6 +67,11 @@ def _get_results_table(results_table):
     values = results_table.get('values', [])
     ##Add values to data frame
     df = pd.DataFrame(values[1:], columns=values[0])
+
+    ##Debug: Use the lines below to print a copy of the dataset for testing
+    ##Results Table Date in results_data.py
+    #print('results_raw_data =', df.to_dict(orient='list'))
+    #print('results_df = pd.DataFrame(results_raw_data, columns = ' + str(list(df)) + ')')
 
     ##Convert date column to datetime
     df['Date'] = pd.to_datetime(df.Date, format='%Y%m%d', errors='ignore')

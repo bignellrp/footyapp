@@ -44,3 +44,5 @@ pip install -r requirements.txt
 ```
 
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
+
+Or for testing hash the googleapi get commands and import the panda raw data from player_data.py and results_data.py
