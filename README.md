@@ -28,9 +28,9 @@ google sheet. The output from the script (if admin only checkbox is checked
 sends the output to another google sheet.
 
 To test the google sheet function you need to follow this
-[guide](https://developers.google.com/sheets/api/quickstart/python)
-to work with the google sheets api For this you need to have the credentials
-json and on the first run generate the token.pickle.
+[guide](https://www.youtube.com/watch?v=4ssigWmExak)
+to work with the google sheets api. For this you need to have the credentials (keys)
+json.
 
 You can use [this](https://github.com/bignellrp/footyapp/blob/main/Player%20Stats.xlsx) Excel file as
 a template for the stats.
@@ -44,3 +44,5 @@ pip install -r requirements.txt
 ```
 
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
+
+Or for testing hash the googleapi get commands and import the panda raw data from player_data.py and results_data.py
