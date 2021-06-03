@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint
-from services.store_results import _update_score_result, _get_stats
+from services.store_results import _update_score_result
+from services.getplayers import _get_results_table, _fetch_results_table
 from services.json_date import next_wednesday
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
@@ -7,12 +8,12 @@ score_blueprint = Blueprint('score', __name__, template_folder='templates', stat
 @score_blueprint.route('/score', methods=['GET', 'POST'])
 def score():
     ##Run Get stats function
-    date,dash,teama,teamb = _get_stats()
+    _,teama,teamb,dash,date,_ = _get_results_table(_fetch_results_table())
     if request.method == 'POST':
         ##Grab game score from google sheets and display them in a score table
-        score_input_a = []
+        #score_input_a = []
         score_input_a = request.form.get('score_input_a')
-        score_input_b = []
+        #score_input_b = []
         score_input_b = request.form.get('score_input_b')
         score_output = []
         score_output.append((score_input_a))
