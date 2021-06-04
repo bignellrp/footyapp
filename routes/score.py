@@ -15,7 +15,7 @@ def score():
 
     if request.method == 'POST':
 
-        ##Grab game score from google sheets and display them in a score table
+        ##Get score from form user input
         score_input_a = request.form.get('score_input_a')
         score_input_b = request.form.get('score_input_b')
         score_output = []
