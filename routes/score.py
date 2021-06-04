@@ -33,7 +33,7 @@ def score():
         ##Print the result to google sheets with update enabled
         error = None
         if dash != "-":
-            '''If there is a dash then don't 
+            '''If there is a score then there isn't a dash so don't 
             update score and display error'''
             print("Score exists already")
             error = "Score exists already"
