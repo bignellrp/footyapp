@@ -24,8 +24,7 @@ git clone https://github.com/bignellrp/footyapp.git .
 ```
 
 This branch adds google sheets support to have the player list generated from a
-google sheet. The output from the script (if admin only checkbox is checked
-sends the output to another google sheet.
+google sheet. Submit allows the user to push the results back to google sheets. The score page allows the user to update the score from that weeks game.
 
 To test the google sheet function you need to follow this
 [guide](https://www.youtube.com/watch?v=4ssigWmExak)
