@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from services.getplayers import _get_players_table, _fetch_players_table
+from services.get_players import _get_players_table, _fetch_players_table
 from services.get_even_teams import _get_even_teams
 
 index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')

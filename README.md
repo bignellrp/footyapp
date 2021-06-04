@@ -35,9 +35,6 @@ json.
 You can use [this](https://github.com/bignellrp/footyapp/blob/main/Player%20Stats.xlsx) Excel file as
 a template for the stats.
 
-Json is also required for generating the date for the closest upcoming
-Wednesday (the football day)
-
 ```bash
 docker exec -it flask /bin/bash
 pip install -r requirements.txt
