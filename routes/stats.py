@@ -5,7 +5,11 @@ stats_blueprint = Blueprint('stats', __name__, template_folder='templates', stat
 
 @stats_blueprint.route('/stats', methods=['GET'])
 def stats():
-    ##Grab game stats from google sheets and display them in a stats table
+    '''A function for building the stats page.
+    Takes in game stats from google sheets 
+    and return them to stats page'''
+
     _,_,_,player_stats = _get_players_table(_fetch_players_table())
     _,_,_,_,_,game_stats = _get_results_table(_fetch_results_table())
+    
     return render_template('stats.html', game_stats = game_stats, player_game_stats = player_stats)

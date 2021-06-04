@@ -7,6 +7,10 @@ result_blueprint = Blueprint('result', __name__, template_folder='templates', st
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 def result():
+    '''A function for building the results page.
+    Takes in teama and teamb from hidden form so result carries between pages
+    and returns the body to the google sheet in row format'''
+    
     if request.method == 'POST':
 
         ##Use Get and GetList to put the data from the index template into the array
@@ -30,7 +34,7 @@ def result():
         google_output.append((scoreb_passback))
         google_output.extend((teama_passback))
         google_output.extend((teamb_passback))
-        print(google_output)
+
         ##Format the google body for ROWS
         body = {
             'majorDimension': 'ROWS',
@@ -39,10 +43,12 @@ def result():
             ],
             }
 
-        ## If the last row has next wednesdays date then replace the results
-        ## Else append results on a new line
         _,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
+
         if date == next_wednesday and dash == "-":
+            '''If the last row has next wednesdays date 
+            then replace the results.
+            Else append results on a new line'''
             result = _update_result(body)
             print("Running update function")
         else:
