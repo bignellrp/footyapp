@@ -22,6 +22,9 @@ def _get_even_teams(game_players):
     num = random.randint(0, 5)
     team_a = set(sorted_teams[num])
     team_b = comp(team_a)
+    # Convert Back to a list
+    team_a = list(team_a)
+    team_b = list(team_b)
     team_a_total = (team_score(team_a))
     team_b_total = (team_score(team_b))
     return team_a,team_b,team_a_total,team_b_total
