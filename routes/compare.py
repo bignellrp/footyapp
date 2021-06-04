@@ -13,7 +13,7 @@ def compare():
     
     if request.method == 'POST':
 
-        # Use GetList to put the data from the index template into the array
+        ##Use GetList to put the data from the index template into the array
         available_players_a = request.form.getlist('available_players_a')
         available_players_b = request.form.getlist('available_players_b')
 
@@ -26,7 +26,7 @@ def compare():
             elif row[0] in available_players_b:
                 team_b.append((row[0] , int(row[1])))
 
-        # Take the first column and put names into team_a and team_b
+        ##Take the first column and put names into team_a and team_b
         team_a_names = sorted([row[0] for row in team_a])
         team_b_names = sorted([row[0] for row in team_b])
 
@@ -34,7 +34,7 @@ def compare():
         team_a_total = sum([row[1] for row in team_a])
         team_b_total = sum([row[1] for row in team_b])
         
-        # Return Team A and Team B to the results template
+        ##Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
-    # If request method is not POST then it must be GET so render compare.html including player_names
+    ##If request method is not POST then it must be GET so render compare.html including player_names
     return render_template('compare.html', player_names = player_names)
