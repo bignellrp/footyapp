@@ -2,6 +2,7 @@ from flask import render_template, request, Blueprint
 from services.store_results import _update_score_result
 from services.get_players import _get_results_table, _fetch_results_table
 from services.get_date import next_wednesday
+import re
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
 
@@ -32,11 +33,18 @@ def score():
 
         ##Print the result to google sheets with update enabled
         error = None
+        ##Using re.match to check if score input is 2 digits
+        match_a = re.match("(^[0-9]{2}$)",score_input_a)
+        match_b = re.match("(^[0-9]{2}$)",score_input_b)
         if dash != "-":
             '''If there is a score then there isn't a dash so don't 
             update score and display error'''
             print("Score exists already")
             error = "Score exists already"
+        elif match_a == None or match_b == None:
+            '''If score is not numeric then error'''
+            print("Score is not a valid input")
+            error = "Score is not a valid input"
         else:
             print("Updating score")
             result = _update_score_result(body)
