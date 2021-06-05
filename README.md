@@ -21,6 +21,8 @@ rm -rf /app
 mkdir app
 cd app
 git clone https://github.com/bignellrp/footyapp.git .
+python3 services/generate_pass.py > config.py
+pip3 install -r requirements.txt
 ```
 
 This branch adds google sheets support to have the player list generated from a
@@ -33,11 +35,6 @@ json.
 
 You can use [this](https://github.com/bignellrp/footyapp/blob/main/Player%20Stats.xlsx) Excel file as
 a template for the stats.
-
-```bash
-docker exec -it flask /bin/bash
-pip install -r requirements.txt
-```
 
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
 
