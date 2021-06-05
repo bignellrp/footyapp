@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
 from services.store_results import _update_result, _append_result
 from services.get_players import _get_results_table, _fetch_results_table
@@ -8,23 +8,18 @@ result_blueprint = Blueprint('result', __name__, template_folder='templates', st
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 def result():
     '''A function for building the results page.
-    Takes in teama and teamb from hidden form so result carries between pages
+    Takes in teama and teamb from flask session so result carries between pages
     and returns the body to the google sheet in row format'''
     
     if request.method == 'POST':
 
-        ##Use Get and GetList to put the data from the index template into the array
-        teama_passback = request.form.getlist('teama_passback')
-        teamb_passback = request.form.getlist('teamb_passback')
-        scorea_passback = request.form.get('scorea_passback')
-        scoreb_passback = request.form.get('scoreb_passback')
+        ##Pull data from flask session
+        ##Taken from reddit https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
+        teama_passback = session['team_a']
+        teamb_passback = session['team_b']
+        scorea_passback = session['team_a_total']
+        scoreb_passback = session['team_b_total']
 
-        ##Bringing back results from html was found to cause issues with lists
-        ##Using replace and split to reform the lists
-        ##Maybe type multiple could solve this https://html.com/input-type-hidden/
-        teama_passback = teama_passback[0].replace(',','').replace("'",'').replace('[','').replace(']','').split()
-        teamb_passback = teamb_passback[0].replace(',','').replace("'",'').replace('[','').replace(']','').split()
-        
         ##Build google_output list of values in a row
         google_output = []
         google_output.append((next_wednesday))

@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, session
 from services.get_players import _get_players_table, _fetch_players_table
 from services.get_even_teams import _get_even_teams
 
@@ -28,6 +28,12 @@ def index():
         
         ##Takes in game_players and returns teams and totals
         team_a,team_b,team_a_total,team_b_total = _get_even_teams(game_players)
+
+        ##Add vars to a session to carry into results page
+        session['team_a'] = team_a
+        session['team_b'] = team_b
+        session['team_a_total'] = team_a_total
+        session['team_b_total'] = team_b_total
 
         # Return Team A and Team B to the results template
         return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
