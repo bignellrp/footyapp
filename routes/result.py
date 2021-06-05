@@ -38,6 +38,13 @@ def result():
             ],
             }
 
+        ##Now vars are safely in the google output remove them from the session so they are not carried from page to page unnecessarily.
+        
+        session.pop('team_a', None)
+        session.pop('team_b', None)
+        session.pop('team_a_total', None)
+        session.pop('team_b_total', None)
+
         _,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
 
         if date == next_wednesday and dash == "-":
