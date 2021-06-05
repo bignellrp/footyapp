@@ -14,6 +14,27 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/static/styles.css" rel="stylesheet" />
+        <style>
+        /* Error Tool Tip Styles*/
+.tool_tip {
+  /* font */
+  font-family: Helvetica;
+  font-size: 13px;
+  font-weight: bold;
+  color: #cc0033;
+  line-height: 20px;
+  /* background */
+  background-color: #fce4e4;
+  border: 1px solid #fcc2c3;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  /* positioning */
+  float: left;
+  position: relative;
+  padding: 7px 11px 4px;
+  margin-left: 10px; /* distance between error tip and element it points to */
+}</style>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -45,8 +66,7 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
                                 <h1>Enter Score:</h1>
                                 {% if error %}
-                                <h2>**Error**</h2>
-                                <h2>{{ error }}</h2>
+                                <div class="tool_tip">{{ error }}</div>
                                 {% endif %}
                                 <div class="text-pre">
                                     <h3>Date:</h3>
