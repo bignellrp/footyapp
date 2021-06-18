@@ -34,8 +34,8 @@ def score():
         ##Print the result to google sheets with update enabled
         error = None
         ##Using re.match to check if score input is 2 digits
-        match_a = re.match("(^[0-9]{2}$)",score_input_a)
-        match_b = re.match("(^[0-9]{2}$)",score_input_b)
+        match_a = re.match("(^[0-9]{1,2}$)",score_input_a)
+        match_b = re.match("(^[0-9]{1,2}$)",score_input_b)
         if dash != "-":
             '''If there is a score then there isn't a dash so don't 
             update score and display error'''
