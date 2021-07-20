@@ -9,8 +9,15 @@ def _update_result(body):
     return sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=UPDATE_RANGE,
             valueInputOption='USER_ENTERED', body=body).execute()
 
+def _update_tally(body):
+    '''Function to update the player tally using the TALLY RANGE and the body from the index page
+    Takes in body of data to be added to sheet and returns the execute command for googleapi'''
+    TALLY_RANGE = 'Players!L2'
+    return sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=TALLY_RANGE,
+            valueInputOption='USER_ENTERED', body=body).execute()
+
 def _append_result(body):
-    '''Function to append the result using the APPEND RANGE and the body from the results page
+    '''Function to update the result using the APPEND RANGE and the body from the results page
     Takes in body of data to be added to sheet and returns the execute command for googleapi'''
     APPEND_RANGE = 'Results!A1:AA1000'
     print(APPEND_RANGE)

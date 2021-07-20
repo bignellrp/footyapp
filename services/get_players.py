@@ -6,7 +6,7 @@ SERVICE_ACCOUNT_FILE = './services/keys.json'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 RESULTS_TABLE = 'Results!A1:O'
-PLAYERS_TABLE = 'Players!A1:K'
+PLAYERS_TABLE = 'Players!A1:M'
 
 creds = None
 creds = service_account.Credentials.from_service_account_file(
@@ -44,7 +44,12 @@ def _get_players_table(players_table):
     #print('player_df = pd.DataFrame(player_raw_data, columns = ' + str(list(df)) + ')')
 
     ##Filter Names and convert to list
-    player_names = df['Name'].tolist()
+    ##Filter Names and Playing Value and convert to list
+    ##player_names = df['Name'].tolist()
+    player_names = df.filter(['Name','Playing','NotPlaying'])
+    ##Convert from df to list without index to be used in forms
+    player_names = player_names.to_records(index=False)
+    player_names = list(player_names)
 
     ##Filter All Players
     all_players = df.filter(['Name','Total'])

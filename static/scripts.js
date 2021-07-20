@@ -66,6 +66,15 @@
         }
     });
 
+    // Index Checkbox Limit For Unavailable
+
+    const indalimit = 26;
+    $('input.other-checkbox').on('change', function() {
+        // Check how many inputs of class 'other-checkbox' are checked.
+        if( $('input.other-checkbox:checked').length > indalimit) {
+            this.checked = false;
+        }
+    });
     // Compare Team A Checkbox Limit
 
     const compalimit = 5;
@@ -89,6 +98,11 @@
     $('input.single-checkbox').on('change', function() {
         var indexnumber = $('input.single-checkbox:checked').length;
         $('.indextotalchecked').html(10 - indexnumber);
+    });
+
+    $('input.other-checkbox').on('change', function() {
+        var indexanumber = $('input.other-checkbox:checked').length;
+        $('.indexatotalchecked').html(26 - indexanumber);
     });
 
     $('input.compa-single-checkbox').on('change', function() {
