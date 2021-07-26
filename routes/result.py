@@ -2,6 +2,8 @@ from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
 from services.store_results import _update_result, _append_result
 from services.get_players import _get_results_table, _fetch_results_table
+from services.post_slack import _message_slack_channel
+import requests
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
@@ -46,6 +48,21 @@ def result():
         session.pop('team_b_total', None)
 
         _,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
+
+        ##Send the teams to slack
+        text = "TeamA:{},TeamB:{}".format(teama_passback,teamb_passback)
+        result = _message_slack_channel(text)
+
+        
+        ##Send the teams to discord
+        #webhook url, from here: https://i.imgur.com/f9XnAew.png
+        url = "https://discord.com/api/webhooks/869151318995005440/TIFGQf-chENvN9YQn1B-7vjs16CHNWs4bccKuROYpBSo4B4U5FqowOpmRSmEk6QkWTzq"
+        #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
+        data = {
+            "content" : text,
+            "username" : "FootyApp"
+        }
+        result = requests.post(url, json = data)
 
         if date == next_wednesday and dash == "-":
             '''If the last row has next wednesdays date 
