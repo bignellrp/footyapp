@@ -4,6 +4,7 @@ from services.store_results import _update_result, _append_result
 from services.get_players import _get_results_table, _fetch_results_table
 from services.post_slack import _message_slack_channel
 import requests
+import json
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
@@ -53,10 +54,11 @@ def result():
         text = "TeamA:{},TeamB:{}".format(teama_passback,teamb_passback)
         result = _message_slack_channel(text)
 
-        
         ##Send the teams to discord
-        #webhook url, from here: https://i.imgur.com/f9XnAew.png
-        url = "https://discord.com/api/webhooks/869151318995005440/TIFGQf-chENvN9YQn1B-7vjs16CHNWs4bccKuROYpBSo4B4U5FqowOpmRSmEk6QkWTzq"
+        path_to_token = "./services/tokens.json"
+        with open(path_to_token, "r") as handler:
+            info = json.load(handler)
+        url = info["discord_webhook"]
         #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
         data = {
             "content" : text,
