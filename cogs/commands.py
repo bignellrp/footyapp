@@ -10,11 +10,11 @@ class FunCommands(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def last1(self, ctx):
+    async def last(self, ctx):
         await ctx.send('The last match was {}'.format(date))
     
     @commands.command()
-    async def team1(self, ctx):
+    async def teama(self, ctx):
         await ctx.send('TeamA: {}'.format(teama))
     
     @commands.command()
@@ -26,7 +26,7 @@ class FunCommands(commands.Cog):
         await ctx.send('Roster: {}'.format(teama))
 
     @commands.command()
-    async def poll(self, ctx, *, question):
+    async def shortpoll(self, ctx, *, question):
         await ctx.channel.purge(limit=1)
         message = await ctx.send('{}: \n✅ = Yes**\n**❎ = No**'.format(question))
         await message.add_reaction('✅')
