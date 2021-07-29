@@ -7,39 +7,42 @@ class Welcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self,member):
-        # Customise the message below to what you want to send new users!
-        newUserMessage = """
-        Welcome to the Footapp channel.
-        Weekly poll will ask who is playing.
-        Poll will be sent on Sunday morning.
-        Games are played at 6:30pm at Goals.
-        Normally pitch 10.
-        Pay for your share via the Goals app.
-        """
+        # Embed Message to send to new users
+        embed=discord.Embed(
+            title="Welcome "+member.name+"!",
+            description="""Thank you for joining.
+                Weekly poll will ask who is playing.
+                Poll will be sent on Sunday morning.
+                Games are played at 6:30pm at Goals.
+                Normally pitch 10.
+                Pay for your share via the Goals app.""",
+            url="https://www.goalsfootball.co.uk/goals-app/",
+            color=discord.Color.green()
+        )
         print("Recognised that a member called " + member.name + " joined")
         try: 
-            await self.bot.send_message(member, newUserMessage)
+            await member.send(embed=embed)
             print("Sent message to " + member.name)
         except:
             print("Couldn't message " + member.name)
-        embed=discord.Embed(
-            title="Welcome "+member.name+"!",
-            description="We're so glad you're here!",
-            color=discord.Color.green()
-        )
             
-        role = discord.utils.get(member.server.roles, name="name-of-your-role") #  Gets the member role as a `role` object
-        await self.bot.add_roles(member, role) # Gives the role to the user
+        role = discord.utils.get(member.guild.roles, name="player")
+        await member.add_roles(role)
         print("Added role '" + role.name + "' to " + member.name)
 
     @commands.Cog.listener()
-    async def on_member_leave(self,member):
+    async def on_member_remove(self,member):
         print("Recognised that a member called " + member.name + " left")
         embed=discord.Embed(
             title="😢 Goodbye "+member.name+"!",
-            description="Until we meet again old friend.", # A description isn't necessary, you can delete this line if you don't want a description.
-            color=discord.Color.red() # There are lots of colors, you can check them here: https://discordpy.readthedocs.io/en/latest/api.html?highlight=discord%20color#discord.Colour
+            description="You are welcome back anytime!",
+            color=discord.Color.red()
         )
+        try: 
+            await member.send(embed=embed)
+            print("Sent message to " + member.name)
+        except:
+            print("Couldn't message " + member.name)
 
 def setup(bot):
     bot.add_cog(Welcome(bot))

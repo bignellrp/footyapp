@@ -16,10 +16,13 @@ from discord.ext import commands
 import json
 
 # Initialise our app and the bot itself
+# https://discordpy.readthedocs.io/en/latest/intents.html
 #intents = discord.Intents(members=True)
 #intents.members = True
 #bot = commands.Bot(command_prefix="$", intents=intents)
-bot = commands.Bot(command_prefix="$")
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='$', intents=intents)
 app = Flask(__name__)
 
 ##Register the blueprint for each route
