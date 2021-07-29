@@ -4,7 +4,7 @@ from services.get_players import _get_results_table, _fetch_results_table
 ##Get information for bot
 _,teama,teamb,_,date,_ = _get_results_table(_fetch_results_table())
 
-class FunCommands(commands.Cog):
+class Commands(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -33,4 +33,4 @@ class FunCommands(commands.Cog):
         await message.add_reaction('❎')
 
 def setup(bot):
-    bot.add_cog(FunCommands(bot))
+    bot.add_cog(Commands(bot))

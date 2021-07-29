@@ -1,13 +1,9 @@
 from discord.ext import commands
 
-class Events(commands.Cog):
-    
+class Messages(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(f"{self.bot.user.name} logged in successfully")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -23,4 +19,4 @@ class Events(commands.Cog):
             await message.channel.send(msg)
 
 def setup(bot):
-    bot.add_cog(Events(bot))
+    bot.add_cog(Messages(bot))
