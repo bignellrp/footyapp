@@ -11,10 +11,14 @@ from routes.result import result_blueprint
 from routes.score import score_blueprint
 from threading import Thread
 from functools import partial
+import discord
 from discord.ext import commands
 import json
 
-# Initialize our app and the bot itself
+# Initialise our app and the bot itself
+#intents = discord.Intents(members=True)
+#intents.members = True
+#bot = commands.Bot(command_prefix="$", intents=intents)
 bot = commands.Bot(command_prefix="$")
 app = Flask(__name__)
 
