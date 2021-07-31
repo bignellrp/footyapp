@@ -22,9 +22,20 @@ def _add_new_player(new_player):
     player and generic score
     Expects two items in a list, Name and Score'''
     ws = ss.worksheet('Players')
+    new_player = [new_player,int(77)] #Add generic score to playername
     ws.append_row(new_player) #Should be a list of name and score
     print("Appended new row for:",new_player)
     return _copy_formulas(new_player[0]) #Run the copy formulas func using first element of list as name
+
+def _remove_player(player):
+    '''Appends New Row with a new 
+    player and generic score
+    Expects two items in a list, Name and Score'''
+    ws = ss.worksheet('Players')
+    cell_name = ws.find(player)
+    ws.delete_row(cell_name.row)
+    print("Deleted row for:",player)
+    return
 
 def _copy_formulas(name):
     '''Updates formulas for new players'''
