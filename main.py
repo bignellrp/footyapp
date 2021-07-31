@@ -61,19 +61,12 @@ for file in os.listdir("cogs"):
 
 
 # Make a partial app.run to pass args/kwargs to it
-partial_run = partial(app.run, host="0.0.0.0", port=80, debug=False, use_reloader=False)
-#partial_run = bot.run(token)
-
-# Run the Flask app in another thread.
-# Unfortunately this means we can't have hot reload
-# (We turned it off above)
-# Because there's no signal support.
-
+partial_run = partial(app.run, host="127.0.0.1", port=5000, debug=False, use_reloader=False)
 t = Thread(target=partial_run)
-t.start()
-
-# Run the bot
+#t.start()
 bot.run(token)
 
 #if __name__ == "__main__":
 #    app.run(host="127.0.0.1", debug=False, port=5000)
+if __name__ == "__main__":
+    t.start()
