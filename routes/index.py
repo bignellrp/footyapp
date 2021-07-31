@@ -11,15 +11,7 @@ def index():
     Takes in available players from a flask form 
     and returns an even set of two 5 a side teams'''
 
-    all_players, player_names,_,_ = _get_players_table(_fetch_players_table())
-
-    ##Count the number of players in tally
-    game_tally = []
-    for row in player_names:
-        '''Takes in row of player_names
-        and outputs a just the tally column'''
-        game_tally.append((row[1]))
-    player_count = 10 - game_tally.count("x")
+    all_players,player_names,_,_,player_count = _get_players_table(_fetch_players_table())
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':

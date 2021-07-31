@@ -79,7 +79,16 @@ def _get_players_table(players_table):
     ##Convert from df to list without index to be used in forms
     leaderboard = leaderboard.to_records(index=False)
     leaderboard = list(leaderboard)
-    return all_players, player_names, leaderboard, player_stats
+
+    ##Count the number of players in tally
+    game_tally = []
+    for row in player_names:
+        '''Takes in row of player_names
+        and outputs a just the tally column'''
+        game_tally.append((row[1]))
+    player_count = 10 - game_tally.count("x")
+
+    return all_players, player_names, leaderboard, player_stats, player_count
 
 def _get_results_table(results_table):
     '''Takes in sheet values from results table and returns;

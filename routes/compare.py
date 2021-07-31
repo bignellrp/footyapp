@@ -9,7 +9,7 @@ def compare():
     Takes in available players from a flask form 
     and returns player names and total score for each team'''
 
-    all_players, player_names,_,_ = _get_players_table(_fetch_players_table())
+    all_players,player_names,_,_,_ = _get_players_table(_fetch_players_table())
     
     if request.method == 'POST':
 

@@ -6,7 +6,7 @@ SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
 
-def _update_playing_status(player_list):
+def _update_playing_status_list(player_list):
     '''Takes in a list of players 
     and adds x into the playing column'''
     ws = ss.worksheet('Players') 
@@ -15,6 +15,37 @@ def _update_playing_status(player_list):
         clm_playing = ws.find('Playing') #Find the Playing column
         ws.update_cell(cell_name.row, clm_playing.col, 'x')
         print("Updated playing status for:",name)
+    return
+
+def _update_playing_status(player):
+    '''Takes in a player 
+    and adds x into the playing column'''
+    ws = ss.worksheet('Players') 
+    cell_name = ws.find(player) #Find the Players name and the row
+    clm_playing = ws.find('Playing') #Find the Playing column
+    ws.update_cell(cell_name.row, clm_playing.col, 'x')
+    print("Updated playing status for:",player)
+    return
+
+def _modify_playing_status_list(player_list):
+    '''Takes in a list of players 
+    and adds o into the playing column'''
+    ws = ss.worksheet('Players') 
+    for name in player_list:
+        cell_name = ws.find(name) #Find the Players name and the row
+        clm_playing = ws.find('Playing') #Find the Playing column
+        ws.update_cell(cell_name.row, clm_playing.col, 'o')
+        print("Modified playing status for:",name)
+    return
+
+def _modify_playing_status(player):
+    '''Takes in a player
+    and adds o into the playing column'''
+    ws = ss.worksheet('Players') 
+    cell_name = ws.find(player) #Find the Players name and the row
+    clm_playing = ws.find('Playing') #Find the Playing column
+    ws.update_cell(cell_name.row, clm_playing.col, 'o')
+    print("Modified playing status for:",player)
     return
 
 def _add_new_player(new_player):
