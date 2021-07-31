@@ -48,12 +48,11 @@ def _modify_playing_status(player):
     print("Modified playing status for:",player)
     return
 
-def _add_new_player(new_player):
+def _add_new_player(player):
     '''Appends New Row with a new 
-    player and generic score
-    Expects two items in a list, Name and Score'''
+    player and generic score'''
     ws = ss.worksheet('Players')
-    new_player = [new_player,int(77)] #Add generic score to playername
+    new_player = [player,int(77)] #Add generic score to playername
     ws.append_row(new_player) #Should be a list of name and score
     print("Appended new row for:",new_player)
     return _copy_formulas(new_player[0]) #Run the copy formulas func using first element of list as name
@@ -68,10 +67,10 @@ def _remove_player(player):
     print("Deleted row for:",player)
     return
 
-def _copy_formulas(name):
+def _copy_formulas(player):
     '''Updates formulas for new players'''
     ws = ss.worksheet('Players')
-    cell_name = ws.find(name)
+    cell_name = ws.find(player)
     clm_wins = ws.find('Wins')
     clm_draws = ws.find('Draws')
     clm_losses = ws.find('Losses')
