@@ -12,7 +12,7 @@ def _update_result(body):
 def _update_tally(body):
     '''Function to update the player tally using the TALLY RANGE and the body from the index page
     Takes in body of data to be added to sheet and returns the execute command for googleapi'''
-    TALLY_RANGE = 'Players!L2'
+    TALLY_RANGE = 'Players!G2'
     return sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=TALLY_RANGE,
             valueInputOption='USER_ENTERED', body=body).execute()
 

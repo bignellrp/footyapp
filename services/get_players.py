@@ -46,7 +46,7 @@ def _get_players_table(players_table):
     ##Filter Names and convert to list
     ##Filter Names and Playing Value and convert to list
     ##player_names = df['Name'].tolist()
-    player_names = df.filter(['Name','Playing','NotPlaying'])
+    player_names = df.filter(['Name','Playing'])
     ##Convert from df to list without index to be used in forms
     player_names = player_names.to_records(index=False)
     player_names = list(player_names)

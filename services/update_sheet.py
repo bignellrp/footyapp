@@ -14,7 +14,7 @@ def _update_playing_status(player_list):
         cell_name = ws.find(name) #Find the Players name and the row
         clm_playing = ws.find('Playing') #Find the Playing column
         ws.update_cell(cell_name.row, clm_playing.col, 'x')
-        print("Updated score for:",name)
+        print("Updated playing status for:",name)
     return
 
 def _add_new_player(new_player):

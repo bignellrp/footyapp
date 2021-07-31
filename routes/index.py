@@ -14,15 +14,12 @@ def index():
     all_players, player_names,_,_ = _get_players_table(_fetch_players_table())
 
     ##Count the number of players in tally
-    game_tally_a = []
-    game_tally_b = []
+    game_tally = []
     for row in player_names:
         '''Takes in row of player_names
         and outputs a just the tally column'''
-        game_tally_a.append((row[1]))
-        game_tally_b.append((row[2]))
-    player_count = 10 - game_tally_a.count("x")
-    all_player_count = 27 - game_tally_b.count("x")
+        game_tally.append((row[1]))
+    player_count = 10 - game_tally.count("x")
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -53,7 +50,6 @@ def index():
         elif request.form['submit_button'] == 'Save':
             ##Use GetList to put the data from the index template into the array
             available_players = request.form.getlist('available_players')
-            unavailable_players = request.form.getlist('unavailable_players')
             ##Build a tally of available players to use as a running session
             game_player_tally = []
             for row in all_players:
@@ -65,21 +61,11 @@ def index():
                 else:
                     game_player_tally.append(("o"))
 
-            reply_player_tally = []        
-            for row in all_players:
-                '''Takes in row of all_players 
-                and returns a tally of those players
-                that cant play this week'''
-                if row[0] in unavailable_players:
-                    reply_player_tally.append(("x"))
-                else:
-                    reply_player_tally.append(("o"))
-
             ##Format the google body for COLUMNS
             body = {
                 'majorDimension': 'COLUMNS',
                 'values': [
-                    game_player_tally,reply_player_tally
+                    game_player_tally
                 ],
                 }
 
@@ -102,7 +88,7 @@ def index():
             body = {
                 'majorDimension': 'COLUMNS',
                 'values': [
-                    game_player_clear,game_player_clear
+                    game_player_clear
                 ],
                 }
 
@@ -115,4 +101,4 @@ def index():
             print("No button pressed")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
-        return render_template('index.html', player_names = player_names, player_count = player_count, all_player_count = all_player_count)
+        return render_template('index.html', player_names = player_names, player_count = player_count)
