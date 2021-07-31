@@ -38,11 +38,11 @@ class Welcome(commands.Cog):
             description="You are welcome back anytime!",
             color=discord.Color.red()
         )
-        try: 
-            await member.send(embed=embed)
-            print("Sent message to " + member.name)
-        except:
-            print("Couldn't message " + member.name)
+        #try: 
+        await member.send(embed=embed)
+        print("Sent message to " + member.name)
+        #except:
+        #    print("Couldn't message " + member.name)
 
 def setup(bot):
     bot.add_cog(Welcome(bot))
