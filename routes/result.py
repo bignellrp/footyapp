@@ -61,9 +61,32 @@ def result():
         url = info["discord_webhook"]
         #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
         data = {
-            "content" : text,
-            "username" : "FootyApp"
-        }
+                "username": "FootyApp",
+                "embeds": [
+                    {
+                    "author": {
+                        "name": "FootyApp"
+                    },
+                    "title": "Here are this weeks teams:",
+                    "color": 15258703,
+                    "fields": [
+                        {
+                        "name": "Team A",
+                        "value": teama_passback,
+                        "inline": "true"
+                        },
+                        {
+                        "name": "Team B",
+                        "value": teamb_passback,
+                        "inline": "true"
+                        }
+                    ],
+                    "thumbnail": {
+                        "url": "https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png"
+                    }
+                    }
+                ]
+                }
         result = requests.post(url, json = data)
 
         if date == next_wednesday and dash == "-":
