@@ -6,7 +6,7 @@ SERVICE_ACCOUNT_FILE = './services/keys.json'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 RESULTS_TABLE = 'Results!A1:O'
-PLAYERS_TABLE = 'Players!A1:M'
+PLAYERS_TABLE = 'Players!A1:G'
 
 creds = None
 creds = service_account.Credentials.from_service_account_file(
@@ -82,13 +82,15 @@ def _get_players_table(players_table):
 
     ##Count the number of players in tally
     game_tally = []
+    game_player_tally = []
     for row in player_names:
         '''Takes in row of player_names
         and outputs a just the tally column'''
+        game_player_tally.append((row[0]))
         game_tally.append((row[1]))
     player_count = 10 - game_tally.count("x")
 
-    return all_players, player_names, leaderboard, player_stats, player_count
+    return all_players, player_names, leaderboard, player_stats, player_count, game_player_tally
 
 def _get_results_table(results_table):
     '''Takes in sheet values from results table and returns;

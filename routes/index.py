@@ -11,7 +11,7 @@ def index():
     Takes in available players from a flask form 
     and returns an even set of two 5 a side teams'''
 
-    all_players,player_names,_,_,player_count = _get_players_table(_fetch_players_table())
+    all_players,player_names,_,_,player_count,_ = _get_players_table(_fetch_players_table())
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':

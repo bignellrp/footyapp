@@ -26,7 +26,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def top10(self, ctx):
-        _,_,leaderboard,_,_ = _get_players_table(_fetch_players_table())
+        _,_,leaderboard,_,_,_ = _get_players_table(_fetch_players_table())
         embed = discord.Embed(title = 'Top10', description = leaderboard)
         await ctx.send(embed = embed)
     
@@ -35,6 +35,11 @@ class Commands(commands.Cog):
         player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         _update_playing_status_list(player_list)
         await ctx.send('Updated status for: {}'.format(player_list))
+
+    @commands.command()
+    async def playing(self, ctx):
+        _,_,_,_,player_count,game_player_tally = _get_players_table(_fetch_players_table())
+        await ctx.send(f'The following {player_count} players are playing: {game_player_tally}')
 
 def setup(bot):
     bot.add_cog(Commands(bot))
