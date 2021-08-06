@@ -5,11 +5,12 @@ SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
+ws = ss.worksheet('Dev Players') 
 
 def _update_playing_status_list(player_list):
     '''Takes in a list of players 
     and adds x into the playing column'''
-    ws = ss.worksheet('Players') 
+    
     for name in player_list:
         cell_name = ws.find(name) #Find the Players name and the row
         clm_playing = ws.find('Playing') #Find the Playing column
@@ -20,7 +21,6 @@ def _update_playing_status_list(player_list):
 def _update_playing_status(player):
     '''Takes in a player 
     and adds x into the playing column'''
-    ws = ss.worksheet('Players') 
     cell_name = ws.find(player) #Find the Players name and the row
     clm_playing = ws.find('Playing') #Find the Playing column
     ws.update_cell(cell_name.row, clm_playing.col, 'x')
@@ -30,7 +30,6 @@ def _update_playing_status(player):
 def _modify_playing_status_list(player_list):
     '''Takes in a list of players 
     and adds o into the playing column'''
-    ws = ss.worksheet('Players') 
     for name in player_list:
         cell_name = ws.find(name) #Find the Players name and the row
         clm_playing = ws.find('Playing') #Find the Playing column
@@ -41,7 +40,6 @@ def _modify_playing_status_list(player_list):
 def _modify_playing_status(player):
     '''Takes in a player
     and adds o into the playing column'''
-    ws = ss.worksheet('Players') 
     cell_name = ws.find(player) #Find the Players name and the row
     clm_playing = ws.find('Playing') #Find the Playing column
     ws.update_cell(cell_name.row, clm_playing.col, 'o')
@@ -51,7 +49,6 @@ def _modify_playing_status(player):
 def _add_new_player(player):
     '''Appends New Row with a new 
     player and generic score'''
-    ws = ss.worksheet('Players')
     new_player = [player,int(77)] #Add generic score to playername
     ws.append_row(new_player) #Should be a list of name and score
     print("Appended new row for:",new_player)
@@ -61,7 +58,6 @@ def _remove_player(player):
     '''Appends New Row with a new 
     player and generic score
     Expects two items in a list, Name and Score'''
-    ws = ss.worksheet('Players')
     cell_name = ws.find(player)
     ws.delete_row(cell_name.row)
     print("Deleted row for:",player)
@@ -69,7 +65,6 @@ def _remove_player(player):
 
 def _copy_formulas(player):
     '''Updates formulas for new players'''
-    ws = ss.worksheet('Players')
     cell_name = ws.find(player)
     clm_wins = ws.find('Wins')
     clm_draws = ws.find('Draws')

@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
-from services.get_players import _get_players_table, _fetch_players_table
-from services.store_results import _update_tally
+from services.get_spread_data import _get_players_table, _fetch_players_table
+from services.post_spread_results import _update_tally
 from services.get_even_teams import _get_even_teams
 
 index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')
@@ -53,16 +53,8 @@ def index():
                 else:
                     game_player_tally.append(("o"))
 
-            ##Format the google body for COLUMNS
-            body = {
-                'majorDimension': 'COLUMNS',
-                'values': [
-                    game_player_tally
-                ],
-                }
-
             ##Save the tally of available players
-            result = _update_tally(body)
+            result = _update_tally(game_player_tally)
             print("Running tally function")    
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':
@@ -76,16 +68,8 @@ def index():
                 and appends o to every row'''
                 game_player_clear.append(("o"))
 
-            ##Format the google body for COLUMNS
-            body = {
-                'majorDimension': 'COLUMNS',
-                'values': [
-                    game_player_clear
-                ],
-                }
-
             ##Save the tally of available players
-            result = _update_tally(body)
+            result = _update_tally(game_player_clear)
             print("Running clear function")    
             return redirect(url_for('index.index'))
         else:

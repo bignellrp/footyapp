@@ -75,3 +75,4 @@ wsproto==1.0.0
 WTForms==2.3.3
 yarl==1.6.3
 zipp==3.5.0
+dhooks==1.1.4

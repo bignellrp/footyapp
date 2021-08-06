@@ -1,7 +1,6 @@
 from flask import render_template, request, Blueprint
-from services.store_results import _update_score_result
-from services.get_players import _get_results_table, _fetch_results_table
-from services.get_date import next_wednesday
+from services.post_spread_results import _update_score_result
+from services.get_spread_data import _get_results_table, _fetch_results_table
 import re
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
@@ -23,14 +22,6 @@ def score():
         score_output.append((score_input_a))
         score_output.append((score_input_b))
 
-        ##Format the google body for ROWS from output above
-        body = {
-            'majorDimension': 'ROWS',
-            'values': [
-                score_output
-            ],
-            }
-
         ##Print the result to google sheets with update enabled
         error = None
         ##Using re.match to check if score input is 2 digits
@@ -47,7 +38,7 @@ def score():
             error = "Score is not a valid input"
         else:
             print("Updating score")
-            result = _update_score_result(body)
+            result = _update_score_result(score_output)
             
             ##If there is a dash then post is returned after running update
             return render_template('post.html')

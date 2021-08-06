@@ -1,27 +1,22 @@
-from googleapiclient.discovery import build
-from google.oauth2 import service_account
+		
+import gspread
 import pandas as pd
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
-RESULTS_TABLE = 'Dev Results!A1:O'
-PLAYERS_TABLE = 'Dev Players!A1:G'
 
-creds = None
-creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-SERVICE = build('sheets', 'v4', credentials=creds)
-sheet = SERVICE.spreadsheets()
+gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
+ss = gc.open_by_key(SPREADSHEET_ID)
+wsp = ss.worksheet('Dev Players')
+wsr = ss.worksheet('Dev Results')
 
 def _fetch_players_table():
     '''Returns sheet values from players table'''
-    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                        range=PLAYERS_TABLE).execute()
+    return wsp.get_all_values()
+
 def _fetch_results_table():
     '''Returns sheet values from results table'''
-    return sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                    range=RESULTS_TABLE).execute()
+    return wsr.get_all_values()
 
 def _get_players_table(players_table):
     '''Takes in sheet values from players table and returns;
@@ -30,11 +25,8 @@ def _get_players_table(players_table):
         leaderboard: a list of top10 players and scores
         player_stats: a list of all player stats, win, draw loss'''
 
-    ##Get values from player_table
-    values = players_table.get('values', [])
-
     ##Add values to data frame
-    df = pd.DataFrame(values[1:], columns=values[0])
+    df = pd.DataFrame(players_table[1:], columns=players_table[0])
     ##Sort data frame by Name
     df = df.sort_values(by=['Name'],ascending=True)
 
@@ -101,10 +93,8 @@ def _get_results_table(results_table):
         date: The date from the last row that should be last wednesdays date
         game_stats: A list'''
 
-    ##Get values from results_table
-    values = results_table.get('values', [])
     ##Add values to data frame
-    df = pd.DataFrame(values[1:], columns=values[0])
+    df = pd.DataFrame(results_table[1:], columns=results_table[0])
 
     ##Debug: Use the lines below to print a copy of the dataset for testing
     ##Results Table Date in results_data.py

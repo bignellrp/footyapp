@@ -1,9 +1,10 @@
 from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
-from services.store_results import _update_result, _append_result
-from services.get_players import _get_results_table, _fetch_results_table
-from services.post_slack import _message_slack_channel
-import requests
+from services.post_spread_results import _update_result, _append_result
+from services.get_spread_data import _get_results_table, _fetch_results_table
+#from services.post_slack import _message_slack_channel
+from dhooks import Webhook, Embed
+#import requests
 import json
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
@@ -33,14 +34,6 @@ def result():
         google_output.extend((teama_passback))
         google_output.extend((teamb_passback))
 
-        ##Format the google body for ROWS
-        body = {
-            'majorDimension': 'ROWS',
-            'values': [
-                google_output,
-            ],
-            }
-
         ##Now vars are safely in the google output remove them from the session so they are not carried from page to page unnecessarily.
         
         session.pop('team_a', None)
@@ -51,52 +44,43 @@ def result():
         _,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
 
         ##Send the teams to slack
-        text = "TeamA:{},TeamB:{}".format(teama_passback,teamb_passback)
-        result = _message_slack_channel(text)
+        #text = "TeamA:{},TeamB:{}".format(teama_passback,teamb_passback)
+        #result = _message_slack_channel(text)
 
         ##Send the teams to discord
         path_to_token = "./services/tokens.json"
         with open(path_to_token, "r") as handler:
             info = json.load(handler)
+
         url = info["discord_webhook"]
-        #for all params, see https://discordapp.com/developers/docs/resources/webhook#execute-webhook
-        data = {
-                "username": "FootyApp",
-                "embeds": [
-                    {
-                    "author": {
-                        "name": "FootyApp"
-                    },
-                    "title": "Here are this weeks teams:",
-                    "color": 15258703,
-                    "fields": [
-                        {
-                        "name": "Team A",
-                        "value": teama_passback,
-                        "inline": "true"
-                        },
-                        {
-                        "name": "Team B",
-                        "value": teamb_passback,
-                        "inline": "true"
-                        }
-                    ],
-                    "thumbnail": {
-                        "url": "https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png"
-                    }
-                    }
-                ]
-                }
-        result = requests.post(url, json = data)
+        hook = Webhook(url)
+        embed = Embed(
+            description='Here are this weeks teams:',
+            color=0x5CDBF0,
+            timestamp='now'  # sets the timestamp to current time
+            )
+
+        image1 = 'https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png'
+        image2 = ''
+
+        embed.set_author(name='FootyApp', icon_url=image1)
+        embed.add_field(name='Team A:', value=teama_passback)
+        embed.add_field(name='Team B:', value=teamb_passback)
+        embed.set_footer(text='Have fun!', icon_url=image1)
+
+        embed.set_thumbnail(image1)
+        embed.set_image(image2)
+
+        #hook.send(embed=embed)
 
         if date == next_wednesday and dash == "-":
             '''If the last row has next wednesdays date 
             then replace the results.
             Else append results on a new line'''
-            result = _update_result(body)
+            result = _update_result(google_output)
             print("Running update function")
         else:
-            result = _append_result(body)
+            result = _append_result(google_output)
             print("Running append function")
 
         ##Return Team A and Team B to the results template
