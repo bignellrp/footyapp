@@ -1,6 +1,6 @@
 from discord.ext import commands
-from services.get_players import _get_players_table, _fetch_players_table
-from services.update_sheet import _update_playing_status, _modify_playing_status
+from services.get_spread_data import _get_players_table, _fetch_players_table
+from services.post_spread_results import _update_playing_status, _modify_playing_status
 
 class Messages(commands.Cog):
 

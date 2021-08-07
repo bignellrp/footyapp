@@ -1,7 +1,8 @@
 from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
 from services.post_spread_results import _update_result, _append_result
-from services.get_spread_data import _get_results_table, _fetch_results_table
+#from services.get_spread_data import _get_results_table, _fetch_results_table
+from services.get_spread import results
 #from services.post_slack import _message_slack_channel
 from dhooks import Webhook, Embed
 #import requests
@@ -41,7 +42,10 @@ def result():
         session.pop('team_a_total', None)
         session.pop('team_b_total', None)
 
-        _,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
+        #_,_,_,dash,date,_ = _get_results_table(_fetch_results_table())
+        result = results()
+        dash = result.dash()
+        date = result.date()
 
         ##Send the teams to slack
         #text = "TeamA:{},TeamB:{}".format(teama_passback,teamb_passback)

@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint, session
-from services.get_spread_data import _get_players_table, _fetch_players_table
+#from services.get_spread_data import _get_players_table, _fetch_players_table
+from services.get_spread import player
 
 compare_blueprint = Blueprint('compare', __name__, template_folder='templates', static_folder='static')
 
@@ -9,7 +10,10 @@ def compare():
     Takes in available players from a flask form 
     and returns player names and total score for each team'''
 
-    all_players,player_names,_,_,_,_ = _get_players_table(_fetch_players_table())
+    #all_players,player_names,_,_,_,_ = _get_players_table(_fetch_players_table())
+    players = player()
+    all_players = players.all_players()
+    player_names = players.player_names()
     
     if request.method == 'POST':
 

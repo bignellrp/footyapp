@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from services.update_sheet import _add_new_player, _remove_player
+from services.post_spread_results import _add_new_player, _remove_player
 
 class Welcome(commands.Cog):
     def __init__(self, bot):

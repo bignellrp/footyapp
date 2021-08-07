@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from services.update_sheet import _add_new_player, _update_playing_status_list #Move this to post_spread_results
+from services.post_spread_results import _add_new_player, _update_playing_status_list
 from services.get_spread_data import _get_players_table, _fetch_players_table, _get_results_table, _fetch_results_table
 
 class Commands(commands.Cog):

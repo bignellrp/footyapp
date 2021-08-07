@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 from services.post_spread_results import _update_score_result
-from services.get_spread_data import _get_results_table, _fetch_results_table
+#from services.get_spread_data import _get_results_table, _fetch_results_table
+from services.get_spread import results
 import re
 
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
@@ -11,7 +12,12 @@ def score():
     Takes in this weeks score as form input from flask form
     and return update function to add score to google sheet'''
 
-    _,teama,teamb,dash,date,_ = _get_results_table(_fetch_results_table())
+    #_,teama,teamb,dash,date,_ = _get_results_table(_fetch_results_table())
+    result = results()
+    dash = result.dash()
+    date = result.date()
+    teama = result.teama()
+    teamb = result.teamb()
 
     if request.method == 'POST':
 

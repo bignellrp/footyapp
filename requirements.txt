@@ -26,7 +26,7 @@ google-auth-oauthlib==0.4.2
 google-spreadsheet==0.0.6
 googleapis-common-protos==1.52.0
 greenlet==1.1.0
-gspread==3.7.0
+gspread==4.0.0
 h11==0.12.0
 h2==4.0.0
 hpack==4.0.0
