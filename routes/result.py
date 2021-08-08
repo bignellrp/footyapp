@@ -1,11 +1,11 @@
 from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
-from services.post_spread_results import _update_result, _append_result
+from services.post_spread import _update_result, _append_result
 #from services.get_spread_data import _get_results_table, _fetch_results_table
 from services.get_spread import results
 #from services.post_slack import _message_slack_channel
-from dhooks import Webhook, Embed
-#import requests
+#from dhooks import Webhook, Embed
+import requests
 import json
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
@@ -55,27 +55,37 @@ def result():
         path_to_token = "./services/tokens.json"
         with open(path_to_token, "r") as handler:
             info = json.load(handler)
-
         url = info["discord_webhook"]
-        hook = Webhook(url)
-        embed = Embed(
-            description='Here are this weeks teams:',
-            color=0x5CDBF0,
-            timestamp='now'  # sets the timestamp to current time
-            )
-
-        image1 = 'https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png'
-        image2 = ''
-
-        embed.set_author(name='FootyApp', icon_url=image1)
-        embed.add_field(name='Team A:', value=teama_passback)
-        embed.add_field(name='Team B:', value=teamb_passback)
-        embed.set_footer(text='Have fun!', icon_url=image1)
-
-        embed.set_thumbnail(image1)
-        embed.set_image(image2)
-
-        #hook.send(embed=embed)
+        teama_json = "\n".join(item for item in teama_passback)
+        teamb_json = "\n".join(item for item in teamb_passback)
+        hook = {
+            "username": "FootyApp",
+            "embeds": [
+                {
+                "author": {
+                    "name": "FootyApp"
+                },
+                "title": "Here are this weeks teams:",
+                "color": 15258703,
+                "fields": [
+                    {
+                    "name": "Team A",
+                    "value": teama_json,
+                    "inline": "true"
+                    },
+                    {
+                    "name": "Team B",
+                    "value": teamb_json,
+                    "inline": "true"
+                    }
+                ],
+                "thumbnail": {
+                    "url": "https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png"
+                }
+                }
+            ]
+            }
+        result = requests.post(url, json = hook)
 
         if date == next_wednesday and dash == "-":
             '''If the last row has next wednesdays date 

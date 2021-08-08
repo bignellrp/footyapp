@@ -28,6 +28,10 @@ def colnum_string(n):
         string = chr(65 + remainder) + string
     return string
 
+def connvert_list(lst):
+    '''Convert to list of lists to avoid syntax errors'''
+    return [[el] for el in lst]
+
 def _update_result(values):
     '''Function to update the result row using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row'''
@@ -50,6 +54,8 @@ def _update_tally(values):
 def _append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
+    print("Running Append Result Fuction")
+
     print(values) #Seems to have an extra ' on the date??
     return wsr.append_row(values)
 

@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from services.post_spread_results import _update_score_result
+from services.post_spread import _update_score_result
 #from services.get_spread_data import _get_results_table, _fetch_results_table
 from services.get_spread import results
 import re
