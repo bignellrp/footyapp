@@ -7,6 +7,7 @@ from services.get_spread import results
 #from dhooks import Webhook, Embed
 import requests
 import json
+from discord import File, Webhook, RequestsWebhookAdapter, Embed, Color
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
@@ -52,41 +53,23 @@ def result():
         #result = _message_slack_channel(text)
 
         ##Send the teams to discord
+        file = File("static/football.png")
         path_to_token = "./services/tokens.json"
         with open(path_to_token, "r") as handler:
             info = json.load(handler)
         url = info["discord_webhook"]
         teama_json = "\n".join(item for item in teama_passback)
         teamb_json = "\n".join(item for item in teamb_passback)
-        hook = {
-            "username": "FootyApp",
-            "embeds": [
-                {
-                "author": {
-                    "name": "FootyApp"
-                },
-                "title": "Here are this weeks teams:",
-                "color": 15258703,
-                "fields": [
-                    {
-                    "name": "Team A",
-                    "value": teama_json,
-                    "inline": "true"
-                    },
-                    {
-                    "name": "Team B",
-                    "value": teamb_json,
-                    "inline": "true"
-                    }
-                ],
-                "thumbnail": {
-                    "url": "https://e7.pngegg.com/pngimages/347/591/png-clipart-football-team-sport-ball-white-sport-thumbnail.png"
-                }
-                }
-            ]
-            }
-        result = requests.post(url, json = hook)
-
+        webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
+        ##Embed Message
+        embed=Embed(title="Here are this weeks teams:",color=Color.dark_green())
+        embed.set_author(name="footyapp")
+        embed.add_field(name="TeamA:", value=teama_json, inline="true")
+        embed.add_field(name="TeamB:", value=teamb_json, inline="true")
+        embed.set_thumbnail(url="attachment://football.png")
+        webhook.send(file = file, embed = embed)
+        
+        ##Run Update Functions, either update or append
         if date == next_wednesday and dash == "-":
             '''If the last row has next wednesdays date 
             then replace the results.

@@ -67,13 +67,25 @@ class player():
         ##Count the number of players in tally
         game_tally = []
         game_player_tally = []
-        for row in self.player_names:
+        for row in self.player_names():
             '''Takes in row of player_names
             and outputs a just the tally column'''
             game_player_tally.append((row[0]))
             game_tally.append((row[1]))
         self.player_count = 10 - game_tally.count("x")
         return self.player_count
+    
+    def game_player_tally(self):
+        ##List of player names playing
+        game_player_tally = []
+        for row in self.player_names():
+            '''Takes in row of player names 
+            and returns a tally of those players
+            that are available this week'''
+            if row[1] == "x":
+                game_player_tally.append((row[0]))
+        self.game_player_tally = game_player_tally
+        return self.game_player_tally
 
 class results():
 
