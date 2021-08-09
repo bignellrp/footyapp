@@ -67,7 +67,11 @@ class player():
         ##Count the number of players in tally
         game_tally = []
         game_player_tally = []
-        for row in self.player_names():
+        player_names = self.df.filter(['Name','Playing'])
+        ##Convert from df to list without index to be used in forms
+        player_names = player_names.to_records(index=False)
+        player_names = list(player_names)
+        for row in player_names:
             '''Takes in row of player_names
             and outputs a just the tally column'''
             game_player_tally.append((row[0]))
@@ -78,7 +82,11 @@ class player():
     def game_player_tally(self):
         ##List of player names playing
         game_player_tally = []
-        for row in self.player_names():
+        player_names = self.df.filter(['Name','Playing'])
+        ##Convert from df to list without index to be used in forms
+        player_names = player_names.to_records(index=False)
+        player_names = list(player_names)
+        for row in player_names:
             '''Takes in row of player names 
             and returns a tally of those players
             that are available this week'''
