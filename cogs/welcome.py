@@ -26,8 +26,8 @@ class Welcome(commands.Cog):
         print("Recognised that a member called " + member.name + " joined")
         try: 
             await member.send(embed=embed)
-            _add_new_player(member.name) #Running add new player func
-            print('Added new player with a generic score of 77: {}'.format(member.name))
+            #_add_new_player(member.name) #Running add new player func
+            #print('Added new player with a generic score of 77: {}'.format(member.name))
         except:
             print("Couldn't message " + member.name)
             
@@ -39,7 +39,7 @@ class Welcome(commands.Cog):
     async def on_member_remove(self,member):
         print("Recognised that a member called " + member.name + " left")
         try: 
-            _remove_player(member.name) #Running add new player func
+            #_remove_player(member.name) #Running add new player func
             print("Removed player " + member.name)
         except:
             print("Couldn't remove " + member.name)

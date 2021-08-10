@@ -95,6 +95,22 @@ class player():
         self.game_player_tally = game_player_tally
         return self.game_player_tally
 
+    def game_player_tally_with_score(self):
+        ##List of player names playing
+        game_player_tally = []
+        player_names = self.df.filter(['Name','Total','Playing'])
+        ##Convert from df to list without index to be used in forms
+        player_names = player_names.to_records(index=False)
+        player_names = list(player_names)
+        for row in player_names:
+            '''Takes in row of player names 
+            and returns a tally of those players
+            that are available this week'''
+            if row[2] == "x":
+                game_player_tally.append((row[0] , int(row[1])))
+        self.game_player_tally_with_score = game_player_tally
+        return self.game_player_tally_with_score
+
 class results():
 
     def __init__(self):
