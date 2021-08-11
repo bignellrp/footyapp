@@ -34,13 +34,14 @@ def connvert_list(lst):
 
 def _update_result(values):
     '''Function to update the result row using the values from the results page
-    Takes in values to be added to sheet and returns the gspread command for updating row'''
+    Takes in values to be added to sheet and returns the gspread command for updating row
+    https://stackoverflow.com/questions/59701452/how-to-update-cells-in-a-google-spreadsheet-with-python-s-gspread-wks-update-cel'''
     cell = wsr.find(next_wednesday) #Find the cell containing next wednesdays date
     row = cell.row
     col = colnum_string(cell.col) #Convert col number to letter
     range = str(col)+str(row) #Put col letter with row number
     values = [values, []] #Update func expecting list of lists
-    return wsr.update(range, values, major_dimension='ROWS')
+    return wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
 
 def _update_tally(values):
     '''Function to update the player tally using the values from the index page
@@ -54,10 +55,7 @@ def _update_tally(values):
 def _append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
-    print("Running Append Result Fuction")
-
-    print(values) #Seems to have an extra ' on the date??
-    return wsr.append_row(values)
+    return wsr.append_row(values, value_input_option='USER_ENTERED')
 
 def _update_score_result(values):
     '''Function to update the result using the values from the results page
