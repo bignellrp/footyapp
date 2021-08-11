@@ -120,6 +120,7 @@ class results():
         self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
         self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', errors='ignore')
+        print(self.df['Date'])
     
     def game_stats(self):
         ##Filter All Players
@@ -133,11 +134,11 @@ class results():
         self.game_stats = list(self.game_stats)
         return self.game_stats
 
-    def end_row(self):
-        ##Use data frame shape to work out end row
-        ##Might not be needed any longer if using gspread append
-        self.end_row = self.df.shape[0] + 1
-        return self.end_row
+    # def end_row(self):
+    #     ##Use data frame shape to work out end row
+    #     ##Might not be needed any longer if using gspread append
+    #     self.end_row = self.df.shape[0] + 1
+    #     return self.end_row
     
     def teama(self):
         ##Use iloc to get last row and columns for teama,teamb,dash and date
@@ -157,12 +158,10 @@ class results():
         ##Use iloc to get last row and columns for teama,teamb,dash and date
         ##iloc takes the row as the first value and column's' as the second value
         self.dash = self.df.iloc[-1,1]
-        self.dash = list(self.dash)
         return self.dash
 
     def date(self):
         ##Use iloc to get last row and columns for teama,teamb,dash and date
         ##iloc takes the row as the first value and column's' as the second value
         self.date = self.df.iloc[-1,0]
-        self.date = list(self.date)
         return self.date
