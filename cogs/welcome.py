@@ -8,7 +8,7 @@ class Welcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self,member):
-        # Embed Message to send to new users
+        """Sends a message to a user when they join"""
         embed=discord.Embed(
             title="Welcome "+member.name+"!",
             description="""Thank you for joining.
@@ -37,6 +37,7 @@ class Welcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self,member):
+        """When a user leaves it adds a message to the log"""
         print("Recognised that a member called " + member.name + " left")
         try: 
             #_remove_player(member.name) #Running add new player func

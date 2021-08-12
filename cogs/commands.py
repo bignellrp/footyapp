@@ -15,6 +15,7 @@ class Commands(commands.Cog):
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def nick(self, ctx, member: discord.Member, nick):
+        """Allows admin to change a users nickname to match a player in the db."""
         players = player()
         player_names = players.player_names()
         try:
@@ -30,6 +31,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def new(self, ctx, new_player):
+        """Usage: $new player_name - (ADMIN) Adds a new player to the db unless they exist already."""
         players = player()
         player_names = players.player_names()
         if new_player in str(player_names):
@@ -42,16 +44,17 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def teams(self, ctx):
+        """Allows admin to run the teams for this week. Needs 10 players saved."""
         file = File("static/football.png")
         players = player()
         game_player_tally_with_score = players.game_player_tally_with_score()
         result = results()
-        dash = result.dash()
+        teama = result.teama()
         date = result.date()
         count = players.player_count()
         if count > 0:
             print(f'Not enough players!')
-            await ctx.send(f'We still need {count} more players! Run *playing* to find out whos on the list.')
+            await ctx.send(f'We still need {count} more players! Type *$playing* to find out whos on the list.')
         elif count < 0:
             print('Too many players!')
             await ctx.send("Too many players!")
@@ -77,13 +80,12 @@ class Commands(commands.Cog):
             embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline="true")
             embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline="true")
             embed.set_thumbnail(url="attachment://football.png")
-            #embed.set_footer('Save results') #Takes 1 pos 2 were given?
+            embed.set_footer(text="Save results? *Type SAVE*  (10 second timeout)")
             await ctx.send(file=file, embed=embed)
-            await ctx.send("Save results? *Type SAVE*")
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
-            msg = await self.bot.wait_for("message", check=check) #timeout??
-            if date == next_wednesday and dash == "-":
+            msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+            if date == next_wednesday and teama == "-":
                 result = _update_result(google_output)
                 print("Running update function")
             else:
@@ -91,33 +93,38 @@ class Commands(commands.Cog):
                 print("Running append function")
             await ctx.send(f"Teams Saved!")
 
-    @commands.command()
-    @commands.has_permissions(administrator=True)
-    async def newplayer(self, ctx, member: discord.Member = None):
-        member = member or ctx.author
-        new_player = member.display_name
-        _add_new_player(new_player)
-        await ctx.send(f'Added new player with a generic score of 77: {new_player}')
+    # @commands.command()
+    # @commands.has_permissions(administrator=True)
+    # async def newplayer(self, ctx, member: discord.Member = None):
+    #     """Add a new player"""
+    #     member = member or ctx.author
+    #     new_player = member.display_name
+    #     _add_new_player(new_player)
+    #     await ctx.send(f'Added new player with a generic score of 77: {new_player}')
+
+    # @commands.command()
+    # async def hello(self, ctx, *, member: discord.Member = None):
+    #     """Says hello"""
+    #     member = member or ctx.author
+    #     await ctx.send('Hello {0.display_name}~'.format(member))
 
     @commands.command()
-    async def hello(self, ctx, *, member: discord.Member = None):
-        """Says hello"""
-        member = member or ctx.author
-        await ctx.send('Hello {0.display_name}~'.format(member))
-    
-    @commands.command()
     async def teama(self, ctx):
+        """A list of players on team A this week. Shows score if the game has finished."""
         file = File("static/teama.png")
         result = results()
         teama = result.teama()
+        date = result.date()
+        scorea = result.scorea
         teama = "\n".join(item for item in teama)
         # Embed Message
         embed=Embed(
-            title="TeamA",
+            title="Date:" + date,
             color=Color.green()
         )
         embed.add_field(name="Team A", value=teama, inline="true")
         embed.set_thumbnail(url="attachment://teama.png")
+        embed.set_footer(text="Team A Score"+str(scorea))
         print("Posted Team A to discord!")
         try: 
             await ctx.send(file=file, embed=embed)
@@ -125,18 +132,22 @@ class Commands(commands.Cog):
             print("Couldn't post teams!")
     
     @commands.command()
-    async def teamb(self, ctx):
+    async def teamb(self, ctx):        
+        """A list of players on team B this week. Shows score if the game has finished."""
         file = File("static/teamb.png")
         result = results()
         teamb = result.teamb()
+        scoreb = result.scoreb
+        date = result.date()
         teamb = "\n".join(item for item in teamb)
         # Embed Message
         embed=Embed(
-            title="TeamB",
+            title="Date:" + date,
             color=Color.green()
         )
         embed.add_field(name="Team B", value=teamb, inline="true")
         embed.set_thumbnail(url="attachment://teamb.png")
+        embed.set_footer(text="Team B Score"+str(scoreb))
         print("Posted Team B to discord!")
         try: 
             await ctx.send(file=file, embed=embed)
@@ -145,6 +156,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def top10(self, ctx):
+        """Top10 Leaderboard"""
         file = File("static/trophy.png")
         players = player()
         leaderboard = players.leaderboard()
@@ -161,13 +173,16 @@ class Commands(commands.Cog):
         await ctx.send(file = file, embed = embed)
     
     @commands.command()
-    async def status(self, ctx):
-        player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
+    @commands.has_permissions(administrator=True)
+    async def add(self, ctx, player_list):
+        """Usage: $add player_name1,playername2 - Allows admin to add a list of new players to the db. Comma separated."""
+        #player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         _update_playing_status_list(player_list)
         await ctx.send(f'Updated status for: {player_list}')
 
     @commands.command()
     async def playing(self, ctx):
+        """Shows who is saved as playing this week."""
         file = File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally()

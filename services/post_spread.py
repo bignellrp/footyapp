@@ -4,7 +4,7 @@ from services.get_date import next_wednesday
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
-SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
+SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U' #Move to tokens file
 PLAYERS_WORKSHEET = 'Dev Players'
 RESULTS_WORKSHEET = 'Dev Results'
 
@@ -28,9 +28,9 @@ def colnum_string(n):
         string = chr(65 + remainder) + string
     return string
 
-def connvert_list(lst):
-    '''Convert to list of lists to avoid syntax errors'''
-    return [[el] for el in lst]
+# def convert_list(lst):
+#     '''Convert to list of lists to avoid syntax errors'''
+#     return [[el] for el in lst]
 
 def _update_result(values):
     '''Function to update the result row using the values from the results page
@@ -71,7 +71,6 @@ def _update_score_result(values):
 def _update_playing_status_list(player_list):
     '''Takes in a list of players 
     and adds x into the playing column'''
-    
     for name in player_list:
         cell_name = wsp.find(name) #Find the Players name and the row
         clm_playing = wsp.find('Playing') #Find the Playing column

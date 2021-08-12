@@ -1,6 +1,5 @@
 from flask import render_template, request, Blueprint
 from services.post_spread import _update_score_result
-#from services.get_spread_data import _get_results_table, _fetch_results_table
 from services.get_spread import results
 import re
 
@@ -12,9 +11,8 @@ def score():
     Takes in this weeks score as form input from flask form
     and return update function to add score to google sheet'''
 
-    #_,teama,teamb,dash,date,_ = _get_results_table(_fetch_results_table())
     result = results()
-    dash = result.dash()
+    teama = result.teama()
     date = result.date()
     teama = result.teama()
     teamb = result.teamb()
@@ -33,8 +31,8 @@ def score():
         ##Using re.match to check if score input is 2 digits
         match_a = re.match("(^[0-9]{1,2}$)",score_input_a)
         match_b = re.match("(^[0-9]{1,2}$)",score_input_b)
-        if dash != "-":
-            '''If there is a score then there isn't a dash so don't 
+        if teama != "-":
+            '''If there is a score then there isn't a teama so don't 
             update score and display error'''
             print("Score exists already")
             error = "Score exists already"
@@ -46,7 +44,7 @@ def score():
             print("Updating score")
             result = _update_score_result(score_output)
             
-            ##If there is a dash then post is returned after running update
+            ##If there is a teama then post is returned after running update
             return render_template('post.html')
         ##If there was an error return the score page with error
         return render_template('score.html', teama = teama, teamb = teamb, date = date, error = error)

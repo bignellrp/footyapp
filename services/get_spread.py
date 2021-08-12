@@ -120,7 +120,6 @@ class results():
         self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
         self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', errors='ignore')
-        print(self.df['Date'])
     
     def game_stats(self):
         ##Filter All Players
@@ -141,27 +140,33 @@ class results():
     #     return self.end_row
     
     def teama(self):
-        ##Use iloc to get last row and columns for teama,teamb,dash and date
+        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
         ##iloc takes the row as the first value and column's' as the second value
         self.teama = self.df.iloc[-1,5:10]
         self.teama = list(self.teama)
         return self.teama
 
     def teamb(self):
-        ##Use iloc to get last row and columns for teama,teamb,dash and date
+        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
         ##iloc takes the row as the first value and column's' as the second value
         self.teamb = self.df.iloc[-1,10:15]
         self.teamb = list(self.teamb)
         return self.teamb
 
-    def dash(self):
-        ##Use iloc to get last row and columns for teama,teamb,dash and date
+    def scorea(self):
+        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
         ##iloc takes the row as the first value and column's' as the second value
-        self.dash = self.df.iloc[-1,1]
-        return self.dash
+        self.scorea = self.df.iloc[-1,1]
+        return self.scorea
+    
+    def scoreb(self):
+        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value and column's' as the second value
+        self.scoreb = self.df.iloc[-1,2]
+        return self.scoreb
 
     def date(self):
-        ##Use iloc to get last row and columns for teama,teamb,dash and date
+        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
         ##iloc takes the row as the first value and column's' as the second value
         self.date = self.df.iloc[-1,0]
         return self.date
