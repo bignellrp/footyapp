@@ -13,9 +13,10 @@ def score():
 
     result = results()
     teama = result.teama()
-    date = result.date()
-    teama = result.teama()
     teamb = result.teamb()
+    date = result.date()
+    scorea = result.scorea()
+    scoreb = result.scoreb()
 
     if request.method == 'POST':
 
@@ -31,8 +32,8 @@ def score():
         ##Using re.match to check if score input is 2 digits
         match_a = re.match("(^[0-9]{1,2}$)",score_input_a)
         match_b = re.match("(^[0-9]{1,2}$)",score_input_b)
-        if teama != "-":
-            '''If there is a score then there isn't a teama so don't 
+        if scorea != "-":
+            '''If there is a score then there isn't a dash in scorea so don't 
             update score and display error'''
             print("Score exists already")
             error = "Score exists already"
@@ -44,7 +45,7 @@ def score():
             print("Updating score")
             result = _update_score_result(score_output)
             
-            ##If there is a teama then post is returned after running update
+            ##If there is a dash then post is returned after running update
             return render_template('post.html')
         ##If there was an error return the score page with error
         return render_template('score.html', teama = teama, teamb = teamb, date = date, error = error)

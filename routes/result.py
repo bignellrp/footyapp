@@ -43,9 +43,9 @@ def result():
         session.pop('team_a_total', None)
         session.pop('team_b_total', None)
 
-        #_,_,_,teama,date,_ = _get_results_table(_fetch_results_table())
+        ##Gets Result data for validation
         result = results()
-        teama = result.teama()
+        scorea = result.scorea()
         date = result.date()
 
         ##Send the teams to slack
@@ -70,7 +70,7 @@ def result():
         webhook.send(file = file, embed = embed)
         
         ##Run Update Functions, either update or append
-        if date == next_wednesday and teama == "-":
+        if date == next_wednesday and scorea == "-":
             '''If the last row has next wednesdays date 
             then replace the results.
             Else append results on a new line'''

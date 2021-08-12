@@ -1,9 +1,17 @@
 		
 import gspread
 import pandas as pd
+import json
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
-SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
+TOKEN_FILE = './services/tokens.json'
+#SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
+
+##Get spreadsheet ID from token json
+path_to_token = "./services/tokens.json"
+with open(TOKEN_FILE, "r") as handler:
+    info = json.load(handler)
+SPREADSHEET_ID = info["SPREADSHEET_ID"]
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)

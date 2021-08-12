@@ -49,7 +49,7 @@ class Commands(commands.Cog):
         players = player()
         game_player_tally_with_score = players.game_player_tally_with_score()
         result = results()
-        teama = result.teama()
+        scorea = result.scorea()
         date = result.date()
         count = players.player_count()
         if count > 0:
@@ -85,7 +85,7 @@ class Commands(commands.Cog):
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
             msg = await self.bot.wait_for("message", timeout=10.0, check=check)
-            if date == next_wednesday and teama == "-":
+            if date == next_wednesday and scorea == "-":
                 result = _update_result(google_output)
                 print("Running update function")
             else:

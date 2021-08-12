@@ -17,12 +17,9 @@ import json
 
 # Initialise our app and the bot itself
 # https://discordpy.readthedocs.io/en/latest/intents.html
-#intents = discord.Intents(members=True)
-#intents.members = True
-#bot = commands.Bot(command_prefix="$", intents=intents)
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix='$', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents)
 app = Flask(__name__)
 
 ##Register the blueprint for each route
@@ -43,6 +40,7 @@ path_to_token = "./services/tokens.json"
 with open(path_to_token, "r") as handler:
     info = json.load(handler)
 
+##Discord Variables
 app.secret_key = info["session"]
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
 app.config["DISCORD_CLIENT_ID"] = info["CLIENT_ID"]
@@ -53,20 +51,13 @@ token = info["discord_token"]
 
 ##Register Cogs with Discord
 discord = DiscordOAuth2Session(app)
-
 for file in os.listdir("cogs"):
     if file.endswith(".py"):
         name = file[:-3]
         bot.load_extension(f"cogs.{name}")
-
 
 # Make a partial app.run to pass args/kwargs to it
 partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
 t = Thread(target=partial_run)
 t.start()
 bot.run(token)
-
-#if __name__ == "__main__":
-#    app.run(host="127.0.0.1", debug=False, port=5000)
-#if __name__ == "__main__":
-#    t.start()
