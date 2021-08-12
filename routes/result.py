@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
-from services.post_spread import _update_result, _append_result
+from services.post_spread import update_result, append_result
 #from services.get_spread_data import _get_results_table, _fetch_results_table
 from services.get_spread import results
 #from services.post_slack import _message_slack_channel
@@ -74,10 +74,10 @@ def result():
             '''If the last row has next wednesdays date 
             then replace the results.
             Else append results on a new line'''
-            result = _update_result(google_output)
+            result = update_result(google_output)
             print("Running update function")
         else:
-            result = _append_result(google_output)
+            result = append_result(google_output)
             print("Running append function")
 
         ##Return Team A and Team B to the results template

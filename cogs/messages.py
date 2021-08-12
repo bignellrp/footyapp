@@ -1,6 +1,6 @@
 from discord.ext import commands
 from services.get_spread import player
-from services.post_spread import _update_playing_status, _modify_playing_status #Could these be added to a class?
+from services.post_spread import update_playing_status, modify_playing_status #Could these be added to a class?
 
 class Messages(commands.Cog):
 
@@ -17,7 +17,7 @@ class Messages(commands.Cog):
                 players = player()
                 count = players.player_count()
                 if count > 0:
-                    _update_playing_status(message.author.display_name)
+                    update_playing_status(message.author.display_name)
                     print("Player is in:", message.author.display_name)
                     players = player()
                     count = players.player_count()
@@ -33,7 +33,7 @@ class Messages(commands.Cog):
         if message.content.startswith('👎'):
             """If message starts with thumbsdown then remove the player to the playing list."""
             try:
-                _modify_playing_status(message.author.display_name)
+                modify_playing_status(message.author.display_name)
                 print("Player is out:", message.author.display_name)
                 players = player()
                 players = players.player_count()

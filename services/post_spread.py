@@ -1,5 +1,5 @@
 import gspread
-from numpy.lib.stride_tricks import broadcast_arrays
+#from numpy.lib.stride_tricks import broadcast_arrays
 from services.get_date import next_wednesday
 
 #GSPREAD Vars
@@ -32,7 +32,7 @@ def colnum_string(n):
 #     '''Convert to list of lists to avoid syntax errors'''
 #     return [[el] for el in lst]
 
-def _update_result(values):
+def update_result(values):
     '''Function to update the result row using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row
     https://stackoverflow.com/questions/59701452/how-to-update-cells-in-a-google-spreadsheet-with-python-s-gspread-wks-update-cel'''
@@ -43,7 +43,7 @@ def _update_result(values):
     values = [values, []] #Update func expecting list of lists
     return wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
 
-def _update_tally(values):
+def update_tally(values):
     '''Function to update the player tally using the values from the index page
     Takes in values to be added as a list to sheet and returns the gspread command for updating the cell'''
     col = wsp.find('Playing')
@@ -52,12 +52,12 @@ def _update_tally(values):
     values = [values, []] #Update func expecting list of lists
     return wsp.update(range, values, major_dimension='COLUMNS')
 
-def _append_result(values):
+def append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
     return wsr.append_row(values, value_input_option='USER_ENTERED')
 
-def _update_score_result(values):
+def update_score_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row'''
     row = wsr.find(next_wednesday)
@@ -68,17 +68,17 @@ def _update_score_result(values):
     values = [values, []] #Update func expecting list of lists
     return wsr.update(range, values, major_dimension='ROWS')
 
-def _update_playing_status_list(player_list):
-    '''Takes in a list of players 
-    and adds x into the playing column'''
-    for name in player_list:
-        cell_name = wsp.find(name) #Find the Players name and the row
-        clm_playing = wsp.find('Playing') #Find the Playing column
-        wsp.update_cell(cell_name.row, clm_playing.col, 'x')
-        print("Updated playing status for:",name)
-    return
+# def update_playing_status_list(name):
+#     '''Takes in a list of players 
+#     and adds x into the playing column'''
+#     #for name in player_list:
+#     cell_name = wsp.find(name) #Find the Players name and the row
+#     clm_playing = wsp.find('Playing') #Find the Playing column
+#     wsp.update_cell(cell_name.row, clm_playing.col, 'x')
+#     print("Updated playing status for:",name)
+#     return
 
-def _update_playing_status(player):
+def update_playing_status(player):
     '''Takes in a player 
     and adds x into the playing column'''
     cell_name = wsp.find(player) #Find the Players name and the row
@@ -87,17 +87,18 @@ def _update_playing_status(player):
     print("Updated playing status for:",player)
     return
 
-def _modify_playing_status_list(player_list):
-    '''Takes in a list of players 
-    and adds o into the playing column'''
-    for name in player_list:
-        cell_name = wsp.find(name) #Find the Players name and the row
-        clm_playing = wsp.find('Playing') #Find the Playing column
-        wsp.update_cell(cell_name.row, clm_playing.col, 'o')
-        print("Modified playing status for:",name)
-    return
+# def modify_playing_status_list(player_list):
+#     '''Takes in a list of players 
+#     and adds o into the playing column'''
+#     for name in player_list:
+#         print(name)
+#         cell_name = wsp.find(name) #Find the Players name and the row
+#         clm_playing = wsp.find('Playing') #Find the Playing column
+#         wsp.update_cell(cell_name.row, clm_playing.col, 'o')
+#         print("Modified playing status for:",name)
+#     return
 
-def _modify_playing_status(player):
+def modify_playing_status(player):
     '''Takes in a player
     and adds o into the playing column'''
     cell_name = wsp.find(player) #Find the Players name and the row
@@ -106,15 +107,15 @@ def _modify_playing_status(player):
     print("Modified playing status for:",player)
     return
 
-def _add_new_player(player):
+def add_new_player(player):
     '''Appends New Row with a new 
     player and generic score'''
     new_player = [player,int(77)] #Add generic score to playername
     wsp.append_row(new_player) #Should be a list of name and score
     print("Appended new row for:",new_player)
-    return _copy_formulas(new_player[0]) #Run the copy formulas func using first element of list as name
+    return copy_formulas(new_player[0]) #Run the copy formulas func using first element of list as name
 
-def _remove_player(player):
+def remove_player(player):
     '''Appends New Row with a new 
     player and generic score
     Expects two items in a list, Name and Score'''
@@ -123,7 +124,7 @@ def _remove_player(player):
     print("Deleted row for:",player)
     return
 
-def _copy_formulas(player):
+def copy_formulas(player):
     '''Updates formulas for new players'''
     cell_name = wsp.find(player)
     clm_wins = wsp.find('Wins')
