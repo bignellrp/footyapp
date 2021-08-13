@@ -211,8 +211,14 @@ class Commands(commands.Cog):
         player_names = [pname[0] for pname in player_names]
         #player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         if name in player_names:
-            post.update_playing_status(name)
-            await ctx.send(f'Updated status for: {name}')
+            count = players.player_count()
+            if count > 0:
+                post.update_playing_status(name)
+                msg = f'{name} is on the team! There are {count} places remaining'
+                await ctx.send(msg)
+            else:
+                msg = "Sorry there are no places left this week."
+                await ctx.send(msg)
         else:
             print(f'{name} doesnt exist!')
             await ctx.send(f'{name} doesnt exist!')
@@ -226,8 +232,9 @@ class Commands(commands.Cog):
         player_names = [pname[0] for pname in player_names]
         #player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         if name in player_names:
+            count = players.player_count()
             post.modify_playing_status(name)
-            await ctx.send(f'Updated status for: {name}')
+            await ctx.send(f'We now have {count} places. Hopefully see you next week {name}')
         else:
             print(f'{name} doesnt exist!')
             await ctx.send(f'{name} doesnt exist!')
