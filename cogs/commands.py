@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from six import b
 import services.post_spread as post
 from services.get_spread import player, results
 from services.get_even_teams import get_even_teams
@@ -33,12 +34,45 @@ class Commands(commands.Cog):
         """Usage: !new player_name - Adds player to db"""
         players = player()
         player_names = players.player_names()
-        if new_player in str(player_names):
+        player_names = [pname[0] for pname in player_names]
+        if new_player in player_names:
             print(f'{new_player} already exists!')
             await ctx.send(f'{new_player} already exists!')
         else:
             post.add_new_player(new_player)
             await ctx.send(f'Added new player with a generic score of 77: {new_player}')
+    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def stats(self, ctx):
+        """All Player Stats"""
+        file = discord.File("static/trophy.png")
+        players = player()
+        player_stats = players.player_stats()
+        name = [el[0] for el in player_stats]
+        name = "\n".join(item for item in name)
+        wins = [el[1] for el in player_stats]
+        wins = "\n".join(item for item in wins)
+        draws = [el[2] for el in player_stats]
+        draws = "\n".join(item for item in draws)
+        losses = [el[3] for el in player_stats]
+        losses = "\n".join(item for item in losses)
+        total = [el[4] for el in player_stats]
+        total = "\n".join(item for item in total)
+        # Embed Message
+        embed=discord.Embed(
+            title="Stats",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Name", value=name, inline="true")
+        embed.add_field(name="Wins", value=wins, inline="true")
+        embed.add_field(name="Draws", value=draws, inline="true")
+        embed.add_field(name="Losses", value=losses, inline="true")
+        embed.add_field(name="Total", value=total, inline="true")
+        embed.set_thumbnail(url="attachment://trophy.png")
+        embed.set_footer(text="[View full stats here](http://football.richardbignell.co.uk/stats)",)
+        print("Posted Stats to discord!")
+        await ctx.send(file=file, embed=embed)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -68,7 +102,6 @@ class Commands(commands.Cog):
             google_output.append((team_b_total))
             google_output.extend((team_a))
             google_output.extend((team_b))
-            print(google_output)
             team_a = "\n".join(item for item in team_a)
             team_b = "\n".join(item for item in team_b)
             # Embed Message
