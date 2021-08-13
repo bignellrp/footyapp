@@ -44,6 +44,31 @@ class Commands(commands.Cog):
     
     @commands.command()
     @commands.has_permissions(administrator=True)
+    async def matches(self, ctx):
+        """Last 10 Match Stats"""
+        res = results()
+        game_stats = res.game_stats()
+        date = [el[0] for el in game_stats]
+        date = "\n".join(str(item) for item in date)
+        teama = [el[1] for el in game_stats]
+        teama = "\n".join(str(item) for item in teama)
+        teamb = [el[2] for el in game_stats]
+        teamb = "\n".join(str(item) for item in teamb)
+        # Embed Message
+        embed=discord.Embed(
+            title="Stats",
+            url="http://football.richardbignell.co.uk/stats",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Date", value=date, inline="true")
+        embed.add_field(name="TeamA", value=teama, inline="true")
+        embed.add_field(name="TeamB", value=teamb, inline="true")
+        embed.set_footer(text="Click stats link above for full stats.")
+        print("Posted Stats to discord!")
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
     async def stats(self, ctx):
         """All Player Stats"""
         players = player()
@@ -61,14 +86,15 @@ class Commands(commands.Cog):
         # Embed Message
         embed=discord.Embed(
             title="Stats",
+            url="http://football.richardbignell.co.uk/stats",
             color=discord.Color.green()
         )
         embed.add_field(name="Name", value=name, inline="true")
         embed.add_field(name="W", value=wins, inline="true")
-        embed.add_field(name="D", value=draws, inline="true")
-        embed.add_field(name="L", value=losses, inline="true")
+        # embed.add_field(name="D", value=draws, inline="true") #Commented until a fix for multi columns is available
+        # embed.add_field(name="L", value=losses, inline="true")
         embed.add_field(name="T", value=total, inline="true")
-        embed.set_footer(text="http://football.richardbignell.co.uk/stats")
+        embed.set_footer(text="Click stats link above for full stats.")
         print("Posted Stats to discord!")
         await ctx.send(embed=embed)
 
@@ -209,11 +235,14 @@ class Commands(commands.Cog):
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
-        #player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         if name in player_names:
+            players = player()
             count = players.player_count()
             if count > 0:
-                post.update_playing_status(name)
+                post.update_playing_status(name) #Should this allow lower case?
+                print("Player is in:", name)
+                players = player()
+                count = players.player_count()
                 msg = f'{name} is on the team! There are {count} places remaining'
                 await ctx.send(msg)
             else:
@@ -230,10 +259,11 @@ class Commands(commands.Cog):
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
-        #player_list=['Bernard','Rik'] #Need to change this to user input but validation could be an issue
         if name in player_names:
-            count = players.player_count()
             post.modify_playing_status(name)
+            print("Player is out:", name)
+            players = player()
+            count = players.player_count()
             await ctx.send(f'We now have {count} places. Hopefully see you next week {name}')
         else:
             print(f'{name} doesnt exist!')
