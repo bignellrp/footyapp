@@ -46,33 +46,31 @@ class Commands(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def stats(self, ctx):
         """All Player Stats"""
-        file = discord.File("static/trophy.png")
         players = player()
         player_stats = players.player_stats()
         name = [el[0] for el in player_stats]
-        name = "\n".join(item for item in name)
+        name = "\n".join(str(item) for item in name)
         wins = [el[1] for el in player_stats]
-        wins = "\n".join(item for item in wins)
+        wins = "\n".join(str(item) for item in wins)
         draws = [el[2] for el in player_stats]
-        draws = "\n".join(item for item in draws)
+        draws = "\n".join(str(item) for item in draws)
         losses = [el[3] for el in player_stats]
-        losses = "\n".join(item for item in losses)
+        losses = "\n".join(str(item) for item in losses)
         total = [el[4] for el in player_stats]
-        total = "\n".join(item for item in total)
+        total = "\n".join(str(item) for item in total)
         # Embed Message
         embed=discord.Embed(
             title="Stats",
             color=discord.Color.green()
         )
         embed.add_field(name="Name", value=name, inline="true")
-        embed.add_field(name="Wins", value=wins, inline="true")
-        embed.add_field(name="Draws", value=draws, inline="true")
-        embed.add_field(name="Losses", value=losses, inline="true")
-        embed.add_field(name="Total", value=total, inline="true")
-        embed.set_thumbnail(url="attachment://trophy.png")
-        embed.set_footer(text="[View full stats here](http://football.richardbignell.co.uk/stats)",)
+        embed.add_field(name="W", value=wins, inline="true")
+        embed.add_field(name="D", value=draws, inline="true")
+        embed.add_field(name="L", value=losses, inline="true")
+        embed.add_field(name="T", value=total, inline="true")
+        embed.set_footer(text="http://football.richardbignell.co.uk/stats")
         print("Posted Stats to discord!")
-        await ctx.send(file=file, embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
