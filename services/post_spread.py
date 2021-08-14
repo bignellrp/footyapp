@@ -155,6 +155,6 @@ def copy_formulas(player):
     wsp.update_cell(cell_name.row,clm_draws.col,draws_formula)
     wsp.update_cell(cell_name.row,clm_losses.col,losses_formula)
     wsp.update_cell(cell_name.row,clm_score.col,score_formula)
-    wsp.update_cell(cell_name.row, clm_playing.col, 'x')
+    wsp.update_cell(cell_name.row, clm_playing.col, 'o')
     print("Updated Formulas!")
     return

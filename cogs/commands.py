@@ -130,37 +130,43 @@ class Commands(commands.Cog):
         file = discord.File("static/football.png")
         member = member or ctx.author
         players = player()
+        player_names = players.player_names()
+        player_names = [pname[0] for pname in player_names]
         all_player_stats = players.player_stats()
-        player_stats = []
-        for row in all_player_stats:
-            if row[0] == member.display_name:
-                player_stats.append((row[0],int(row[1]),int(row[2]),int(row[3]),int(row[4])))
-        name = [el[0] for el in player_stats]
-        name = "\n".join(str(item) for item in name)
-        wins = [el[1] for el in player_stats]
-        wins = "\n".join(str(item) for item in wins)
-        draws = [el[2] for el in player_stats]
-        draws = "\n".join(str(item) for item in draws)
-        losses = [el[3] for el in player_stats]
-        losses = "\n".join(str(item) for item in losses)
-        total = [el[4] for el in player_stats]
-        total = "\n".join(str(item) for item in total)
-        # Embed Message
-        embed=discord.Embed(
-            title="Stats",
-            url="http://football.richardbignell.co.uk/stats",
-            color=discord.Color.green()
-        )
-        embed.add_field(name="Name:", value=name, inline="false")
-        embed.add_field(name="Wins:", value=wins, inline="false")
-        embed.add_field(name="Draws:", value=draws, inline="false")
-        embed.add_field(name="Losses:", value=losses, inline="false")
-        embed.add_field(name="Total:", value=total, inline="false")
-        embed.set_thumbnail(url="attachment://football.png")
-        embed.set_footer(text="Click stats link above for full stats.")
-        print("Posted Stats to discord!")
-        await ctx.send(file=file, embed=embed)
-
+        if member.display_name in player_names:
+            player_stats = []
+            for row in all_player_stats:
+                if row[0] == member.display_name:
+                    player_stats.append((row[0],int(row[1]),int(row[2]),int(row[3]),int(row[4])))
+            ##Build the table
+            name = [el[0] for el in player_stats]
+            name = "\n".join(str(item) for item in name)
+            wins = [el[1] for el in player_stats]
+            wins = "\n".join(str(item) for item in wins)
+            draws = [el[2] for el in player_stats]
+            draws = "\n".join(str(item) for item in draws)
+            losses = [el[3] for el in player_stats]
+            losses = "\n".join(str(item) for item in losses)
+            total = [el[4] for el in player_stats]
+            total = "\n".join(str(item) for item in total)
+            ##Embed Message
+            embed=discord.Embed(
+                title="Stats",
+                url="http://football.richardbignell.co.uk/stats",
+                color=discord.Color.green()
+            )
+            embed.add_field(name="Name:", value=name, inline="false")
+            embed.add_field(name="Wins:", value=wins, inline="false")
+            embed.add_field(name="Draws:", value=draws, inline="false")
+            embed.add_field(name="Losses:", value=losses, inline="false")
+            embed.add_field(name="Total:", value=total, inline="false")
+            embed.set_thumbnail(url="attachment://football.png")
+            embed.set_footer(text="Click stats link above for full stats.")
+            print("Posted Stats to discord!")
+            await ctx.send(file=file, embed=embed)
+        else:
+            print(f"Cannot find player called {member.display_name}")
+            await ctx.send(f"Cannot find any stats for {member.display_name}")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -237,6 +243,7 @@ class Commands(commands.Cog):
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
             await ctx.send("Type *SAVE* to store the results.")
+            await ctx.send("*You need to save in 10 seconds or this team will be lost*")
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
             try:
@@ -357,7 +364,7 @@ class Commands(commands.Cog):
                 await ctx.send(msg)
         else:
             print(f'{name} doesnt exist!')
-            await ctx.send(f'{name} doesnt exist!')
+            await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -374,7 +381,7 @@ class Commands(commands.Cog):
             await ctx.send(f'We now have {count} places. Hopefully see you next week {name}')
         else:
             print(f'{name} doesnt exist!')
-            await ctx.send(f'{name} doesnt exist!')
+            await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
 
     @commands.command()
     async def play(self, ctx):
