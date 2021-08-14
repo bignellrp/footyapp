@@ -59,7 +59,8 @@ def append_result(values):
 
 def update_score_result(values):
     '''Function to update the result using the values from the results page
-    Takes in values to be added to sheet and returns the gspread command for updating row'''
+    Takes in values to be added to sheet and returns the gspread command for updating row
+    Updates both Score A and Score B from a list of two values.'''
     row = wsr.find(next_wednesday)
     row = row.row
     col = wsr.find('Team A Result?')
@@ -67,6 +68,20 @@ def update_score_result(values):
     range = str(col)+str(row) #Put col letter with row number
     values = [values, []] #Update func expecting list of lists
     return wsr.update(range, values, major_dimension='ROWS')
+
+def update_scorea(value):
+    '''Function to update the result using the values from the results page
+    Takes in value to be added to sheet and returns the gspread command for updating cell'''
+    row = wsr.find(next_wednesday)
+    col = wsr.find('Team A Result?')
+    return wsr.update_cell(row.row, col.col, value)
+
+def update_scoreb(value):
+    '''Function to update the result using the values from the results page
+    Takes in value to be added to sheet and returns the gspread command for updating cell'''
+    row = wsr.find(next_wednesday)
+    col = wsr.find('Team B Result?')
+    return wsr.update_cell(row.row, col.col, value)
 
 # def update_playing_status_list(name):
 #     '''Takes in a list of players 

@@ -5,6 +5,8 @@ import services.post_spread as post
 from services.get_spread import player, results
 from services.get_even_teams import get_even_teams
 from services.get_date import next_wednesday
+import re
+import asyncio
 
 class Commands(commands.Cog):
 
@@ -41,7 +43,63 @@ class Commands(commands.Cog):
         else:
             post.add_new_player(new_player)
             await ctx.send(f'Added new player with a generic score of 77: {new_player}')
-    
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def score(self, ctx):
+        """Update score."""
+        file = discord.File("static/football.png")
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        date = result.date()
+        scorea = result.scorea()
+        scoreb = result.scoreb()
+        teama = "\n".join(item for item in teama)
+        teamb = "\n".join(item for item in teamb)
+        if scorea != "-":
+            print('Score already entered for this week')
+            await ctx.send('Score already entered for this week')
+        else:
+            print('Display this weeks teams')
+            # Embed Message
+            embed=discord.Embed(
+                title="Here were the teams for:"+str(date),
+                url="http://football.richardbignell.co.uk/score",
+                color=discord.Color.dark_green()
+            )
+            embed.add_field(name="TeamA Score (" + str(scorea) + "):", value=teama, inline="true")
+            embed.add_field(name="TeamB Score (" + str(scoreb) + "):", value=teamb, inline="true")
+            embed.set_thumbnail(url="attachment://football.png")
+            embed.set_footer(text="Enter on the website if you prefer using the link above")
+            await ctx.send(file=file, embed=embed)
+            await ctx.send("Please enter the score for TeamA: (1 or 2 digits)")
+            def check(m):
+                match = re.match("(^[0-9]{1,2}$)",m.content)
+                return m.channel == ctx.channel and match
+            try:
+                msg = await self.bot.wait_for("message", timeout=60.0, check=check)
+            except asyncio.TimeoutError:
+                await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
+                return
+            else:
+                result = post.update_scorea(msg.content)
+                print("Team A Score saved!")
+                await ctx.send("Score saved! Please enter the score for TeamB: (1 or 2 digits)")
+                def check(m):
+                    match = re.match("(^[0-9]{1,2}$)",m.content)
+                    return m.channel == ctx.channel and match
+                try:
+                    msg = await self.bot.wait_for("message", timeout=60.0, check=check)
+                except asyncio.TimeoutError:
+                    await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
+                    return
+                else:
+                    result = post.update_scoreb(msg.content)
+                    print("Team B Score saved!")
+                    await ctx.send("Scores saved!")
+                    return
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def matches(self, ctx):
@@ -68,9 +126,48 @@ class Commands(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
+    async def mystats(self, ctx, member: discord.Member = None):
+        """Individual Player Stats"""
+        file = discord.File("static/football.png")
+        member = member or ctx.author
+        players = player()
+        all_player_stats = players.player_stats()
+        player_stats = []
+        for row in all_player_stats:
+            if row[0] == member.display_name:
+                player_stats.append((row[0],int(row[1]),int(row[2]),int(row[3]),int(row[4])))
+        name = [el[0] for el in player_stats]
+        name = "\n".join(str(item) for item in name)
+        wins = [el[1] for el in player_stats]
+        wins = "\n".join(str(item) for item in wins)
+        draws = [el[2] for el in player_stats]
+        draws = "\n".join(str(item) for item in draws)
+        losses = [el[3] for el in player_stats]
+        losses = "\n".join(str(item) for item in losses)
+        total = [el[4] for el in player_stats]
+        total = "\n".join(str(item) for item in total)
+        # Embed Message
+        embed=discord.Embed(
+            title="Stats",
+            url="http://football.richardbignell.co.uk/stats",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Name:", value=name, inline="false")
+        embed.add_field(name="Wins:", value=wins, inline="false")
+        embed.add_field(name="Draws:", value=draws, inline="false")
+        embed.add_field(name="Losses:", value=losses, inline="false")
+        embed.add_field(name="Total:", value=total, inline="false")
+        embed.set_thumbnail(url="attachment://football.png")
+        embed.set_footer(text="Click stats link above for full stats.")
+        print("Posted Stats to discord!")
+        await ctx.send(file=file, embed=embed)
+
+
+    @commands.command()
     @commands.has_permissions(administrator=True)
     async def stats(self, ctx):
         """All Player Stats"""
+        file = discord.File("static/football.png")
         players = player()
         player_stats = players.player_stats()
         name = [el[0] for el in player_stats]
@@ -89,6 +186,7 @@ class Commands(commands.Cog):
             url="http://football.richardbignell.co.uk/stats",
             color=discord.Color.green()
         )
+        embed.set_thumbnail(url="attachment://football.png")
         embed.add_field(name="Name", value=name, inline="true")
         embed.add_field(name="W", value=wins, inline="true")
         # embed.add_field(name="D", value=draws, inline="true") #Commented until a fix for multi columns is available
@@ -96,7 +194,7 @@ class Commands(commands.Cog):
         embed.add_field(name="T", value=total, inline="true")
         embed.set_footer(text="Click stats link above for full stats.")
         print("Posted Stats to discord!")
-        await ctx.send(embed=embed)
+        await ctx.send(file=file, embed=embed)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -131,23 +229,33 @@ class Commands(commands.Cog):
             # Embed Message
             embed=discord.Embed(
                 title="Here are the teams:",
+                url="http://football.richardbignell.co.uk",
                 color=discord.Color.dark_green()
             )
             embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline="true")
             embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline="true")
             embed.set_thumbnail(url="attachment://football.png")
-            embed.set_footer(text="Save results? *Type SAVE*  (10 second timeout)")
+            embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
+            await ctx.send("Type *SAVE* to store the results.")
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
-            msg = await self.bot.wait_for("message", timeout=10.0, check=check)
-            if date == next_wednesday and scorea == "-":
-                result = post.update_result(google_output)
-                print("Running update function")
+            try:
+                msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+            except asyncio.TimeoutError: 
+                print("Teams command timeout!")
+                await ctx.send("You didnt type SAVE in 10 seconds. Run !teams again")
+                return
             else:
-                result = post.append_result(google_output)
-                print("Running append function")
-            await ctx.send(f"Teams Saved!")
+                if date == next_wednesday and scorea == "-":
+                    result = post.update_result(google_output)
+                    print("Running update function")
+                    await ctx.send(f"Teams Saved!")
+                else:
+                    result = post.append_result(google_output)
+                    print("Running append function")
+                    await ctx.send(f"Teams Saved!")
+                return
 
     # @commands.command()
     # @commands.has_permissions(administrator=True)
