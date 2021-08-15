@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
 from services.get_spread import player
-from services.post_spread import update_tally
+import services.post_spread as post
 from services.get_even_teams import get_even_teams
 
 index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')
@@ -57,7 +57,7 @@ def index():
                     game_player_tally.append(("o"))
 
             ##Save the tally of available players
-            result = update_tally(game_player_tally)
+            result = post.update_tally(game_player_tally)
             print("Running tally function")    
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':
@@ -72,7 +72,7 @@ def index():
                 game_player_clear.append(("o"))
 
             ##Save the tally of available players
-            result = update_tally(game_player_clear)
+            result = post.update_tally(game_player_clear)
             print("Running clear function")    
             return redirect(url_for('index.index'))
         else:

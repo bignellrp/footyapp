@@ -1,6 +1,5 @@
 from discord.ext import commands
 from services.get_spread import player
-#from services.post_spread import update_playing_status, modify_playing_status #Could these be added to a class?
 import services.post_spread as post
 
 class Messages(commands.Cog):

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from services.post_spread import add_new_player, remove_player
+import services.post_spread as post
 
 class Welcome(commands.Cog):
     def __init__(self, bot):
@@ -26,7 +26,7 @@ class Welcome(commands.Cog):
         print("Recognised that a member called " + member.name + " joined")
         try: 
             await member.send(embed=embed)
-            #add_new_player(member.name) #Running add new player func
+            #post.add_new_player(member.name) #Running add new player func
             #print('Added new player with a generic score of 77: {}'.format(member.name))
         except:
             print("Couldn't message " + member.name)
@@ -40,7 +40,7 @@ class Welcome(commands.Cog):
         """When a user leaves it adds a message to the log"""
         print("Recognised that a member called " + member.name + " left")
         try: 
-            #remove_player(member.name) #Running add new player func
+            #post.remove_player(member.name) #Running add new player func
             print("Removed player " + member.name)
         except:
             print("Couldn't remove " + member.name)

@@ -17,6 +17,7 @@ tiangolo/uwsgi-nginx-flask
 docker pull tiangolo/uwsgi-nginx-flask
 docker run -t -i -p 80:80 tiangolo/uwsgi-nginx-flask
 docker exec -it flask /bin/bash
+apt-get update; apt-get install ca-certificates
 rm -rf /app
 mkdir app
 cd app
