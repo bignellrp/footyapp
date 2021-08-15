@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from numpy.lib.twodim_base import vander
 import services.post_spread as post
 from services.get_spread import player, results
 from services.get_even_teams import get_even_teams
@@ -67,8 +68,8 @@ class Commands(commands.Cog):
                 url="http://football.richardbignell.co.uk/score",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA Score (" + str(scorea) + "):", value=teama, inline="true")
-            embed.add_field(name="TeamB Score (" + str(scoreb) + "):", value=teamb, inline="true")
+            embed.add_field(name="TeamA Score (" + str(scorea) + "):", value=teama, inline=True)
+            embed.add_field(name="TeamB Score (" + str(scoreb) + "):", value=teamb, inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
@@ -105,21 +106,23 @@ class Commands(commands.Cog):
         """Last 10 Match Stats"""
         res = results()
         game_stats = res.game_stats()
-        date = [el[0] for el in game_stats]
-        date = "\n".join(str(item) for item in date)
-        teama = [el[1] for el in game_stats]
-        teama = "\n".join(str(item) for item in teama)
-        teamb = [el[2] for el in game_stats]
-        teamb = "\n".join(str(item) for item in teamb)
+        rows = "\n".join(str(row) for row in game_stats)
+        # date = [el[0] for el in game_stats]
+        # date = "\n".join(str(item) for item in date)
+        # teama = [el[1] for el in game_stats]
+        # teama = "\n".join(str(item) for item in teama)
+        # teamb = [el[2] for el in game_stats]
+        # teamb = "\n".join(str(item) for item in teamb)
         # Embed Message
         embed=discord.Embed(
             title="Stats",
             url="http://football.richardbignell.co.uk/stats",
             color=discord.Color.green()
         )
-        embed.add_field(name="Date", value=date, inline="true")
-        embed.add_field(name="TeamA", value=teama, inline="true")
-        embed.add_field(name="TeamB", value=teamb, inline="true")
+        embed.add_field(name="Date/TeamA/TeamB", value=rows, inline=True)
+        #embed.add_field(name="Date", value=date, inline=True)
+        #embed.add_field(name="TeamA", value=teama, inline=True)
+        #embed.add_field(name="TeamB", value=teamb, inline=True)
         embed.set_footer(text="Click stats link above for full stats.")
         print("Posted Stats to discord!")
         await ctx.send(embed=embed)
@@ -155,11 +158,11 @@ class Commands(commands.Cog):
                 url="http://football.richardbignell.co.uk/stats",
                 color=discord.Color.green()
             )
-            embed.add_field(name="Name:", value=name, inline="false")
-            embed.add_field(name="Wins:", value=wins, inline="false")
-            embed.add_field(name="Draws:", value=draws, inline="false")
-            embed.add_field(name="Losses:", value=losses, inline="false")
-            embed.add_field(name="Total:", value=total, inline="false")
+            embed.add_field(name="Name:", value=name, inline=False)
+            embed.add_field(name="Wins:", value=wins, inline=False)
+            embed.add_field(name="Draws:", value=draws, inline=False)
+            embed.add_field(name="Losses:", value=losses, inline=False)
+            embed.add_field(name="Total:", value=total, inline=False)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Click stats link above for full stats.")
             print("Posted Stats to discord!")
@@ -175,16 +178,17 @@ class Commands(commands.Cog):
         file = discord.File("static/football.png")
         players = player()
         player_stats = players.player_stats()
-        name = [el[0] for el in player_stats]
-        name = "\n".join(str(item) for item in name)
-        wins = [el[1] for el in player_stats]
-        wins = "\n".join(str(item) for item in wins)
-        draws = [el[2] for el in player_stats]
-        draws = "\n".join(str(item) for item in draws)
-        losses = [el[3] for el in player_stats]
-        losses = "\n".join(str(item) for item in losses)
-        total = [el[4] for el in player_stats]
-        total = "\n".join(str(item) for item in total)
+        rows = "\n".join(str(row) for row in player_stats)
+        # name = [el[0] for el in player_stats]
+        # name = "\n".join(str(item) for item in name)
+        # wins = [el[1] for el in player_stats]
+        # wins = "\n".join(str(item) for item in wins)
+        # draws = [el[2] for el in player_stats]
+        # draws = "\n".join(str(item) for item in draws)
+        # losses = [el[3] for el in player_stats]
+        # losses = "\n".join(str(item) for item in losses)
+        # total = [el[4] for el in player_stats]
+        # total = "\n".join(str(item) for item in total)
         # Embed Message
         embed=discord.Embed(
             title="Stats",
@@ -192,11 +196,12 @@ class Commands(commands.Cog):
             color=discord.Color.green()
         )
         embed.set_thumbnail(url="attachment://football.png")
-        embed.add_field(name="Name", value=name, inline="true")
-        embed.add_field(name="W", value=wins, inline="true")
-        # embed.add_field(name="D", value=draws, inline="true") #Commented until a fix for multi columns is available
-        # embed.add_field(name="L", value=losses, inline="true")
-        embed.add_field(name="T", value=total, inline="true")
+        embed.add_field(name="Name/W/D/L/T", value=rows, inline=True)
+        # embed.add_field(name="Name", value=name, inline=True)
+        # embed.add_field(name="W", value=wins, inline=True)
+        # embed.add_field(name="D", value=draws, inline=True)
+        # embed.add_field(name="L", value=losses, inline=True)
+        # embed.add_field(name="T", value=total, inline=True)
         embed.set_footer(text="Click stats link above for full stats.")
         print("Posted Stats to discord!")
         await ctx.send(file=file, embed=embed)
@@ -237,8 +242,8 @@ class Commands(commands.Cog):
                 url="http://football.richardbignell.co.uk",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline="true")
-            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline="true")
+            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline=True)
+            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
@@ -292,7 +297,7 @@ class Commands(commands.Cog):
             title="Date: " + date,
             color=discord.Color.green()
         )
-        embed.add_field(name="Team A", value=teama, inline="true")
+        embed.add_field(name="Team A", value=teama, inline=True)
         embed.set_thumbnail(url="attachment://teama.png")
         embed.set_footer(text="Team A Score: "+str(scorea))
         print("Posted Team A to discord!")
@@ -315,7 +320,7 @@ class Commands(commands.Cog):
             title="Date: " + date,
             color=discord.Color.green()
         )
-        embed.add_field(name="Team B", value=teamb, inline="true")
+        embed.add_field(name="Team B", value=teamb, inline=True)
         embed.set_thumbnail(url="attachment://teamb.png")
         embed.set_footer(text="Team B Score: "+str(scoreb))
         print("Posted Team B to discord!")
@@ -330,14 +335,16 @@ class Commands(commands.Cog):
         file = discord.File("static/trophy.png")
         players = player()
         leaderboard = players.leaderboard()
-        leaderboard = "\n".join(i for i,v in leaderboard)
-        players = player()
-        score = players.leaderboard()
-        score = "\n".join(str(v) for i,v in score)
+        leaderboard = '\n'.join(str(row) for row in leaderboard)
+        #leaderboard = "\n".join(i for i,v in leaderboard)
+        #players = player()
+        #score = players.leaderboard()
+        #score = "\n".join(str(v) for i,v in score)
         # Embed Message
         embed=discord.Embed(title="Top10:",color=discord.Color.dark_green())
-        embed.add_field(name="Player", value=leaderboard, inline="true")
-        embed.add_field(name="Score", value=score, inline="true")
+        embed.add_field(name="Player/Score", value=leaderboard, inline=True)
+        #embed.add_field(name="Player/Score", value=leaderboard, inline=True)
+        #embed.add_field(name="Score", value=score, inline=True)
         embed.set_thumbnail(url="attachment://trophy.png")
         print("Sending top10 to discord")
         await ctx.send(file = file, embed = embed)
@@ -397,7 +404,7 @@ class Commands(commands.Cog):
             description="There are " + str(count) + " spaces left!",
             color=discord.Color.dark_green()
         )
-        embed.add_field(name=":", value=game_player_tally, inline="true")
+        embed.add_field(name=":", value=game_player_tally, inline=True)
         embed.set_thumbnail(url="attachment://football.png")
         await ctx.send(file = file, embed = embed)
 

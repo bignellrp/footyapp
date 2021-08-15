@@ -60,8 +60,8 @@ def result():
         ##Embed Message
         embed=discord.Embed(title="Here are this weeks teams:",color=discord.Color.dark_green())
         embed.set_author(name="footyapp")
-        embed.add_field(name="TeamA:", value=teama_json, inline="true")
-        embed.add_field(name="TeamB:", value=teamb_json, inline="true")
+        embed.add_field(name="TeamA:", value=teama_json, inline=True)
+        embed.add_field(name="TeamB:", value=teamb_json, inline=True)
         embed.set_thumbnail(url="attachment://football.png")
         webhook.send(file = file, embed = embed)
         
