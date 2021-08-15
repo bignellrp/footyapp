@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from numpy.lib.twodim_base import vander
 import services.post_spread as post
 from services.get_spread import player, results
 from services.get_even_teams import get_even_teams
