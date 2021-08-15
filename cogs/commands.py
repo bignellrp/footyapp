@@ -15,7 +15,7 @@ class Commands(commands.Cog):
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def nick(self, ctx, member: discord.Member, nick):
-        """Usage: !nick old_name new_name - Change users nickname"""
+        """Change users nickname"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -32,7 +32,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def new(self, ctx, new_player):
-        """Usage: !new player_name - Adds player to db"""
+        """Adds player to db"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -46,7 +46,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def score(self, ctx):
-        """Update score."""
+        """Update score"""
         file = discord.File("static/football.png")
         result = results()
         teama = result.teama()
@@ -102,7 +102,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def matches(self, ctx):
-        """Last 10 Match Stats"""
+        """Last 10 Matches"""
         res = results()
         game_stats = res.game_stats()
         rows = "\n".join(str(row) for row in game_stats)
@@ -208,7 +208,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def teams(self, ctx):
-        """Generate teams. Needs 10 players"""
+        """Generate teams"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally_with_score = players.game_player_tally_with_score()
@@ -284,7 +284,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def teama(self, ctx):
-        """A list of players on team A"""
+        """Team A List"""
         file = discord.File("static/teama.png")
         result = results()
         teama = result.teama()
@@ -330,7 +330,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def top10(self, ctx):
-        """Top10 Leaderboard"""
+        """Leaderboard"""
         file = discord.File("static/trophy.png")
         players = player()
         leaderboard = players.leaderboard()
@@ -351,7 +351,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, name): #How do i make this a comma separated list
-        """Usage: !add player_name - Add player to playing list"""
+        """Add player to playing list"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -375,7 +375,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def mod(self, ctx, name): #How do i make this a comma separated list
-        """Usage: !mod player_name - Remove player from playing list"""
+        """Remove player from playing list"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
