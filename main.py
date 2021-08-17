@@ -66,7 +66,7 @@ def run():
 # partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
 # t = Thread(target=partial_run)
 # t.start()
-# bot.run(token)
+bot.run(token)
 
 ## The below works in vscode but not on uwsgi docker
 if __name__ == "__main__":
