@@ -60,7 +60,7 @@ for file in os.listdir("cogs"):
 #partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
 #t = Thread(target=partial_run)
 #t.start()
-#bot.run(token)
+bot.run(token)
 
 def run():
   app.run(host="127.0.0.1", debug=False, port=5000)
