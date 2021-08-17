@@ -22,6 +22,8 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 app = Flask(__name__)
 
+app.use_reloader=False
+
 ##Register the blueprint for each route
 app.register_blueprint(index_blueprint)
 app.register_blueprint(compare_blueprint)
@@ -61,14 +63,14 @@ def run():
 #  bot.run(token) #ValueError: set_wakeup_fd only works in main thread
 
 # Make a partial app.run to pass args/kwargs to it
-partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
-t = Thread(target=partial_run)
-t.start()
-bot.run(token)
+# partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+# t = Thread(target=partial_run)
+# t.start()
+# bot.run(token)
 
 ## The below works in vscode but not on uwsgi docker
-# if __name__ == "__main__":
-#     #app.run(host="127.0.0.1", debug=False, port=5000)
-#     t = Thread(target=run)
-#     t.start()
-#     bot.run(token)
+if __name__ == "__main__":
+    #app.run(host="127.0.0.1", debug=False, port=5000)
+    t = Thread(target=run)
+    t.start()
+    bot.run(token)
