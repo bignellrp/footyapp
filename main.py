@@ -78,6 +78,6 @@ def run_bot_in_thread():
     # Important to make an event loop for the new thread
     #asyncio.set_event_loop(asyncio.new_event_loop())
     #bot = MyBot(command_prefix='!')
-    bot.run('token')
+    bot.start('token')
 
 Thread(target=run_bot_in_thread, daemon=True).start()
