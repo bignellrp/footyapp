@@ -57,15 +57,15 @@ for file in os.listdir("cogs"):
         bot.load_extension(f"cogs.{name}")
 
 def run():
-  #app.run(host="127.0.0.1", debug=False, port=5000)
-  bot.run(token)
+  app.run(host="127.0.0.1", debug=False, port=5000)
+#  bot.run(token)
 
 # Make a partial app.run to pass args/kwargs to it
 #partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
 #t = Thread(target=partial_run)
 #t.start()
-t = Thread(target=run)
-t.start()
+#t = Thread(target=run)
+#t.start()
 #bot.run(token)
 
 if __name__ == "__main__":
@@ -73,3 +73,11 @@ if __name__ == "__main__":
     t = Thread(target=run)
     t.start()
     bot.run(token)
+
+def run_bot_in_thread():
+    # Important to make an event loop for the new thread
+    #asyncio.set_event_loop(asyncio.new_event_loop())
+    #bot = MyBot(command_prefix='!')
+    bot.run('token')
+
+Thread(target=run_bot_in_thread, daemon=True).start()
