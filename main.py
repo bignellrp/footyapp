@@ -57,7 +57,16 @@ for file in os.listdir("cogs"):
         bot.load_extension(f"cogs.{name}")
 
 # Make a partial app.run to pass args/kwargs to it
-partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
-t = Thread(target=partial_run)
-t.start()
-bot.run(token)
+#partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+#t = Thread(target=partial_run)
+#t.start()
+#bot.run(token)
+
+def run():
+  app.run(host="127.0.0.1", debug=False, port=5000)
+
+if __name__ == "__main__":
+    #app.run(host="127.0.0.1", debug=False, port=5000)
+    t = Thread(target=run)
+    t.start()
+    bot.run(token)
