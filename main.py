@@ -60,8 +60,8 @@ for file in os.listdir("cogs"):
 
 def run():
   #app.run(host="127.0.0.1", debug=False, port=5000)
-  app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
-#  bot.run(token) #ValueError: set_wakeup_fd only works in main thread
+  #app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+  bot.run(token) #ValueError: set_wakeup_fd only works in main thread
 
 # Make a partial app.run to pass args/kwargs to it
 # partial_run = partial(app.run, host="0.0.0.0", port=5000, debug=False, use_reloader=False)
@@ -69,11 +69,11 @@ def run():
 # t.start()
 t = Thread(target=run)
 t.start()
-bot.run(token)
+#bot.run(token)
 
 ## The below works in vscode but not on uwsgi docker
 if __name__ == "__main__":
-    #app.run(host="127.0.0.1", debug=False, port=5000)
+    app.run(host="127.0.0.1", debug=False, port=5000)
     t = Thread(target=run)
     t.start()
-    bot.run(token)
+    #bot.run(token)
