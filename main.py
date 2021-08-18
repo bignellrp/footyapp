@@ -10,7 +10,7 @@ from routes.stats import stats_blueprint
 from routes.result import result_blueprint
 from routes.score import score_blueprint
 from threading import Thread
-from functools import partial
+#from functools import partial
 import discord
 from discord.ext import commands
 import json
