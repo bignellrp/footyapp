@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from quart import render_template, request, Blueprint
 import services.post_spread as post
 from services.get_spread import results
 import re
@@ -6,9 +6,9 @@ import re
 score_blueprint = Blueprint('score', __name__, template_folder='templates', static_folder='static')
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
-def score():
+async def score():
     '''A function for building the score page.
-    Takes in this weeks score as form input from flask form
+    Takes in this weeks score as form input from quart form
     and return update function to add score to google sheet'''
 
     result = results()
@@ -46,8 +46,8 @@ def score():
             result = post.update_score_result(score_output)
             
             ##If there is a dash then post is returned after running update
-            return render_template('post.html')
+            return await render_template('post.html')
         ##If there was an error return the score page with error
-        return render_template('score.html', teama = teama, teamb = teamb, date = date, error = error)
+        return await render_template('score.html', teama = teama, teamb = teamb, date = date, error = error)
     ##If request method is not POST then it must be GET
-    return render_template('score.html', teama = teama, teamb = teamb, date = date)
+    return await render_template('score.html', teama = teama, teamb = teamb, date = date)

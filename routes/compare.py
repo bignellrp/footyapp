@@ -1,12 +1,12 @@
-from flask import render_template, request, Blueprint, session
+from quart import render_template, request, Blueprint, session
 from services.get_spread import player
 
 compare_blueprint = Blueprint('compare', __name__, template_folder='templates', static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
-def compare():
+async def compare():
     '''A function for building the compare page.
-    Takes in available players from a flask form 
+    Takes in available players from a quart form 
     and returns player names and total score for each team'''
 
     players = player()
@@ -16,8 +16,8 @@ def compare():
     if request.method == 'POST':
 
         ##Use GetList to put the data from the index template into the array
-        available_players_a = request.form.getlist('available_players_a')
-        available_players_b = request.form.getlist('available_players_b')
+        available_players_a = await request.form.getlist('available_players_a')
+        available_players_b = await request.form.getlist('available_players_b')
 
         ##Build teams out of available players from all_players using an if 
         team_a = []
@@ -43,6 +43,6 @@ def compare():
         session['team_b_total'] = team_b_total
 
         ##Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
+        return await render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     ##If request method is not POST then it must be GET so render compare.html including player_names
-    return render_template('compare.html', player_names = player_names)
+    return await render_template('compare.html', player_names = player_names)

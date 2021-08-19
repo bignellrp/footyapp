@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint, session
+from quart import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
 import services.post_spread as post
 from services.get_spread import results
@@ -8,15 +8,14 @@ import discord
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
-def result():
+async def result():
     '''A function for building the results page.
-    Takes in teama and teamb from flask session so result carries between pages
+    Takes in teama and teamb from quart session so result carries between pages
     and returns the body to the google sheet in row format'''
     
     if request.method == 'POST':
 
-        ##Pull data from flask session
-        ##Taken from reddit https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
+        ##Pull data from quart session
         teama_passback = session['team_a']
         teamb_passback = session['team_b']
         scorea_passback = session['team_a_total']
@@ -77,7 +76,7 @@ def result():
             print("Running append function")
 
         ##Return Team A and Team B to the results template
-        return render_template('post.html')
+        return await render_template('post.html')
 
     ##If request method is not POST then it must be GET
-    return render_template('result.html')
+    return await render_template('result.html')

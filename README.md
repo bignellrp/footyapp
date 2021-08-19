@@ -5,7 +5,7 @@ A web app for managing a 5 a side footy team.
 Select the players using the checkboxes and it should output a balanced team
 for each side.
 
-Coded using Python, HTML and Flask using
+Coded using Python, HTML and Quart using
 [grayscale bootstrap template](https://startbootstrap.com/theme/grayscale)
 
 You can test this by installing this docker image and cloning this repo to
