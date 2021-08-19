@@ -44,7 +44,7 @@ async def index():
             return await render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
         elif request.form['submit_button'] == 'Save':
             ##Use GetList to put the data from the index template into the array
-            available_players = request.form.getlist('available_players')
+            available_players = await request.form.getlist('available_players')
             ##Build a tally of available players to use as a running session
             game_player_tally = []
             for row in all_players:
@@ -62,7 +62,7 @@ async def index():
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':
             ##Use GetList to put the data from the index template into the array
-            available_players = request.form.getlist('available_players')
+            available_players = await request.form.getlist('available_players')
 
             ##Build a tally of available players to use as a running session
             game_player_clear = []
@@ -76,7 +76,7 @@ async def index():
             print("Running clear function")    
             return redirect(url_for('index.index'))
         else:
-            available_players = request.form.getlist('available_players')
+            available_players = await request.form.getlist('available_players')
             print("No button pressed")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':

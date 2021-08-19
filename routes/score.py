@@ -21,8 +21,8 @@ async def score():
     if request.method == 'POST':
 
         ##Get score from form user input
-        score_input_a = request.form.get('score_input_a')
-        score_input_b = request.form.get('score_input_b')
+        score_input_a = await request.form.get('score_input_a')
+        score_input_b = await request.form.get('score_input_b')
         score_output = []
         score_output.append((score_input_a))
         score_output.append((score_input_b))
