@@ -60,7 +60,7 @@ async def index():
             result = post.update_tally(game_player_tally)
             print("Running tally function")    
             return redirect(url_for('index.index'))
-        elif request.form['submit_button'] == 'Wipe':
+        elif await request.form['submit_button'] == 'Wipe':
             ##Use GetList to put the data from the index template into the array
             available_players = await request.form.getlist('available_players')
 
