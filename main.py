@@ -56,17 +56,17 @@ for file in os.listdir("cogs"):
         name = file[:-3]
         bot.load_extension(f"cogs.{name}")
 
-def run():
-  #app.run(host="127.0.0.1", debug=False, port=5000)
-  app.run(host="0.0.0.0", port=80, debug=False, use_reloader=False)
-  #bot.run(token) #ValueError: set_wakeup_fd only works in main thread
+# def run():
+#   #app.run(host="127.0.0.1", debug=False, port=5000)
+#   app.run(host="0.0.0.0", port=80, debug=False, use_reloader=False)
+#   #bot.run(token) #ValueError: set_wakeup_fd only works in main thread
 
-t = Thread(target=run)
-t.start()
+# t = Thread(target=run)
+# t.start()
 bot.run(token)
 
-if __name__ == "__main__":
-    t = Thread(target=run)
-    t.start()
-    #app.run(host="127.0.0.1", debug=False, port=5000)
-    bot.run(token)
+# if __name__ == "__main__":
+#     t = Thread(target=run)
+#     t.start()
+#     #app.run(host="127.0.0.1", debug=False, port=5000)
+#     bot.run(token)
