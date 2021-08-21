@@ -63,11 +63,11 @@ def run():
 
 # t = Thread(target=run)
 # t.start()
-# bot.run(token)
+bot.run(token)
 
 if __name__ == "__main__":
     #app.run(host="127.0.0.1", debug=False, port=5000, threaded=True)
     t = Thread(target=run)
     t.start()
     # #app.run(host="127.0.0.1", debug=False, port=5000)
-    bot.run(token)
+    #bot.run(token)
