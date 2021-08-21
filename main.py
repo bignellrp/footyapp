@@ -65,8 +65,9 @@ for file in os.listdir("cogs"):
 # t.start()
 bot.run(token)
 
-# if __name__ == "__main__":
-#     t = Thread(target=run)
-#     t.start()
-#     #app.run(host="127.0.0.1", debug=False, port=5000)
-#     bot.run(token)
+if __name__ == "__main__":
+    app.run(threaded=True)
+    # t = Thread(target=run)
+    # t.start()
+    # #app.run(host="127.0.0.1", debug=False, port=5000)
+    # bot.run(token)
