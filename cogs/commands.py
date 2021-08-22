@@ -397,15 +397,19 @@ class Commands(commands.Cog):
         game_player_tally = players.game_player_tally()
         game_player_tally = "\n".join(item for item in game_player_tally)
         count = players.player_count()
-        # Embed Message
-        embed=discord.Embed(
-            title="Players Available",
-            description="There are " + str(count) + " spaces left!",
-            color=discord.Color.dark_green()
-        )
-        embed.add_field(name=":", value=game_player_tally, inline=True)
-        embed.set_thumbnail(url="attachment://football.png")
-        await ctx.send(file = file, embed = embed)
+        if count < 10:
+            # Embed Message
+            embed=discord.Embed(
+                title="Players Available",
+                description="There are " + str(count) + " spaces left!",
+                color=discord.Color.dark_green()
+            )
+            embed.add_field(name=":", value=game_player_tally, inline=True)
+            embed.set_thumbnail(url="attachment://football.png")
+            await ctx.send(file = file, embed = embed)
+        else:
+            print(f'{count} places available!')
+            await ctx.send(f'{count} places available!')
 
 def setup(bot):
     bot.add_cog(Commands(bot))
