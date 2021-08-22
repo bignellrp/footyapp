@@ -23,5 +23,5 @@ for file in os.listdir("cogs"):
 
 #bot.run(token) #If enabled then it starts first and webserver does not start
 
-if __name__ == "__main__":
-    bot.run(token)
+# if __name__ == "__main__":
+#     bot.run(token)

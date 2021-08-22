@@ -32,7 +32,7 @@ def run():
 
 t = Thread(target=run)
 t.start()
-#bot.bot.run(bot.token)
+bot.bot.run(bot.token)
 
 if __name__ == "__main__":
     #app.run(host="127.0.0.1", debug=False, port=5000, threaded=True)
