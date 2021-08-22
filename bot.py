@@ -21,5 +21,7 @@ for file in os.listdir("cogs"):
         name = file[:-3]
         bot.load_extension(f"cogs.{name}")
 
-# if __name__ == "__main__":
-#     bot.run(token)
+#bot.run(token) #If enabled then it starts first and webserver does not start
+
+if __name__ == "__main__":
+    bot.run(token)
