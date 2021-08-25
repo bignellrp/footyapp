@@ -43,3 +43,5 @@ class async_discord_thread(Thread):
         self.name = 'Discord.py'
         self.loop.create_task(self.starter())
         self.loop.run_forever()
+
+discord_thread = async_discord_thread()
