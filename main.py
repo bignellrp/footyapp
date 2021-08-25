@@ -25,5 +25,4 @@ with open(path_to_token, "r") as handler:
 app.secret_key = info["session"]
 
 if __name__ == "__main__":
-    #bot.async_discord_thread() #Run Discord Bot on a thread
     app.run(host="127.0.0.1", debug=False, port=5000)
