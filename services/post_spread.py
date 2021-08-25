@@ -1,6 +1,6 @@
 import gspread
-#from numpy.lib.stride_tricks import broadcast_arrays
 from services.get_date import next_wednesday
+from services.get_spread import player
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
@@ -28,9 +28,16 @@ def colnum_string(n):
         string = chr(65 + remainder) + string
     return string
 
-# def convert_list(lst):
-#     '''Convert to list of lists to avoid syntax errors'''
-#     return [[el] for el in lst]
+def wipe_tally():
+    '''Wipes the tally column for all players setting it to o'''
+    players = player()
+    all_players = players.all_players()
+    game_player_clear = []
+    for row in all_players:
+        '''Takes in row of all_players 
+        and appends o to every row'''
+        game_player_clear.append(("o"))
+    return update_tally(game_player_clear)
 
 def update_result(values):
     '''Function to update the result row using the values from the results page
@@ -41,7 +48,8 @@ def update_result(values):
     col = colnum_string(cell.col) #Convert col number to letter
     range = str(col)+str(row) #Put col letter with row number
     values = [values, []] #Update func expecting list of lists
-    return wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
+    wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
+    return wipe_tally() #Wipe tally once teams posted to the results page
 
 def update_tally(values):
     '''Function to update the player tally using the values from the index page
@@ -55,7 +63,8 @@ def update_tally(values):
 def append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
-    return wsr.append_row(values, value_input_option='USER_ENTERED')
+    wsr.append_row(values, value_input_option='USER_ENTERED')
+    return wipe_tally() #Wipe tally once teams posted to the results page
 
 def update_score_result(values):
     '''Function to update the result using the values from the results page

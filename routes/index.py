@@ -61,18 +61,7 @@ def index():
             print("Running tally function")    
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':
-            ##Use GetList to put the data from the index template into the array
-            available_players = request.form.getlist('available_players')
-
-            ##Build a tally of available players to use as a running session
-            game_player_clear = []
-            for row in all_players:
-                '''Takes in row of all_players 
-                and appends o to every row'''
-                game_player_clear.append(("o"))
-
-            ##Save the tally of available players
-            result = post.update_tally(game_player_clear)
+            result = post.wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
         else:
