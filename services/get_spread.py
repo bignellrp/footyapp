@@ -5,7 +5,6 @@ import json
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 TOKEN_FILE = './services/tokens.json'
-#SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U'
 
 ##Get spreadsheet ID from token json
 path_to_token = "./services/tokens.json"
