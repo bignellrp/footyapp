@@ -4,6 +4,7 @@ from discord.ext import commands
 from threading import Thread
 import asyncio
 import json
+from services.get_oscommand import GITBRANCH, IFBRANCH
 
 ##Initialise our app and the bot itself
 ##https://discordpy.readthedocs.io/en/latest/intents.html
@@ -44,4 +45,8 @@ class async_discord_thread(Thread):
         self.loop.create_task(self.starter())
         self.loop.run_forever()
 
-discord_thread = async_discord_thread()
+if GITBRANCH == IFBRANCH:
+    discord_thread = async_discord_thread()
+else:
+    print("Not running footyapp bot!")
+    discord_thread = async_discord_thread()

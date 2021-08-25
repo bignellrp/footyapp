@@ -1,18 +1,24 @@
 import gspread
 from services.get_date import next_wednesday
 from services.get_spread import player
+from services.get_oscommand import GITBRANCH
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U' #Move to tokens file
-PLAYERS_WORKSHEET = 'Dev Players'
-RESULTS_WORKSHEET = 'Dev Results'
 
 #GSPREAD Objects
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
-wsp = ss.worksheet(PLAYERS_WORKSHEET)
-wsr = ss.worksheet(RESULTS_WORKSHEET) 
+
+if GITBRANCH == 'botpre':
+    print("Using Dev Worksheet for Post Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
+else:
+    print("Using Pro Worksheet for Post Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
 
 #Fuctions
 

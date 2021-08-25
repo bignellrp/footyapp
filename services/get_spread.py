@@ -2,6 +2,7 @@
 import gspread
 import pandas as pd
 import json
+from services.get_oscommand import GITBRANCH, IFBRANCH
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 TOKEN_FILE = './services/tokens.json'
@@ -14,8 +15,15 @@ SPREADSHEET_ID = info["SPREADSHEET_ID"]
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
-wsp = ss.worksheet('Dev Players')
-wsr = ss.worksheet('Dev Results')
+
+if GITBRANCH == IFBRANCH:
+    print("Using Dev Worksheet for Get Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
+else:
+    print("Using Pro Worksheet for Get Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
 
 class player():
 	
