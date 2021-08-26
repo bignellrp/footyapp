@@ -6,6 +6,7 @@ import asyncio
 import json
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import aiocron
+from services.post_spread import wipe_tally
 
 ##Initialise our app and the bot itself
 ##https://discordpy.readthedocs.io/en/latest/intents.html
@@ -50,6 +51,7 @@ class async_discord_thread(Thread):
 @aiocron.crontab('0 6 * * SUN')
 async def cronmsg():
     channel = bot.get_channel(CHANNEL_ID)
+    wipe_tally()
     await channel.send('Whos available to play this week?')
 
 if  IFBRANCH in GITBRANCH: #Equals not working for some reason
