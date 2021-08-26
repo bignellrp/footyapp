@@ -11,7 +11,7 @@ SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U' #Move to tokens 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
 
-if IFBRANCH == GITBRANCH:
+if IFBRANCH in GITBRANCH:
     print("Using Dev Worksheet for Post Commands")
     wsp = ss.worksheet('Dev Players')
     wsr = ss.worksheet('Dev Results')
