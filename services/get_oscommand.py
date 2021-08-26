@@ -10,4 +10,3 @@ def cmdline(command):
 GITBRANCH = cmdline('git rev-parse --abbrev-ref HEAD')
 IFBRANCH = "botpre"
 print(f"Git branch is:{GITBRANCH}")
-print(f"Required branch is:{IFBRANCH}")

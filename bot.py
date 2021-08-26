@@ -45,7 +45,7 @@ class async_discord_thread(Thread):
         self.loop.create_task(self.starter())
         self.loop.run_forever()
 
-if GITBRANCH == IFBRANCH:
+if  IFBRANCH in GITBRANCH: #Equals not working for some reason
     discord_thread = async_discord_thread()
 else:
     print("Not running footyapp bot!")

@@ -16,7 +16,7 @@ SPREADSHEET_ID = info["SPREADSHEET_ID"]
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
 
-if GITBRANCH == IFBRANCH:
+if IFBRANCH in GITBRANCH:
     print("Using Dev Worksheet for Get Commands")
     wsp = ss.worksheet('Dev Players')
     wsr = ss.worksheet('Dev Results')
