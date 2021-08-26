@@ -22,8 +22,8 @@ if IFBRANCH in GITBRANCH:
     wsr = ss.worksheet('Dev Results')
 else:
     print("Using Pro Worksheet for Get Commands")
-    wsp = ss.worksheet('Dev Players')
-    wsr = ss.worksheet('Dev Results')
+    wsp = ss.worksheet('Players')
+    wsr = ss.worksheet('Results')
 
 class player():
 	
