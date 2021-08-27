@@ -7,6 +7,7 @@ from routes.stats import stats_blueprint
 from routes.result import result_blueprint
 from routes.score import score_blueprint
 import json
+import bot
 
 app = Flask(__name__)
 
