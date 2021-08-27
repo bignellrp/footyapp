@@ -1,18 +1,24 @@
 import gspread
 from services.get_date import next_wednesday
 from services.get_spread import player
+from services.get_oscommand import GITBRANCH, IFBRANCH
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U' #Move to tokens file
-PLAYERS_WORKSHEET = 'Dev Players'
-RESULTS_WORKSHEET = 'Dev Results'
 
 #GSPREAD Objects
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
-wsp = ss.worksheet(PLAYERS_WORKSHEET)
-wsr = ss.worksheet(RESULTS_WORKSHEET) 
+
+if IFBRANCH in GITBRANCH:
+    print("Using Dev Worksheet for Post Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
+else:
+    print("Using Pro Worksheet for Post Commands")
+    wsp = ss.worksheet('Players')
+    wsr = ss.worksheet('Results')
 
 #Fuctions
 
@@ -37,6 +43,7 @@ def wipe_tally():
         '''Takes in row of all_players 
         and appends o to every row'''
         game_player_clear.append(("o"))
+    print("Wiping tally!")
     return update_tally(game_player_clear)
 
 def update_result(values):

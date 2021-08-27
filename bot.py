@@ -4,6 +4,9 @@ from discord.ext import commands
 from threading import Thread
 import asyncio
 import json
+from services.get_oscommand import GITBRANCH, IFBRANCH
+#import aiocron
+#from services.post_spread import wipe_tally
 
 ##Initialise our app and the bot itself
 ##https://discordpy.readthedocs.io/en/latest/intents.html
@@ -11,6 +14,7 @@ import json
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+CHANNEL_ID=868980424955801681
 
 ##Get keys from token json
 path_to_token = "./services/tokens.json"
@@ -44,4 +48,14 @@ class async_discord_thread(Thread):
         self.loop.create_task(self.starter())
         self.loop.run_forever()
 
-discord_thread = async_discord_thread()
+# @aiocron.crontab('0 6 * * SUN')
+# async def cronmsg():
+#     channel = bot.get_channel(CHANNEL_ID)
+#     wipe_tally()
+#     await channel.send('Whos available to play this week?')
+
+if  IFBRANCH in GITBRANCH: #Equals not working for some reason
+    discord_thread = async_discord_thread()
+else:
+    print("Not running footyapp bot!")
+    discord_thread = async_discord_thread()

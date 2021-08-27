@@ -31,17 +31,18 @@ class Commands(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def new(self, ctx, new_player):
+    async def new(self, ctx, *args):
         """Adds player to db"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
-        if new_player in player_names:
-            print(f'{new_player} already exists!')
-            await ctx.send(f'{new_player} already exists!')
-        else:
-            post.add_new_player(new_player)
-            await ctx.send(f'Added new player with a generic score of 77: {new_player}')
+        for new_player in args:
+            if new_player in player_names:
+                print(f'{new_player} already exists!')
+                await ctx.send(f'{new_player} already exists!')
+            else:
+                post.add_new_player(new_player)
+                await ctx.send(f'Added new player with a generic score of 77: {new_player}')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -350,44 +351,46 @@ class Commands(commands.Cog):
     
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def add(self, ctx, name): #How do i make this a comma separated list
+    async def add(self, ctx, *args):
         """Add player to playing list"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
-        if name in player_names:
-            players = player()
-            count = players.player_count()
-            if count > 0:
-                post.update_playing_status(name) #Should this allow lower case?
-                print("Player is in:", name)
+        for name in args:
+            if name in player_names:
                 players = player()
                 count = players.player_count()
-                msg = f'{name} is on the team! There are {count} places remaining'
-                await ctx.send(msg)
+                if count > 0:
+                    post.update_playing_status(name) #Should this allow lower case?
+                    print("Player is in:", name)
+                    players = player()
+                    count = players.player_count()
+                    msg = f'{name} is on the team! There are {count} places remaining'
+                    await ctx.send(msg)
+                else:
+                    msg = "Sorry there are no places left this week."
+                    await ctx.send(msg)
             else:
-                msg = "Sorry there are no places left this week."
-                await ctx.send(msg)
-        else:
-            print(f'{name} doesnt exist!')
-            await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
+                print(f'{name} doesnt exist!')
+                await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def mod(self, ctx, name): #How do i make this a comma separated list
+    async def mod(self, ctx, *args):
         """Remove player from playing list"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
-        if name in player_names:
-            post.modify_playing_status(name)
-            print("Player is out:", name)
-            players = player()
-            count = players.player_count()
-            await ctx.send(f'We now have {count} places. Hopefully see you next week {name}')
-        else:
-            print(f'{name} doesnt exist!')
-            await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
+        for name in args:
+            if name in player_names:
+                post.modify_playing_status(name)
+                print("Player is out:", name)
+                players = player()
+                count = players.player_count()
+                await ctx.send(f'We now have {count} places. Hopefully see you next week {name}')
+            else:
+                print(f'{name} doesnt exist!')
+                await ctx.send(f'{name} is not in the db. Add him using command !new {name}')
 
     @commands.command()
     async def play(self, ctx):
