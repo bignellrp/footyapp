@@ -43,6 +43,7 @@ def wipe_tally():
         '''Takes in row of all_players 
         and appends o to every row'''
         game_player_clear.append(("o"))
+    print("Wiping tally!")
     return update_tally(game_player_clear)
 
 def update_result(values):
