@@ -1,37 +1,23 @@
-from flask import Flask
-#import os
-from routes.compare import compare_blueprint
-from routes.index import index_blueprint
-from routes.leaderboard import leaderboard_blueprint
-from routes.stats import stats_blueprint
-from routes.result import result_blueprint
-from routes.score import score_blueprint
-#import json
+from flask import Flask, Blueprint
 from services.lookup import lookup
+import pkgutil
+import sys
 import bot #Used even though shows as not accessed
 
 app = Flask(__name__)
 
 ##Register the blueprint for each route
+##https://stackoverflow.com/questions/26550180/flask-blueprint-attributeerror-module-object-has-no-attribute-name-error
+EXTENSIONS_DIR = "routes"
+modules = pkgutil.iter_modules(path=[EXTENSIONS_DIR])
+for loader, mod_name, ispkg in modules: 
+    if mod_name not in sys.modules:
+        loaded_mod = __import__(EXTENSIONS_DIR+"."+mod_name, fromlist=[mod_name])
+    for obj in vars(loaded_mod).values():
+        if isinstance(obj, Blueprint):
+            app.register_blueprint(obj)
 
-# for file in os.listdir("routes"):
-#     if file.endswith(".py"):
-#         name = file[:-3]
-#         app.register_blueprint(name) #AttributeError: 'str' object has no attribute 'name'
-
-app.register_blueprint(index_blueprint)
-app.register_blueprint(compare_blueprint)
-app.register_blueprint(leaderboard_blueprint)
-app.register_blueprint(stats_blueprint)
-app.register_blueprint(result_blueprint)
-app.register_blueprint(score_blueprint)
-
-##Get keys from token json
-# path_to_token = "./services/tokens.json"
-# with open(path_to_token, "r") as handler:
-#     info = json.load(handler)
-# app.secret_key = info["session"]
-
+##Import Secret Key for Session Pop
 app.secret_key = lookup("session")
 
 if __name__ == "__main__":
