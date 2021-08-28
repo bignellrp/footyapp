@@ -1,21 +1,17 @@
-from flask import Flask, Blueprint
+from flask import Flask
 from services.lookup import lookup
-import pkgutil
-import sys
+from routes import *
 import bot #Used even though shows as not accessed
 
 app = Flask(__name__)
 
 ##Register the blueprint for each route
-##https://stackoverflow.com/questions/26550180/flask-blueprint-attributeerror-module-object-has-no-attribute-name-error
-EXTENSIONS_DIR = "routes"
-modules = pkgutil.iter_modules(path=[EXTENSIONS_DIR])
-for loader, mod_name, ispkg in modules: 
-    if mod_name not in sys.modules:
-        loaded_mod = __import__(EXTENSIONS_DIR+"."+mod_name, fromlist=[mod_name])
-    for obj in vars(loaded_mod).values():
-        if isinstance(obj, Blueprint):
-            app.register_blueprint(obj)
+app.register_blueprint(index_blueprint)
+app.register_blueprint(compare_blueprint)
+app.register_blueprint(leaderboard_blueprint)
+app.register_blueprint(stats_blueprint)
+app.register_blueprint(result_blueprint)
+app.register_blueprint(score_blueprint)
 
 ##Import Secret Key for Session Pop
 app.secret_key = lookup("session")
