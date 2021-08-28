@@ -1,17 +1,20 @@
 		
 import gspread
 import pandas as pd
-import json
+#import json
+from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 TOKEN_FILE = './services/tokens.json'
 
 ##Get spreadsheet ID from token json
-path_to_token = "./services/tokens.json"
-with open(TOKEN_FILE, "r") as handler:
-    info = json.load(handler)
-SPREADSHEET_ID = info["SPREADSHEET_ID"]
+# path_to_token = "./services/tokens.json"
+# with open(TOKEN_FILE, "r") as handler:
+#     info = json.load(handler)
+# SPREADSHEET_ID = info["SPREADSHEET_ID"]
+
+SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)

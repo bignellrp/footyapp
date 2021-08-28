@@ -6,8 +6,9 @@ from routes.leaderboard import leaderboard_blueprint
 from routes.stats import stats_blueprint
 from routes.result import result_blueprint
 from routes.score import score_blueprint
-import json
-import bot
+#import json
+from services.lookup import lookup
+import bot #Used even though shows as not accessed
 
 app = Flask(__name__)
 
@@ -26,10 +27,12 @@ app.register_blueprint(result_blueprint)
 app.register_blueprint(score_blueprint)
 
 ##Get keys from token json
-path_to_token = "./services/tokens.json"
-with open(path_to_token, "r") as handler:
-    info = json.load(handler)
-app.secret_key = info["session"]
+# path_to_token = "./services/tokens.json"
+# with open(path_to_token, "r") as handler:
+#     info = json.load(handler)
+# app.secret_key = info["session"]
+
+app.secret_key = lookup("session")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=False, port=5000)

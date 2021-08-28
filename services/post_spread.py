@@ -2,10 +2,17 @@ import gspread
 from services.get_date import next_wednesday
 from services.get_spread import player
 from services.get_oscommand import GITBRANCH, IFBRANCH
+from services.lookup import lookup
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
-SPREADSHEET_ID = '1tyy_8sKM-N-JA6j1pASCO6_HRxvlhTuA3R0KysbVG9U' #Move to tokens file
+##Get spreadsheet ID from token json
+# path_to_token = "./services/tokens.json"
+# with open(TOKEN_FILE, "r") as handler:
+#     info = json.load(handler)
+# SPREADSHEET_ID = info["SPREADSHEET_ID"]
+
+SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 #GSPREAD Objects
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)

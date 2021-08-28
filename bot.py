@@ -3,7 +3,8 @@ import discord
 from discord.ext import commands
 from threading import Thread
 import asyncio
-import json
+#import json
+from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 #import aiocron
 #from services.post_spread import wipe_tally
@@ -17,10 +18,12 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 CHANNEL_ID=868980424955801681
 
 ##Get keys from token json
-path_to_token = "./services/tokens.json"
-with open(path_to_token, "r") as handler:
-    info = json.load(handler)
-token = info["discord_token"]
+# path_to_token = "./services/tokens.json"
+# with open(path_to_token, "r") as handler:
+#     info = json.load(handler)
+# token = info["discord_token"]
+
+token = lookup("discord_token")
 
 ##Register Cogs with Discord
 for file in os.listdir("cogs"):
