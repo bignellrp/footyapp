@@ -12,9 +12,10 @@ from services.get_oscommand import GITBRANCH, IFBRANCH
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
-CHANNEL_ID=868980424955801681
-
-token = lookup("discord_token")
+if  IFBRANCH in GITBRANCH:
+    token = lookup("discord_token")
+else:
+    token = lookup("discord_token_dev")
 
 ##Register Cogs with Discord
 for file in os.listdir("cogs"):
