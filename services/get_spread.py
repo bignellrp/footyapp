@@ -1,19 +1,11 @@
 		
 import gspread
 import pandas as pd
-#import json
 from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 
 SERVICE_ACCOUNT_FILE = './services/keys.json'
 TOKEN_FILE = './services/tokens.json'
-
-##Get spreadsheet ID from token json
-# path_to_token = "./services/tokens.json"
-# with open(TOKEN_FILE, "r") as handler:
-#     info = json.load(handler)
-# SPREADSHEET_ID = info["SPREADSHEET_ID"]
-
 SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
@@ -150,12 +142,6 @@ class results():
         self.game_stats = self.game_stats.to_records(index=False)
         self.game_stats = list(self.game_stats)
         return self.game_stats
-
-    # def end_row(self):
-    #     ##Use data frame shape to work out end row
-    #     ##Might not be needed any longer if using gspread append
-    #     self.end_row = self.df.shape[0] + 1
-    #     return self.end_row
     
     def teama(self):
         ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date

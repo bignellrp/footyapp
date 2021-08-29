@@ -2,7 +2,6 @@ from flask import render_template, request, Blueprint, session
 from services.get_date import next_wednesday
 import services.post_spread as post
 from services.get_spread import results
-#import json
 from services.lookup import lookup
 import discord
 
@@ -51,10 +50,6 @@ def result():
 
         ##Send the teams to discord
         file = discord.File("static/football.png")
-        # path_to_token = "./services/tokens.json"
-        # with open(path_to_token, "r") as handler:
-        #     info = json.load(handler)
-        # url = info["discord_webhook"]
         url = lookup("discord_webhook")
         teama_json = "\n".join(item for item in teama_passback)
         teamb_json = "\n".join(item for item in teamb_passback)

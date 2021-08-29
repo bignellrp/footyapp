@@ -6,12 +6,6 @@ from services.lookup import lookup
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
-##Get spreadsheet ID from token json
-# path_to_token = "./services/tokens.json"
-# with open(TOKEN_FILE, "r") as handler:
-#     info = json.load(handler)
-# SPREADSHEET_ID = info["SPREADSHEET_ID"]
-
 SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 #GSPREAD Objects
@@ -106,16 +100,6 @@ def update_scoreb(value):
     col = wsr.find('Team B Result?')
     return wsr.update_cell(row.row, col.col, value)
 
-# def update_playing_status_list(name):
-#     '''Takes in a list of players 
-#     and adds x into the playing column'''
-#     #for name in player_list:
-#     cell_name = wsp.find(name) #Find the Players name and the row
-#     clm_playing = wsp.find('Playing') #Find the Playing column
-#     wsp.update_cell(cell_name.row, clm_playing.col, 'x')
-#     print("Updated playing status for:",name)
-#     return
-
 def update_playing_status(player):
     '''Takes in a player 
     and adds x into the playing column'''
@@ -124,17 +108,6 @@ def update_playing_status(player):
     wsp.update_cell(cell_name.row, clm_playing.col, 'x')
     print("Updated playing status for:",player)
     return
-
-# def modify_playing_status_list(player_list):
-#     '''Takes in a list of players 
-#     and adds o into the playing column'''
-#     for name in player_list:
-#         print(name)
-#         cell_name = wsp.find(name) #Find the Players name and the row
-#         clm_playing = wsp.find('Playing') #Find the Playing column
-#         wsp.update_cell(cell_name.row, clm_playing.col, 'o')
-#         print("Modified playing status for:",name)
-#     return
 
 def modify_playing_status(player):
     '''Takes in a player
