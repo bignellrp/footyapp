@@ -14,9 +14,9 @@ class Cron(commands.Cog):
     @commands.Cog.listener()
     async def cronmsg():
         if  IFBRANCH in GITBRANCH:
-            CHANNEL_ID = lookup("channel_id")
-        else:
             CHANNEL_ID = lookup("channel_id_dev")
+        else:
+            CHANNEL_ID = lookup("channel_id")
         channel = bot.get_channel(CHANNEL_ID)
         wipe_tally()
         await channel.send('Whos available to play this week?')
