@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from services.lookup import lookup
 from routes import *
 import os
@@ -9,11 +9,12 @@ app = Flask(__name__)
 ##Register the blueprint for each route
 
 for file in os.listdir("routes"):
-    if file.startsswith("__init__"):
+    if file.startswith("__init__"):
         pass
     elif file.endswith(".py"):
         name = file[:-3]
-        app.register_blueprint(f"{name}_blueprint")
+        if isinstance(name, Blueprint):
+            app.register_blueprint(f"{name}_blueprint")
 
 #app.register_blueprint(index_blueprint)
 #app.register_blueprint(compare_blueprint)
