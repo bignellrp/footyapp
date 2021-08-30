@@ -3,7 +3,7 @@ from services.get_date import next_wednesday
 from services.get_spread import player
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
-from retrying import retry
+from retrying import retry #https://github.com/burnash/gspread/issues/819
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
