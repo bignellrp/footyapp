@@ -22,7 +22,7 @@ rm -rf /app
 mkdir app
 cd app
 git clone https://github.com/bignellrp/footyapp.git .
-python3 services/generate_pass.py > services/tokens.json
+python3 services/generate_tokens.py > services/tokens.json
 pip3 install -r requirements.txt
 ```
 

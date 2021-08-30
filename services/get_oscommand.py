@@ -1,4 +1,5 @@
 from os import popen
+from services.lookup import lookup
 
 def cmdline(command):
     process = popen(
@@ -8,5 +9,5 @@ def cmdline(command):
 
 ##Get current branch
 GITBRANCH = cmdline('git rev-parse --abbrev-ref HEAD')
-IFBRANCH = "botpre"
+IFBRANCH = lookup("gitbranchdev")
 print(f"Git branch is:{GITBRANCH}")

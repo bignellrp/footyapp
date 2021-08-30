@@ -10,6 +10,7 @@ print('{\n'
     +'"discord_webhook_dev": "",\n'
     +'"SPREADSHEET_ID": "",\n'
     +'"channel_id": "",\n'
-    +'"channel_id_dev": ""\n'
+    +'"channel_id_dev": "",\n'
+    +'"gitbranchdev": ""\n'
     +'}'
     )
