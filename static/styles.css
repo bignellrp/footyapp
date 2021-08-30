@@ -67,7 +67,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff;
+  background-color: rgb(92, 91, 91);
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -1993,7 +1993,7 @@ pre code {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
+  background-color: #878787;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -2014,7 +2014,7 @@ pre code {
 }
 .form-control:focus {
   color: #495057;
-  background-color: #fff;
+  background-color: rgb(87, 87, 87);
   border-color: #b3d1cf;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(100, 161, 157, 0.25);
@@ -6248,7 +6248,7 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: #dae0e5 !important;
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -9789,6 +9789,10 @@ button.bg-black:focus {
   white-space: normal !important;
 }
 
+.text-pre {
+  white-space: pre !important;
+}
+
 .text-nowrap {
   white-space: nowrap !important;
 }
@@ -10260,6 +10264,7 @@ body {
 
 .projects-section {
   padding: 10rem 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("/static/bg-project.jpg");
 }
 .projects-section .featured-text {
   padding: 2rem;
@@ -10343,4 +10348,60 @@ body {
 
 .footer {
   padding: 5rem 0;
+}
+
+
+/* leaderboard */
+.leaderboard {
+  background: linear-gradient(to bottom, #3a404d, #181c26);
+}
+
+/* head */
+.leaderboard .head {
+  padding: 20px 16px;
+  color: snow;
+  font-size: 20px;
+  text-align: center;
+}
+.leaderboard .head h1 {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+/* body */
+.leaderboard .body {
+  color: snow;
+  font-size: 16px;
+}
+.leaderboard ol {
+  counter-reset: number; /* 定義和初始化計數器 */
+}
+.leaderboard li {
+  padding: 16px;
+  display: flex;
+}
+.leaderboard li mark {
+  flex-grow: 1;
+  color: snow;
+  background-color: transparent;
+}
+.leaderboard li:before {
+  counter-increment: number; /* 遞增計數器 */
+  content: counter(number) "."; /* 顯示計數器 */
+  margin-right: 4px;
+}
+.leaderboard li:nth-child(1) {
+  background: #fa6855;
+}
+.leaderboard li:nth-child(2) {
+  background: #e0574f;
+}
+.leaderboard li:nth-child(3) {
+  background: #d7514d;
+}
+.leaderboard li:nth-child(4) {
+  background: #cd4b4b;
+}
+.leaderboard li:nth-child(5) {
+  background: #c24448;
 }

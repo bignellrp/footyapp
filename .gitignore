@@ -1,5 +1,10 @@
 .gitignore
-token.pickle
 credentials.json
 *.pyc
 __pycache__/*
+services/keys.json
+session_keys.json
+session_keys.py
+config.py
+services/token.json
+services/tokens.json

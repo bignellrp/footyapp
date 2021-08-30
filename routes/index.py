@@ -1,69 +1,72 @@
-from flask import Flask, render_template, request, Blueprint
-from services.json_date import next_wednesday
-from services.getplayers import _make_players, _fetch_sheet, SERVICE, SCOPES, SPREADSHEET_ID, WRITE_RANGE_NAME, RANGE_NAME
-from google.auth.transport.requests import Request
-from services.teams import even_teams
+from flask import render_template, request, Blueprint, session, redirect, url_for
+from services.get_spread import player
+import services.post_spread as post
+from services.get_even_teams import get_even_teams
 
 index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 def index():
-    """Start the Web Form for pulling the checkbox data input"""
-    all_players, player_names = _make_players(_fetch_sheet())
+    '''A function for building the index page.
+    Takes in available players from a flask form 
+    and returns an even set of two 5 a side teams'''
+
+    players = player()
+    all_players = players.all_players()
+    player_names = players.player_names()
+    player_count = players.player_count()
+
     if request.method == 'POST':
+        if request.form['submit_button'] == 'Post':
+            ##Use GetList to put the data from the index template into the array
+            available_players = request.form.getlist('available_players')
 
-        # Use GetList to put the data from the index template into the array
-        available_players = []
-        available_players = request.form.getlist('available_players')
+            ##Build list of game_players if name exists in available_players
+            ##Also build a tally of available players to use as a running session
+            game_players = []
+            for row in all_players:
+                '''Takes in row of all_players 
+                and returns tuple of game_players 
+                if name in available_players'''
+                if row[0] in available_players:
+                    game_players.append((row[0] , int(row[1])))
 
-        # Define game_players array for storing the players names 
-        # and scores only if the names are listed in available_players
-        game_players = []
-        for obj in all_players:
-            if obj.name in available_players:
-                game_players.append((obj.name , int(obj.score)))
+            ##Takes in game_players and returns teams and totals
+            team_a,team_b,team_a_total,team_b_total = get_even_teams(game_players)
 
-        # Add the even teams into team a and team b
-        team_a, team_b = even_teams(game_players)
+            ##Add vars to a session to carry into results page
+            session['team_a'] = team_a
+            session['team_b'] = team_b
+            session['team_a_total'] = team_a_total
+            session['team_b_total'] = team_b_total
+            print("Posting to results page")
+            # Return Team A and Team B to the results template
+            return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
+        elif request.form['submit_button'] == 'Save':
+            ##Use GetList to put the data from the index template into the array
+            available_players = request.form.getlist('available_players')
+            ##Build a tally of available players to use as a running session
+            game_player_tally = []
+            for row in all_players:
+                '''Takes in row of all_players 
+                and returns a tally of those players
+                that are available this week'''
+                if row[0] in available_players:
+                    game_player_tally.append(("x"))
+                else:
+                    game_player_tally.append(("o"))
 
-        # Take the first column and put names into team_a and team_b
-        team_a_names = ([row[0] for row in team_a])
-        team_b_names = ([row[0] for row in team_b])
-
-        # Calculate the score
-        team_a_score = ([row[1] for row in team_a])
-        team_b_score = ([row[1] for row in team_b])
-
-        # Sum the total of the scores
-        team_a_total = (sum(team_a_score))
-        team_b_total = (sum(team_b_score))
-
-        # Post Results to Google Sheets if output is checked
-        output_checked = []
-        output_checked = request.form.getlist('output_checked')
-        if output_checked == ['Yes']:
-            # Format the google ouput into one long comma sep str
-            google_output = []
-            google_output.append((next_wednesday))
-            google_output.append((0))
-            google_output.append((0))
-            google_output.append((team_a_total))
-            google_output.append((team_b_total))
-            for obj in team_a_names: 
-                google_output.append((obj))
-            for obj in team_b_names: 
-                google_output.append((obj))
-            # Format the google body for ROWS
-            body = {
-                'majorDimension': 'ROWS',
-                'values': [
-                    google_output,
-                ],
-                }
-            # Print the result to google sheets with append enabled
-            result = SERVICE.spreadsheets().values().append(
-                spreadsheetId=SPREADSHEET_ID, range=WRITE_RANGE_NAME,
-                valueInputOption='USER_ENTERED', body=body).execute()
-        # Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
-    return render_template('index.html', player_names=player_names)
+            ##Save the tally of available players
+            result = post.update_tally(game_player_tally)
+            print("Running tally function")    
+            return redirect(url_for('index.index'))
+        elif request.form['submit_button'] == 'Wipe':
+            result = post.wipe_tally()
+            print("Running clear function")    
+            return redirect(url_for('index.index'))
+        else:
+            available_players = request.form.getlist('available_players')
+            print("No button pressed")
+            return redirect(url_for('index.index'))
+    elif request.method == 'GET':
+        return render_template('index.html', player_names = player_names, player_count = player_count)

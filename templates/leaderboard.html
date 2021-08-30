@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Footy Team App</title>
-        <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/styles.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Footy Team App</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/styles.css" rel="stylesheet" />
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 7px;
+      }
+    </style>
     </head>
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Results</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App - Top10</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -31,7 +43,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Leaderboard</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                    </ul>
+                      </ul>
                 </div>
             </div>
         </nav>
@@ -40,22 +52,27 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-lg-left">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
-                            <h1>Lineup:</h1>
-                            <div class="text-pre">
-                            <p><h3><b>Team A: {{ scorea }}</b></h3></p>
-                            <p>{% for item in teama %}| {{ item }} |{% endfor %}</p>
-                            </div>
-                            <div class="text-pre">
-                            <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
-                            <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
-                            <h3><b>Save lineup?</b></h3>
-                            <input class="btn btn-primary js-scroll-trigger" type="submit">
-                            </div>
-                            </form>
-                        </div>
+                  <div class="col-xl-8 col-lg-7">
+                      <div class="text-white-50 text-lg-left">
+                          <h1>Leaderboard:</h1>
+                          <h3>W(3)/D(1)/L(0)</h3>
+                          <div class="text-pre">
+                          <p>
+                            <table>
+                              <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
+                              </tr>
+                              {% for name, score in game_stats %}
+                              <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ name }}</td>
+                                <td>{{ score }}</td>
+                              </tr>
+                              {% endfor %}
+                            </table>
+                          </p>
                     </div>
                 </div>
             </div>

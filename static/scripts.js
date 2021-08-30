@@ -54,14 +54,57 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
     
-    // In the case of a variable like this, where it most likely won't be updated somewhere else in your code, it's good practice to declare it as a const.
-    const limit = 3;
-    $('input.single-checkbox').on('change', function(e) {
+    // Custom Validation Code
+
+    // Index Checkbox Limit
+
+    const indlimit = 10;
+    $('input.single-checkbox').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
-        // Changed from a .siblings() check due to how you've modified your HTML.
-        if( $('input.single-checkbox:checked').length > limit) {
+        if( $('input.single-checkbox:checked').length > indlimit) {
             this.checked = false;
         }
+    });
+
+    // Compare Team A Checkbox Limit
+
+    const compalimit = 5;
+    $('input.compa-single-checkbox').on('change', function() {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        if( $('input.compa-single-checkbox:checked').length > compalimit) {
+            this.checked = false;
+        }
+    });
+
+    // Compare Team B Checkbox Limit
+
+    const compblimit = 5;
+    $('input.compb-single-checkbox').on('change', function() {
+        // Check how many inputs of class 'single-checkbox' are checked.
+        if( $('input.compb-single-checkbox:checked').length > compblimit) {
+            this.checked = false;
+        }
+    });
+
+    // Count Index Checkboxes that are checked
+
+    $('input.single-checkbox').on('change', function() {
+        var indexnumber = $('input.single-checkbox:checked').length;
+        $('.indextotalchecked').html(10 - indexnumber);
+    });
+
+    // Count Compare A Checkboxes that are checked
+
+    $('input.compa-single-checkbox').on('change', function() {
+        var companumber = $('input.compa-single-checkbox:checked').length;
+        $('.compatotalchecked').html(5 - companumber);
+    });
+
+    // Count Compare B Checkboxes that are checked
+
+    $('input.compb-single-checkbox').on('change', function() {
+        var compbnumber = $('input.compb-single-checkbox:checked').length;
+        $('.compbtotalchecked').html(5 - compbnumber);
     });
 
 })(jQuery); // End of use strict
