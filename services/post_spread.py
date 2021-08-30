@@ -3,6 +3,7 @@ from services.get_date import next_wednesday
 from services.get_spread import player
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
+from retrying import retry
 
 #GSPREAD Vars
 SERVICE_ACCOUNT_FILE = './services/keys.json'
@@ -35,6 +36,7 @@ def colnum_string(n):
         string = chr(65 + remainder) + string
     return string
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def wipe_tally():
     '''Wipes the tally column for all players setting it to o'''
     players = player()
@@ -47,6 +49,7 @@ def wipe_tally():
     print("Wiping tally!")
     return update_tally(game_player_clear)
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_result(values):
     '''Function to update the result row using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row
@@ -59,6 +62,7 @@ def update_result(values):
     wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
     return wipe_tally() #Wipe tally once teams posted to the results page
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_tally(values):
     '''Function to update the player tally using the values from the index page
     Takes in values to be added as a list to sheet and returns the gspread command for updating the cell'''
@@ -68,12 +72,14 @@ def update_tally(values):
     values = [values, []] #Update func expecting list of lists
     return wsp.update(range, values, major_dimension='COLUMNS')
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
     wsr.append_row(values, value_input_option='USER_ENTERED')
     return wipe_tally() #Wipe tally once teams posted to the results page
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_score_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row
@@ -86,6 +92,7 @@ def update_score_result(values):
     values = [values, []] #Update func expecting list of lists
     return wsr.update(range, values, major_dimension='ROWS')
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_scorea(value):
     '''Function to update the result using the values from the results page
     Takes in value to be added to sheet and returns the gspread command for updating cell'''
@@ -93,6 +100,7 @@ def update_scorea(value):
     col = wsr.find('Team A Result?')
     return wsr.update_cell(row.row, col.col, value)
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_scoreb(value):
     '''Function to update the result using the values from the results page
     Takes in value to be added to sheet and returns the gspread command for updating cell'''
@@ -100,6 +108,7 @@ def update_scoreb(value):
     col = wsr.find('Team B Result?')
     return wsr.update_cell(row.row, col.col, value)
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def update_playing_status(player):
     '''Takes in a player 
     and adds x into the playing column'''
@@ -109,6 +118,7 @@ def update_playing_status(player):
     print("Updated playing status for:",player)
     return
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def modify_playing_status(player):
     '''Takes in a player
     and adds o into the playing column'''
@@ -118,6 +128,7 @@ def modify_playing_status(player):
     print("Modified playing status for:",player)
     return
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def add_new_player(player):
     '''Appends New Row with a new 
     player and generic score'''
@@ -126,6 +137,7 @@ def add_new_player(player):
     print("Appended new row for:",new_player)
     return copy_formulas(new_player[0]) #Run the copy formulas func using first element of list as name
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def remove_player(player):
     '''Appends New Row with a new 
     player and generic score
@@ -135,6 +147,7 @@ def remove_player(player):
     print("Deleted row for:",player)
     return
 
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
 def copy_formulas(player):
     '''Updates formulas for new players'''
     cell_name = wsp.find(player)
