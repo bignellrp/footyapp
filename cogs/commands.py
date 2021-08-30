@@ -15,11 +15,7 @@ class Commands(commands.Cog):
     @commands.command(pass_context = True)
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, number):
-        mgs = [] #Empty list to put all the messages in the log
-        number = int(number) #Converting the amount of messages to delete to an integer
-        async for x in self.bot.logs_from(ctx.message.channel, limit = number):
-            mgs.append(x)
-        await self.bot.delete_messages(mgs)
+        await ctx.channel.purge(limit=number)
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
