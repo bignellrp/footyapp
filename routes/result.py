@@ -3,6 +3,7 @@ from services.get_date import next_wednesday
 import services.post_spread as post
 from services.get_spread import results
 from services.lookup import lookup
+from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 
 result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
@@ -50,7 +51,10 @@ def result():
 
         ##Send the teams to discord
         file = discord.File("static/football.png")
-        url = lookup("discord_webhook")
+        if IFBRANCH in GITBRANCH:
+            url = lookup("discord_webhook_dev")
+        else:
+            url = lookup("discord_webhook")
         teama_json = "\n".join(item for item in teama_passback)
         teamb_json = "\n".join(item for item in teamb_passback)
         webhook = discord.Webhook.from_url(url, adapter=discord.RequestsWebhookAdapter())
