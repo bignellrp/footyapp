@@ -15,8 +15,12 @@ class Commands(commands.Cog):
     @commands.command(pass_context = True)
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, number):
-        await ctx.channel.purge(limit=number)
-
+        number = int(number)
+        try:
+            await ctx.channel.purge(limit=number)
+        except:
+            await ctx.send('Couldnt delete these messages!')
+    
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def nick(self, ctx, member: discord.Member, nick):
