@@ -9,8 +9,7 @@ SERVICE_ACCOUNT_FILE = './services/keys.json'
 SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 #GSPREAD Objects
-http_session = gspread.HTTPSession(headers={'Connection':'Keep-Alive'})
-gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE,http_session)
+gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
 
 if IFBRANCH in GITBRANCH:
