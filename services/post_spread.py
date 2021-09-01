@@ -58,7 +58,7 @@ def update_result(values):
     range = str(col)+str(row) #Put col letter with row number
     values = [values, []] #Update func expecting list of lists
     wsr.update(range, values, major_dimension='ROWS', value_input_option='USER_ENTERED')
-    return #wipe_tally() #Wipe tally once teams posted to the results page
+    return wipe_tally() #Wipe tally once teams posted to the results page
 
 def update_tally(values):
     '''Function to update the player tally using the values from the index page
@@ -73,7 +73,7 @@ def append_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for appending the row'''
     wsr.append_row(values, value_input_option='USER_ENTERED')
-    return #wipe_tally() #Wipe tally once teams posted to the results page
+    return wipe_tally() #Wipe tally once teams posted to the results page
 
 def update_score_result(values):
     '''Function to update the result using the values from the results page
