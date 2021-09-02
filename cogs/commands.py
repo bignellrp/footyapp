@@ -15,6 +15,7 @@ class Commands(commands.Cog):
     @commands.command(pass_context = True)
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, number):
+        """Clear last n channel messages"""
         number = int(number)
         try:
             await ctx.channel.purge(limit=number)
