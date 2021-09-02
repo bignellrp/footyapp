@@ -1,4 +1,3 @@
-		
 import gspread
 import pandas as pd
 from services.lookup import lookup

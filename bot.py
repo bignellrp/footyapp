@@ -47,5 +47,4 @@ class async_discord_thread(Thread):
 if  IFBRANCH in GITBRANCH: #Equals not working for some reason
     discord_thread = async_discord_thread()
 else:
-    print("Not running footyapp bot!")
     discord_thread = async_discord_thread()
