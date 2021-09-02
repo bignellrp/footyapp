@@ -11,13 +11,12 @@ Coded using Python, HTML and Flask using
 You can test this by installing this docker image and cloning this repo to
 replace the contents of the /app folder
 
-tiangolo/uwsgi-nginx-flask
+tiangolo/meinheld-gunicorn-flask
 
 ```bash
-docker pull tiangolo/uwsgi-nginx-flask
-docker run -t -i -p 80:80 tiangolo/uwsgi-nginx-flask
+docker pull tiangolo/meinheld-gunicorn-flask
+docker run -t -i -e WEB_CONCURRENCY="1" -p 80:80 tiangolo/meinheld-gunicorn-flask
 docker exec -it flask /bin/bash
-apt-get update; apt-get install ca-certificates
 rm -rf /app
 mkdir app
 cd app
