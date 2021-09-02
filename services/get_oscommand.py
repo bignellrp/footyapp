@@ -2,9 +2,7 @@ from os import popen
 from services.lookup import lookup
 
 def cmdline(command):
-    process = popen(
-        command
-    )
+    process = popen(command)
     return process.read()
 
 ##Get current branch

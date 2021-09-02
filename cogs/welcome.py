@@ -26,6 +26,8 @@ class Welcome(commands.Cog):
         print("Recognised that a member called " + member.name + " joined")
         try: 
             await member.send(embed=embed)
+            #Removed for now so player name can be added manually
+            #Otherwise whatever discord nickname the member has will be added to the db
             #post.add_new_player(member.name) #Running add new player func
             #print('Added new player with a generic score of 77: {}'.format(member.name))
         except:
@@ -36,7 +38,7 @@ class Welcome(commands.Cog):
         print("Added role '" + role.name + "' to " + member.name)
 
     @commands.Cog.listener()
-    async def on_member_remove(self,member):
+    async def on_member_remove(self,member):# If member removed permissions fail
         """When a user leaves it adds a message to the log"""
         print("Recognised that a member called " + member.name + " left")
         try: 
