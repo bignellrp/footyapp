@@ -1,7 +1,7 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
-from services.get_players import _get_players_table, _fetch_players_table
-from services.store_results import _update_tally
-from services.get_even_teams import _get_even_teams
+from services.get_spread import player
+import services.post_spread as post
+from services.get_even_teams import get_even_teams
 
 index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')
 
@@ -11,18 +11,10 @@ def index():
     Takes in available players from a flask form 
     and returns an even set of two 5 a side teams'''
 
-    all_players, player_names,_,_ = _get_players_table(_fetch_players_table())
-
-    ##Count the number of players in tally
-    game_tally_a = []
-    game_tally_b = []
-    for row in player_names:
-        '''Takes in row of player_names
-        and outputs a just the tally column'''
-        game_tally_a.append((row[1]))
-        game_tally_b.append((row[2]))
-    player_count = 10 - game_tally_a.count("x")
-    all_player_count = 27 - game_tally_b.count("x")
+    players = player()
+    all_players = players.all_players()
+    player_names = players.player_names()
+    player_count = players.player_count()
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -40,7 +32,7 @@ def index():
                     game_players.append((row[0] , int(row[1])))
 
             ##Takes in game_players and returns teams and totals
-            team_a,team_b,team_a_total,team_b_total = _get_even_teams(game_players)
+            team_a,team_b,team_a_total,team_b_total = get_even_teams(game_players)
 
             ##Add vars to a session to carry into results page
             session['team_a'] = team_a
@@ -53,7 +45,6 @@ def index():
         elif request.form['submit_button'] == 'Save':
             ##Use GetList to put the data from the index template into the array
             available_players = request.form.getlist('available_players')
-            unavailable_players = request.form.getlist('unavailable_players')
             ##Build a tally of available players to use as a running session
             game_player_tally = []
             for row in all_players:
@@ -65,49 +56,12 @@ def index():
                 else:
                     game_player_tally.append(("o"))
 
-            reply_player_tally = []        
-            for row in all_players:
-                '''Takes in row of all_players 
-                and returns a tally of those players
-                that cant play this week'''
-                if row[0] in unavailable_players:
-                    reply_player_tally.append(("x"))
-                else:
-                    reply_player_tally.append(("o"))
-
-            ##Format the google body for COLUMNS
-            body = {
-                'majorDimension': 'COLUMNS',
-                'values': [
-                    game_player_tally,reply_player_tally
-                ],
-                }
-
             ##Save the tally of available players
-            result = _update_tally(body)
+            result = post.update_tally(game_player_tally)
             print("Running tally function")    
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':
-            ##Use GetList to put the data from the index template into the array
-            available_players = request.form.getlist('available_players')
-
-            ##Build a tally of available players to use as a running session
-            game_player_clear = []
-            for row in all_players:
-                '''Takes in row of all_players 
-                and appends o to every row'''
-                game_player_clear.append(("o"))
-
-            ##Format the google body for COLUMNS
-            body = {
-                'majorDimension': 'COLUMNS',
-                'values': [
-                    game_player_clear,game_player_clear
-                ],
-                }
-
-            ##Save the tally of available players
-            result = _update_tally(body)
+            result = post.wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
         else:
@@ -115,4 +69,4 @@ def index():
             print("No button pressed")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
-        return render_template('index.html', player_names = player_names, player_count = player_count, all_player_count = all_player_count)
+        return render_template('index.html', player_names = player_names, player_count = player_count)

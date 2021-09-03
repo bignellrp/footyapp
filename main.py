@@ -1,10 +1,7 @@
 from flask import Flask
-from routes.compare import compare_blueprint
-from routes.index import index_blueprint
-from routes.leaderboard import leaderboard_blueprint
-from routes.stats import stats_blueprint
-from routes.result import result_blueprint
-from routes.score import score_blueprint
+from services.lookup import lookup
+from routes import *
+import bot #Used even though shows as not accessed
 
 app = Flask(__name__)
 
@@ -16,10 +13,8 @@ app.register_blueprint(stats_blueprint)
 app.register_blueprint(result_blueprint)
 app.register_blueprint(score_blueprint)
 
-##Flask session needs a key.
-##https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-files
-app.config.from_pyfile('config.py')
-app.config['SESSION_TYPE'] = 'filesystem'
+##Import Secret Key for Session Pop
+app.secret_key = lookup("session")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=False, port=5000)
