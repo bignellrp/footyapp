@@ -51,9 +51,9 @@ def result():
         ##Send the teams to discord
         file = discord.File("static/football.png")
         if IFBRANCH in GITBRANCH:
-            url = lookup("discord_webhook_dev")
-        else:
             url = lookup("discord_webhook")
+        else:
+            url = lookup("discord_webhook_dev")
         teama_json = "\n".join(item for item in teama_passback)
         teamb_json = "\n".join(item for item in teamb_passback)
         webhook = discord.Webhook.from_url(url, adapter=discord.RequestsWebhookAdapter())

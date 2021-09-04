@@ -10,13 +10,13 @@ gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
 ss = gc.open_by_key(SPREADSHEET_ID)
 
 if IFBRANCH in GITBRANCH:
-    print("Using Dev Worksheet for Get Commands")
-    wsp = ss.worksheet('Dev Players')
-    wsr = ss.worksheet('Dev Results')
-else:
     print("Using Pro Worksheet for Get Commands")
     wsp = ss.worksheet('Players')
     wsr = ss.worksheet('Results')
+else:
+    print("Using Dev Worksheet for Get Commands")
+    wsp = ss.worksheet('Dev Players')
+    wsr = ss.worksheet('Dev Results')
 
 class player():
 	

@@ -14,9 +14,9 @@ class Messages(commands.Cog):
         '''If branch is dev then use the dev channel id
         This prevents the two bots conflicting with each other'''
         if  IFBRANCH in GITBRANCH:
-            CHANNEL_ID = lookup("channel_id_dev")
-        else:
             CHANNEL_ID = lookup("channel_id")
+        else:
+            CHANNEL_ID = lookup("channel_id_dev")
         CHANNEL_ID = int(CHANNEL_ID) #Wasnt matching channel.id as a string
         '''If message starts with thumbsup then 
         add the player to the playing list'''

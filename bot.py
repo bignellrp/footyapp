@@ -12,11 +12,11 @@ from services.get_oscommand import GITBRANCH, IFBRANCH
 intents = discord.Intents.default()
 intents.members = True
 if  IFBRANCH in GITBRANCH:
-    token = lookup("discord_token_dev")
-    bot = commands.Bot(command_prefix='$', intents=intents)
-else:
     token = lookup("discord_token")
     bot = commands.Bot(command_prefix='!', intents=intents)
+else:
+    token = lookup("discord_token_dev")
+    bot = commands.Bot(command_prefix='$', intents=intents)
 
 ##Register Cogs with Discord
 for file in os.listdir("cogs"):
@@ -44,7 +44,4 @@ class async_discord_thread(Thread):
         self.loop.create_task(self.starter())
         self.loop.run_forever()
 
-if  IFBRANCH in GITBRANCH: #Equals not working for some reason
-    discord_thread = async_discord_thread()
-else:
-    discord_thread = async_discord_thread()
+discord_thread = async_discord_thread()
