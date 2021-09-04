@@ -3,8 +3,7 @@ import pandas as pd
 from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 
-SERVICE_ACCOUNT_FILE = './services/keys.json'
-TOKEN_FILE = './services/tokens.json'
+SERVICE_ACCOUNT_FILE = '../tokens/keys.json'
 SPREADSHEET_ID = lookup("SPREADSHEET_ID")
 
 gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
