@@ -25,6 +25,15 @@ python3 services/generate_tokens.py > services/tokens.json
 pip3 install -r requirements.txt
 ```
 
+or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
+
+```
+Repository: tiangolo/meinheld-gunicorn-flask
+Extra Parameters: -e WEB_CONCURRENCY="1"
+Post Arguments: ;sleep 2;docker start flaskdev3;sleep 2;docker exec flaskdev3 bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;git checkout pre;python3 services/generate_tokens.py > /tokens/tokens.json;pip3 install -r requirements.txt";docker restart flaskdev3
+Tokens(Custom Folder): Container Path: /tokens
+```
+
 This branch adds google sheets support to have the player list generated from a
 google sheet. Submit allows the user to push the results back to google sheets. 
 
