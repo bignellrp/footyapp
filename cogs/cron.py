@@ -10,7 +10,7 @@ class Cron(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @aiocron.crontab('39 15 * * SUN')
+    @aiocron.crontab('00 06 * * SUN')
     @commands.Cog.listener()
     async def cronmsg():
         if  IFBRANCH in GITBRANCH:
