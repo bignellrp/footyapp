@@ -47,6 +47,9 @@ def index():
             available_players = request.form.getlist('available_players')
             ##Build a tally of available players to use as a running session
             game_player_tally = []
+            ##To update in a batch this requires the list to be alphabetical
+            ##Updating these one by one takes too long.
+            post.sort_players()
             for row in all_players:
                 '''Takes in row of all_players 
                 and returns a tally of those players

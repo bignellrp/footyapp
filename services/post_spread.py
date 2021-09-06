@@ -25,6 +25,13 @@ def wipe_tally():
     print("Wiping tally!")
     return update_tally(game_player_clear)
 
+def sort_players():
+    '''Sorts players A to Z by Name'''
+    col = wsp.find('Name')
+    wsp.sort((col.col, 'asc'), range='A2:G1000')
+    print("Sorting Player Names!")
+    return
+
 def update_result(values):
     '''Function to update the result row using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row
