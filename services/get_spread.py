@@ -102,6 +102,22 @@ class player():
                 game_player_tally.append((row[0]))
         self.game_player_tally = game_player_tally
         return self.game_player_tally
+    
+    def game_player_tally_with_index(self):
+        ##List of player names playing
+        game_player_tally = []
+        player_names = self.df.filter(['Name','Playing'])
+        ##Convert from df to list without index to be used in forms
+        player_names = player_names.to_records(index=False)
+        player_names = list(player_names)
+        for row in player_names:
+            '''Takes in row of player names 
+            and returns a tally of those players
+            that are available this week'''
+            if row[1] == "x":
+                game_player_tally.append((row[0]))
+        self.game_player_tally_with_index = enumerate(game_player_tally, start=1)
+        return self.game_player_tally_with_index
 
     def game_player_tally_with_score(self):
         ##List of player names playing
@@ -118,6 +134,24 @@ class player():
                 game_player_tally.append((row[0] , int(row[1])))
         self.game_player_tally_with_score = game_player_tally
         return self.game_player_tally_with_score
+
+    def game_player_tally_with_score_and_index(self):
+        ##List of player names playing
+        game_player_tally = []
+        player_names = self.df.filter(['Name','Total','Playing'])
+        ##Convert from df to list without index to be used in forms
+        player_names = player_names.to_records(index=False)
+        player_names = list(player_names)
+        num=1
+        for row in player_names:
+            '''Takes in row of player names 
+            and returns a tally of those players
+            that are available this week'''
+            if row[2] == "x":
+                game_player_tally.append((num, row[0] , int(row[1])))
+                num=num+1
+        self.game_player_tally_with_score_and_index = game_player_tally
+        return self.game_player_tally_with_score_and_index
 
 class results():
 
