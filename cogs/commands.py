@@ -425,12 +425,11 @@ class Commands(commands.Cog):
             await ctx.send(f'{count} places available!')
 
     @commands.command()
-    async def man(self, ctx, *args):
-        """Add Teams Manually"""
+    async def manplay(self, ctx, *args):
+        """Add Teams Manually from playing list"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_score_and_index()
-        #Make a list of 10 to add to results page
         args_count = len(args) #Count the args to use in validation
         args = list(map(int, args)) #Convert all args in list to ints
         arg_match = all(i <= 10 for i in args) #True if all args are <= 10
@@ -462,6 +461,112 @@ class Commands(commands.Cog):
             google_output.append((team_b_total))
             google_output.extend((team_a))
             google_output.extend((team_b))
+            print(google_output)
+            team_a = "\n".join(item for item in team_a)
+            team_b = "\n".join(item for item in team_b)
+            # Embed Message
+            embed=discord.Embed(
+                title="Here are the teams:",
+                url="http://football.richardbignell.co.uk",
+                color=discord.Color.dark_green()
+            )
+            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline=True)
+            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline=True)
+            embed.set_thumbnail(url="attachment://football.png")
+            embed.set_footer(text="Enter on the website if you prefer using the link above")
+            await ctx.send(file = file, embed=embed)
+            # Wait for user to enter SAVE
+            await ctx.send("Type *SAVE* to store the results.")
+            await ctx.send("*You need to save in 10 seconds or this team will be lost*")
+            def check(m):
+                return m.content == "SAVE" and m.channel == ctx.channel
+            try:
+                msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+            except asyncio.TimeoutError: 
+                print("Teams command timeout!")
+                await ctx.send("You didnt type SAVE in 10 seconds. Run !man again")
+                return
+            else:
+                if date == next_wednesday and scorea == "-":
+                    result = post.update_result(google_output)
+                    print("Running update function")
+                    await ctx.send(f"Teams Saved!")
+                else:
+                    result = post.append_result(google_output)
+                    print("Running append function")
+                    await ctx.send(f"Teams Saved!")
+                return
+
+    @commands.command()
+    async def allplayers(self, ctx):
+        """List all players with numbers"""
+        players = player()
+        all_players = players.all_players()
+        game_player_tally = []
+        num = 1
+        for row in all_players:
+            '''Takes in row of all_players 
+            and returns tuple of game_players with index'''
+            game_player_tally.append((num,row[0]))
+            num = num+1
+        file = discord.File("static/football.png")
+        game_player_tally = "\n".join(str(count) + " " + value for count,value in game_player_tally)
+        # Embed Message
+        embed=discord.Embed(
+            title="Players Available",
+            color=discord.Color.dark_green()
+        )
+        embed.add_field(name=":", value=game_player_tally, inline=True)
+        embed.set_thumbnail(url="attachment://football.png")
+        await ctx.send(file = file, embed = embed)
+
+    @commands.command()
+    async def manteam(self, ctx, *args):
+        """Add Teams Manually from All Players"""
+        file = discord.File("static/football.png")
+        players = player()
+        all_players = players.all_players()
+        game_player_tally = []
+        num = 1
+        for row in all_players:
+            '''Takes in row of all_players 
+            and returns list of game_players with index and score'''
+            game_player_tally.append((num,row[0],row[1]))
+            num = num+1
+        args_count = len(args) #Count the args to use in validation
+        args = list(map(int, args)) #Convert all args in list to ints
+        # def match(args):
+        #     for i in args:
+        #         if re.match("(^[0-9]{1,2}$)", i):
+        #             return False #I think this needs to be True
+        #     return True
+        if args_count != 10:
+            await ctx.send('You must enter 10 numbers')
+        else:
+            #Get current result data ready to update results
+            result = results()
+            scorea = result.scorea()
+            date = result.date()
+            team_a, team_b, team_a_score, team_b_score = [], [], [], []
+            for i, p, s in game_player_tally:
+                if i in args[:5]:
+                    team_a.append(p)
+                    team_a_score.append(s)
+                elif i in args[5:]:
+                    team_b.append(p)
+                    team_b_score.append(s)
+            team_a_total = sum(team_a_score)
+            team_b_total = sum(team_b_score)
+            # Google Output
+            google_output = []
+            google_output.append((next_wednesday))
+            google_output.append(str("-"))
+            google_output.append(str("-"))
+            google_output.append(int(team_a_total))
+            google_output.append(int(team_b_total))
+            google_output.extend((team_a))
+            google_output.extend((team_b))
+            print(google_output)
             team_a = "\n".join(item for item in team_a)
             team_b = "\n".join(item for item in team_b)
             # Embed Message
