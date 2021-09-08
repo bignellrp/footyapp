@@ -56,7 +56,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def score(self, ctx):
+    async def score(self, ctx, *args):
         """Update score"""
         file = discord.File("static/football.png")
         result = results()
@@ -70,7 +70,7 @@ class Commands(commands.Cog):
         if scorea != "-":
             print('Score already entered for this week')
             await ctx.send('Score already entered for this week')
-        else:
+        elif not args:
             print('Display this weeks teams')
             # Embed Message
             embed=discord.Embed(
@@ -93,7 +93,7 @@ class Commands(commands.Cog):
                 await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
                 return
             else:
-                result = post.update_scorea(msg.content)
+                post.update_scorea(msg.content)
                 print("Team A Score saved!")
                 await ctx.send("Score saved! Please enter the score for TeamB: (1 or 2 digits)")
                 def check(m):
@@ -105,10 +105,27 @@ class Commands(commands.Cog):
                     await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
                     return
                 else:
-                    result = post.update_scoreb(msg.content)
+                    post.update_scoreb(msg.content)
                     print("Team B Score saved!")
                     await ctx.send("Scores saved!")
                     return
+        else:
+            args_count = len(args) #Count the args to use in validation
+            #args = list(map(int, args)) #Convert all args in list to ints
+            print(args[0])
+            print(args[1])
+            match_a = re.match("(^[0-9]{1,2}$)",args[0])
+            match_b = re.match("(^[0-9]{1,2}$)",args[1])
+            if args_count != 2:
+                await ctx.send('You must enter 2 scores')
+            elif match_a == None or match_b == None:
+                await ctx.send('One or more of your scores is not a valid number')
+            else:
+                post.update_scorea(args[0])
+                post.update_scoreb(args[1])
+                print("Scores saved!")
+                await ctx.send("Scores saved!")
+
 
     @commands.command()
     @commands.has_permissions(administrator=True)

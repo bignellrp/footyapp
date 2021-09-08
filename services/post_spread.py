@@ -63,7 +63,7 @@ def update_score_result(values):
     '''Function to update the result using the values from the results page
     Takes in values to be added to sheet and returns the gspread command for updating row
     Updates both Score A and Score B from a list of two values.'''
-    row = wsr.find(next_wednesday)
+    row = wsr.find('-')
     row = row.row
     col = wsr.find('Team A Result?')
     col = colnum_string(col.col) #Convert col number to letter
@@ -74,14 +74,14 @@ def update_score_result(values):
 def update_scorea(value):
     '''Function to update the result using the values from the results page
     Takes in value to be added to sheet and returns the gspread command for updating cell'''
-    row = wsr.find(next_wednesday)
+    row = wsr.find('-')
     col = wsr.find('Team A Result?')
     return wsr.update_cell(row.row, col.col, value)
 
 def update_scoreb(value):
     '''Function to update the result using the values from the results page
     Takes in value to be added to sheet and returns the gspread command for updating cell'''
-    row = wsr.find(next_wednesday)
+    row = wsr.find('-')
     col = wsr.find('Team B Result?')
     return wsr.update_cell(row.row, col.col, value)
 
