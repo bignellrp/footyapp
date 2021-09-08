@@ -304,12 +304,6 @@ class Commands(commands.Cog):
     #     add_new_player(new_player)
     #     await ctx.send(f'Added new player with a generic score of 77: {new_player}')
 
-    # @commands.command()
-    # async def hello(self, ctx, *, member: discord.Member = None):
-    #     """Says hello"""
-    #     member = member or ctx.author
-    #     await ctx.send('Hello {0.display_name}~'.format(member))
-
     @commands.command()
     async def teama(self, ctx):
         """Team A List"""
@@ -362,14 +356,14 @@ class Commands(commands.Cog):
         file = discord.File("static/trophy.png")
         players = player()
         leaderboard = players.leaderboard()
-        leaderboard = '\n'.join(str(row) for row in leaderboard)
+        leaderboard = '\n'.join(str(score) + " | " + name for name,score in leaderboard)
         #leaderboard = "\n".join(i for i,v in leaderboard)
         #players = player()
         #score = players.leaderboard()
         #score = "\n".join(str(v) for i,v in score)
         # Embed Message
         embed=discord.Embed(title="Top10:",color=discord.Color.dark_green())
-        embed.add_field(name="Player/Score", value=leaderboard, inline=True)
+        embed.add_field(name="Score | Player", value=leaderboard, inline=True)
         #embed.add_field(name="Player/Score", value=leaderboard, inline=True)
         #embed.add_field(name="Score", value=score, inline=True)
         embed.set_thumbnail(url="attachment://trophy.png")
@@ -441,6 +435,7 @@ class Commands(commands.Cog):
             print(f'{count} places available!')
             await ctx.send(f'{count} places available!')
 
+    @commands.has_permissions(administrator=True)
     @commands.command()
     async def manplay(self, ctx, *args):
         """Add Teams Manually from playing list"""
@@ -537,6 +532,7 @@ class Commands(commands.Cog):
         embed.set_thumbnail(url="attachment://football.png")
         await ctx.send(file = file, embed = embed)
 
+    @commands.has_permissions(administrator=True)
     @commands.command()
     async def manteam(self, ctx, *args):
         """Add Teams Manually from All Players"""
