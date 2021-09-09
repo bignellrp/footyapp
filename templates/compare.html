@@ -51,7 +51,7 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Choose <span class="compatotalchecked">5</span> players for Team A:</h2>
-                                    {% for name in player_names %}
+                                    {% for name, playing in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="compa-single-checkbox" type="checkbox" name="available_players_a" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>
@@ -63,7 +63,7 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Choose <span class="compbtotalchecked">5</span> players for Team B:</h2>
-                                    {% for name in player_names %}
+                                    {% for name, playing in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="compb-single-checkbox" type="checkbox" name="available_players_b" value="{{ name }}"><span>{{ name }}</span></label></td>
                                     </tr>

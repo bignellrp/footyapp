@@ -86,15 +86,21 @@
         }
     });
 
+    // Count Index Checkboxes that are checked
+
     $('input.single-checkbox').on('change', function() {
         var indexnumber = $('input.single-checkbox:checked').length;
         $('.indextotalchecked').html(10 - indexnumber);
     });
 
+    // Count Compare A Checkboxes that are checked
+
     $('input.compa-single-checkbox').on('change', function() {
         var companumber = $('input.compa-single-checkbox:checked').length;
         $('.compatotalchecked').html(5 - companumber);
     });
+
+    // Count Compare B Checkboxes that are checked
 
     $('input.compb-single-checkbox').on('change', function() {
         var compbnumber = $('input.compb-single-checkbox:checked').length;
