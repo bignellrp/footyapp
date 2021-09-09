@@ -48,9 +48,9 @@ class player():
 
     def player_stats(self):
         ##Filter Player Stats
-        self.player_stats = self.df.filter(['Name','Wins','Draws','Losses','Score'])
+        self.player_stats = self.df.filter(['Name','Wins','Draws','Losses','Score','Win Percentage'])
         ##Convert multiple columns to numeric
-        self.player_stats[['Wins','Draws','Losses','Score']] = self.player_stats[['Wins','Draws','Losses','Score']].apply(pd.to_numeric)
+        self.player_stats[['Wins','Draws','Losses','Score','Win Percentage']] = self.player_stats[['Wins','Draws','Losses','Score','Win Percentage']].apply(pd.to_numeric)
         ##Sort by Score
         self.player_stats = self.player_stats.sort_values(by=['Score'],ascending=False)
         ##Convert from df to list without index to be used in forms

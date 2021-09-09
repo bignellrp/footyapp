@@ -21,7 +21,7 @@ class AdminCommands(commands.Cog):
             await ctx.channel.purge(limit=number)
         except:
             await ctx.send('Couldnt delete these messages!')
-    
+
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def nick(self, ctx, member: discord.Member, nick):
@@ -172,6 +172,8 @@ class AdminCommands(commands.Cog):
         # losses = "\n".join(str(item) for item in losses)
         # total = [el[4] for el in player_stats]
         # total = "\n".join(str(item) for item in total)
+        # percent = [el[5] for el in player_stats]
+        # percent = "\n".join(str(item) for item in percent)
         # Embed Message
         embed=discord.Embed(
             title="Stats",
@@ -179,12 +181,13 @@ class AdminCommands(commands.Cog):
             color=discord.Color.green()
         )
         embed.set_thumbnail(url="attachment://football.png")
-        embed.add_field(name="Name/W/D/L/T", value=rows, inline=True)
+        embed.add_field(name="Name/W/D/L/T/%", value=rows, inline=True)
         # embed.add_field(name="Name", value=name, inline=True)
         # embed.add_field(name="W", value=wins, inline=True)
         # embed.add_field(name="D", value=draws, inline=True)
         # embed.add_field(name="L", value=losses, inline=True)
         # embed.add_field(name="T", value=total, inline=True)
+        # embed.add_field(name="%", value=percent, inline=True)
         embed.set_footer(text="Click stats link above for full stats.")
         print("Posted Stats to discord!")
         await ctx.send(file=file, embed=embed)
@@ -304,6 +307,8 @@ class AdminCommands(commands.Cog):
         args_count = len(args) #Count the args to use in validation
         args = list(map(int, args)) #Convert all args in list to ints
         arg_match = all(i <= 10 for i in args) #True if all args are <= 10
+        if not args: #If no args added then send playing list so user can choose from list
+            await ctx.invoke(self.bot.get_command('play'))
         if args_count != 5:
             await ctx.send('You must enter 5 numbers')
         elif arg_match == False:
@@ -389,7 +394,9 @@ class AdminCommands(commands.Cog):
         #         if re.match("(^[0-9]{1,2}$)", i):
         #             return False #I think this needs to be True
         #     return True
-        if args_count != 10:
+        if not args: #If no args added then send all players so user can choose from list
+            await ctx.invoke(self.bot.get_command('allplayers'))
+        elif args_count != 10:
             await ctx.send('You must enter 10 numbers')
         else:
             #Get current result data ready to update results
