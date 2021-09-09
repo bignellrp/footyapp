@@ -28,9 +28,10 @@ pip3 install -r requirements.txt
 or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
 
 ```
+Name:flaskpro
 Repository: tiangolo/meinheld-gunicorn-flask
-Extra Parameters: -e WEB_CONCURRENCY="1"
-Post Arguments: ;sleep 2;docker start flaskdev3;sleep 2;docker exec flaskdev3 bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;git checkout pre;python3 services/generate_tokens.py > /tokens/tokens.json;pip3 install -r requirements.txt";docker restart flaskdev3
+Extra Parameters: -e WEB_CONCURRENCY="1" -e PYTHONUNBUFFERED="1"
+Post Arguments: ;sleep 2;docker start flaskpro;sleep 2;docker exec flaskpro bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;python3 services/generate_tokens.py > /tokens/tokens.json;pip3 install -r requirements.txt";docker restart flaskpro
 Tokens(Custom Folder): Container Path: /tokens
 ```
 
@@ -44,7 +45,7 @@ To test the google sheet function you need to follow this
 to work with the google sheets api. For this you need to have the credentials (keys)
 json. Save the keys.json to the services folder.
 
-If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static)
+If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static) **Note** the static branch is now a few versions behind the latest.
 
 In the latest version of the app a Discord helper bot is included that is integrated with the Flask webapp.
 

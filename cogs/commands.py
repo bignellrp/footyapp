@@ -20,7 +20,7 @@ class Commands(commands.Cog):
             player_stats = []
             for row in all_player_stats:
                 if row[0] == member.display_name:
-                    player_stats.append((row[0],int(row[1]),int(row[2]),int(row[3]),int(row[4])))
+                    player_stats.append((row[0],int(row[1]),int(row[2]),int(row[3]),int(row[4]),int(row[5])))
             ##Build the table
             name = [el[0] for el in player_stats]
             name = "\n".join(str(item) for item in name)
@@ -32,6 +32,8 @@ class Commands(commands.Cog):
             losses = "\n".join(str(item) for item in losses)
             total = [el[4] for el in player_stats]
             total = "\n".join(str(item) for item in total)
+            percent = [el[5] for el in player_stats]
+            percent = "\n".join(str(item) for item in percent)
             ##Embed Message
             embed=discord.Embed(
                 title="Stats",
@@ -43,6 +45,7 @@ class Commands(commands.Cog):
             embed.add_field(name="Draws:", value=draws, inline=False)
             embed.add_field(name="Losses:", value=losses, inline=False)
             embed.add_field(name="Total:", value=total, inline=False)
+            embed.add_field(name="Percent:", value=percent, inline=False)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Click stats link above for full stats.")
             print("Posted Stats to discord!")
