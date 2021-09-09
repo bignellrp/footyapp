@@ -371,6 +371,19 @@ class Commands(commands.Cog):
         await ctx.send(file = file, embed = embed)
     
     @commands.command()
+    async def percent(self, ctx):
+        """Win Percentage"""
+        file = discord.File("static/percent.png")
+        players = player()
+        leaderboard = players.winpercentage()
+        leaderboard = '\n'.join(str(score) + " | " + name for name,score in leaderboard)
+        embed=discord.Embed(title="Win Percentage:",color=discord.Color.dark_green())
+        embed.add_field(name="Score | Player", value=leaderboard, inline=True)
+        embed.set_thumbnail(url="attachment://percent.png")
+        print("Sending Win Percentage to discord")
+        await ctx.send(file = file, embed = embed)
+
+    @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):
         """Add player to playing list"""

@@ -28,7 +28,7 @@ def wipe_tally():
 def sort_players():
     '''Sorts players A to Z by Name'''
     col = wsp.find('Name')
-    wsp.sort((col.col, 'asc'), range='A2:G1000')
+    wsp.sort((col.col, 'asc'), range='A2:P1000')
     print("Sorting Player Names!")
     return
 
@@ -128,14 +128,23 @@ def copy_formulas(player):
     clm_losses = wsp.find('Losses')
     clm_score = wsp.find('Score')
     clm_playing = wsp.find('Playing')
+    clm_played = wsp.find('Played')
+    clm_percent = wsp.find('Percent Calc')
+    clm_percent3 = wsp.find('Win Percentage')
     wins_formula = '=SUM(SUMPRODUCT((Results!$F$2:$J$929 = $A{})*(Results!$B$2:$B$929>Results!$C$2:$C$929)))+(SUMPRODUCT((Results!$K$2:$O$929 = $A{})*(Results!$B$2:$B$929<Results!$C$2:$C$929)))'.format(cell_name.row,cell_name.row)
     draws_formula = '=SUM(SUMPRODUCT((Results!$F$2:$O$929 = $A{})*(Results!$B$2:$B$929=Results!$C$2:$C$929)))'.format(cell_name.row)
     losses_formula = '=SUM(SUMPRODUCT((Results!$F$2:$J$929 = $A{})*(Results!$B$2:$B$929<Results!$C$2:$C$929)))+(SUMPRODUCT((Results!$K$2:$O$929 = $A{})*(Results!$B$2:$B$929>Results!$C$2:$C$929)))'.format(cell_name.row,cell_name.row)
-    score_formula = '=IFERROR((H{}*3+I{}),0)'.format(cell_name.row,cell_name.row)
+    score_formula = '=IFERROR((C{}*3+D{}),0)'.format(cell_name.row,cell_name.row)
+    played_formula = '=C{}+D{}+E{}'.format(cell_name.row,cell_name.row,cell_name.row)
+    percent_formula = '=IFERROR((C{}/H{}*100),0)'.format(cell_name.row,cell_name.row)
+    percent3_formula = '=IF(H{}<3,0,I{})'.format(cell_name.row,cell_name.row)
     wsp.update_cell(cell_name.row,clm_wins.col,wins_formula)
     wsp.update_cell(cell_name.row,clm_draws.col,draws_formula)
     wsp.update_cell(cell_name.row,clm_losses.col,losses_formula)
     wsp.update_cell(cell_name.row,clm_score.col,score_formula)
-    wsp.update_cell(cell_name.row, clm_playing.col, 'o')
+    wsp.update_cell(cell_name.row,clm_playing.col,'o')
+    wsp.update_cell(cell_name.row,clm_played.col,played_formula)
+    wsp.update_cell(cell_name.row,clm_percent.col,percent_formula)
+    wsp.update_cell(cell_name.row,clm_percent3.col,percent3_formula)
     print("Updated Formulas!")
     return

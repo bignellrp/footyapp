@@ -71,6 +71,19 @@ class player():
         self.leaderboard = list(self.leaderboard)
         return self.leaderboard
 
+    def winpercentage(self):
+        ##Filter Game Stats for winpercentage
+        self.winpercentage = self.df.filter(['Name','Win Percentage'])
+        ##Convert Score column to numeric so they can be added up
+        self.winpercentage['Win Percentage'] = pd.to_numeric(self.winpercentage['Win Percentage'])
+        self.winpercentage = self.winpercentage.sort_values(by=['Win Percentage'],ascending=False)
+        ##Head the top10
+        self.winpercentage = self.winpercentage.head(10)
+        ##Convert from df to list without index to be used in forms
+        self.winpercentage = self.winpercentage.to_records(index=False)
+        self.winpercentage = list(self.winpercentage)
+        return self.winpercentage
+
     def player_count(self):
         ##Count the number of players in tally
         game_tally = []
