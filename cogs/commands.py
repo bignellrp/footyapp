@@ -56,7 +56,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def teama(self, ctx):
-        """Team A List"""
+        """Players on Team B"""
         file = discord.File("static/teama.png")
         result = results()
         teama = result.teama()
@@ -79,7 +79,7 @@ class Commands(commands.Cog):
     
     @commands.command()
     async def teamb(self, ctx):        
-        """A list of players on team B"""
+        """Players on Team B"""
         file = discord.File("static/teamb.png")
         result = results()
         teamb = result.teamb()
@@ -135,7 +135,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def play(self, ctx):
-        """Whos playing this week."""
+        """Whos playing this week"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_index()
@@ -157,7 +157,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def allplayers(self, ctx):
-        """List all players with numbers"""
+        """List all players"""
         players = player()
         all_players = players.all_players()
         game_player_tally = []

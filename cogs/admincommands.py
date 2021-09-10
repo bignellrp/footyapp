@@ -15,7 +15,7 @@ class AdminCommands(commands.Cog):
     @commands.command(pass_context = True)
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, number):
-        """Clear last n channel messages"""
+        """Clear messages"""
         number = int(number)
         try:
             await ctx.channel.purge(limit=number)
@@ -25,7 +25,7 @@ class AdminCommands(commands.Cog):
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def nick(self, ctx, member: discord.Member, nick):
-        """Change users nickname"""
+        """Change nickname"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -257,7 +257,7 @@ class AdminCommands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):
-        """Add player to playing list"""
+        """Add player (Play)"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -282,7 +282,7 @@ class AdminCommands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def mod(self, ctx, *args):
-        """Remove player from playing list"""
+        """Remove player (Play)"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -300,7 +300,7 @@ class AdminCommands(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def manplay(self, ctx, *args):
-        """Add Teams Manually from playing list"""
+        """Manual (All list)"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_score_and_index()
@@ -375,8 +375,8 @@ class AdminCommands(commands.Cog):
 
     @commands.has_permissions(administrator=True)
     @commands.command()
-    async def manteam(self, ctx, *args):
-        """Add Teams Manually from All Players"""
+    async def manall(self, ctx, *args):
+        """Manual (Play List)"""
         file = discord.File("static/football.png")
         players = player()
         all_players = players.all_players()
