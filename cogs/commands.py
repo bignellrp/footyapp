@@ -36,7 +36,7 @@ class Commands(commands.Cog):
             percent = "\n".join(str(item) for item in percent)
             ##Embed Message
             embed=discord.Embed(
-                title="Stats",
+                title="Player Stats",
                 url="http://football.richardbignell.co.uk/stats",
                 color=discord.Color.green()
             )
@@ -88,7 +88,7 @@ class Commands(commands.Cog):
         # percent = "\n".join(str(item) for item in percent)
         # Embed Message
         embed=discord.Embed(
-            title="Stats",
+            title="Player Stats",
             url="http://football.richardbignell.co.uk/stats",
             color=discord.Color.green()
         )
@@ -119,7 +119,7 @@ class Commands(commands.Cog):
         # teamb = "\n".join(str(item) for item in teamb)
         # Embed Message
         embed=discord.Embed(
-            title="Stats",
+            title="Match Stats",
             url="http://football.richardbignell.co.uk/stats",
             color=discord.Color.green()
         )
