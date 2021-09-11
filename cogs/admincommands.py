@@ -257,7 +257,7 @@ class AdminCommands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):
-        """Add player (Play)"""
+        """Add player(Play)"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -281,8 +281,8 @@ class AdminCommands(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def mod(self, ctx, *args):
-        """Remove player (Play)"""
+    async def rem(self, ctx, *args):
+        """Remove player(Play)"""
         players = player()
         player_names = players.player_names()
         player_names = [pname[0] for pname in player_names]
@@ -300,7 +300,7 @@ class AdminCommands(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def manplay(self, ctx, *args):
-        """Manual (All list)"""
+        """Manual(All list)"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_score_and_index()
@@ -376,7 +376,7 @@ class AdminCommands(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def manall(self, ctx, *args):
-        """Manual (Play List)"""
+        """Manual(Play List)"""
         file = discord.File("static/football.png")
         players = player()
         all_players = players.all_players()

@@ -9,7 +9,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def mystats(self, ctx, member: discord.Member = None):
-        """Individual Player Stats"""
+        """My Player Stats"""
         file = discord.File("static/football.png")
         member = member or ctx.author
         players = player()
@@ -135,7 +135,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def play(self, ctx):
-        """Whos playing this week"""
+        """Playing this week"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_index()
