@@ -9,7 +9,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def mystats(self, ctx, member: discord.Member = None):
-        """Individual Player Stats"""
+        """My Player Stats"""
         file = discord.File("static/football.png")
         member = member or ctx.author
         players = player()
@@ -36,7 +36,7 @@ class Commands(commands.Cog):
             percent = "\n".join(str(item) for item in percent)
             ##Embed Message
             embed=discord.Embed(
-                title="Stats",
+                title="Player Stats",
                 url="http://football.richardbignell.co.uk/stats",
                 color=discord.Color.green()
             )
@@ -55,8 +55,85 @@ class Commands(commands.Cog):
             await ctx.send(f"Cannot find any stats for {member.display_name}")
 
     @commands.command()
+    async def stats(self, ctx):
+        """All Player Stats"""
+        file = discord.File("static/football.png")
+        players = player()
+        player_stats = players.player_stats()
+        rows = "\n".join(
+                        str(wins) 
+                        + " | " 
+                        + str(draws) 
+                        + " | " 
+                        + str(losses) 
+                        + " | " 
+                        + str(total) 
+                        + " | " 
+                        + str(percent)
+                        + " | "
+                        + name
+                        for name,wins,draws,losses,total,percent in player_stats)
+        ##Commented below as mobile doesnt support more than one field
+        # name = [el[0] for el in player_stats]
+        # name = "\n".join(str(item) for item in name)
+        # wins = [el[1] for el in player_stats]
+        # wins = "\n".join(str(item) for item in wins)
+        # draws = [el[2] for el in player_stats]
+        # draws = "\n".join(str(item) for item in draws)
+        # losses = [el[3] for el in player_stats]
+        # losses = "\n".join(str(item) for item in losses)
+        # total = [el[4] for el in player_stats]
+        # total = "\n".join(str(item) for item in total)
+        # percent = [el[5] for el in player_stats]
+        # percent = "\n".join(str(item) for item in percent)
+        # Embed Message
+        embed=discord.Embed(
+            title="Player Stats",
+            url="http://football.richardbignell.co.uk/stats",
+            color=discord.Color.green()
+        )
+        embed.set_thumbnail(url="attachment://football.png")
+        embed.add_field(name="W|D|L|T|%|Name", value=rows, inline=True)
+        ##Commented below as mobile doesnt support more than one field
+        # embed.add_field(name="Name", value=name, inline=True)
+        # embed.add_field(name="W", value=wins, inline=True)
+        # embed.add_field(name="D", value=draws, inline=True)
+        # embed.add_field(name="L", value=losses, inline=True)
+        # embed.add_field(name="T", value=total, inline=True)
+        # embed.add_field(name="%", value=percent, inline=True)
+        embed.set_footer(text="Click stats link above for full stats.")
+        print("Posted Stats to discord!")
+        await ctx.send(file=file, embed=embed)
+
+    @commands.command()
+    async def matches(self, ctx):
+        """Match stats"""
+        res = results()
+        game_stats = res.game_stats()
+        rows = "\n".join(str(date) + " | " + str(scorea) + " | " + str(scoreb) for date,scorea,scoreb in game_stats)
+        # date = [el[0] for el in game_stats]
+        # date = "\n".join(str(item) for item in date)
+        # teama = [el[1] for el in game_stats]
+        # teama = "\n".join(str(item) for item in teama)
+        # teamb = [el[2] for el in game_stats]
+        # teamb = "\n".join(str(item) for item in teamb)
+        # Embed Message
+        embed=discord.Embed(
+            title="Match Stats",
+            url="http://football.richardbignell.co.uk/stats",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Date|TeamA|TeamB", value=rows, inline=True)
+        #embed.add_field(name="Date", value=date, inline=True)
+        #embed.add_field(name="TeamA", value=teama, inline=True)
+        #embed.add_field(name="TeamB", value=teamb, inline=True)
+        embed.set_footer(text="Click stats link above for full stats.")
+        print("Posted Stats to discord!")
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def teama(self, ctx):
-        """Team A List"""
+        """Players on Team B"""
         file = discord.File("static/teama.png")
         result = results()
         teama = result.teama()
@@ -79,7 +156,7 @@ class Commands(commands.Cog):
     
     @commands.command()
     async def teamb(self, ctx):        
-        """A list of players on team B"""
+        """Players on Team B"""
         file = discord.File("static/teamb.png")
         result = results()
         teamb = result.teamb()
@@ -135,7 +212,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def play(self, ctx):
-        """Whos playing this week."""
+        """Playing this week"""
         file = discord.File("static/football.png")
         players = player()
         game_player_tally = players.game_player_tally_with_index()
@@ -157,7 +234,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def allplayers(self, ctx):
-        """List all players with numbers"""
+        """List all players"""
         players = player()
         all_players = players.all_players()
         game_player_tally = []
