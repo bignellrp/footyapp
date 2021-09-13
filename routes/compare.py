@@ -19,30 +19,36 @@ def compare():
         available_players_a = request.form.getlist('available_players_a')
         available_players_b = request.form.getlist('available_players_b')
 
-        ##Build teams out of available players from all_players using an if 
-        team_a = []
-        team_b = []
-        for row in all_players: 
-            if row[0] in available_players_a:
-                team_a.append((row[0] , int(row[1])))
-            elif row[0] in available_players_b:
-                team_b.append((row[0] , int(row[1])))
+        if len(available_players_a) < 5 or len(available_players_b) < 5:
+            '''If available players less than 10'''
+            print("Not enough players!")
+            error = "*ERROR*: Please select 10 players!"
+            return render_template('compare.html', player_names = player_names, error = error)
+        else:
+            ##Build teams out of available players from all_players using an if 
+            team_a = []
+            team_b = []
+            for row in all_players: 
+                if row[0] in available_players_a:
+                    team_a.append((row[0] , int(row[1])))
+                elif row[0] in available_players_b:
+                    team_b.append((row[0] , int(row[1])))
 
-        ##Take the first column and put names into team_a and team_b
-        team_a_names = sorted([row[0] for row in team_a])
-        team_b_names = sorted([row[0] for row in team_b])
+            ##Take the first column and put names into team_a and team_b
+            team_a_names = sorted([row[0] for row in team_a])
+            team_b_names = sorted([row[0] for row in team_b])
 
-        ##Take the second element of the tuple and sum
-        team_a_total = sum([row[1] for row in team_a])
-        team_b_total = sum([row[1] for row in team_b])
-        
-        ##Add vars to a session to carry into results page
-        session['team_a'] = team_a_names
-        session['team_b'] = team_b_names
-        session['team_a_total'] = team_a_total
-        session['team_b_total'] = team_b_total
+            ##Take the second element of the tuple and sum
+            team_a_total = sum([row[1] for row in team_a])
+            team_b_total = sum([row[1] for row in team_b])
+            
+            ##Add vars to a session to carry into results page
+            session['team_a'] = team_a_names
+            session['team_b'] = team_b_names
+            session['team_a_total'] = team_a_total
+            session['team_b_total'] = team_b_total
 
-        ##Return Team A and Team B to the results template
-        return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
+            ##Return Team A and Team B to the results template
+            return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
     ##If request method is not POST then it must be GET so render compare.html including player_names
     return render_template('compare.html', player_names = player_names)
