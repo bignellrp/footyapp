@@ -31,6 +31,23 @@ def index():
                 if row[0] in available_players:
                     game_players.append((row[0] , int(row[1])))
 
+            game_player_tally = []
+            ##To update in a batch this requires the list to be alphabetical
+            ##Updating these one by one takes too long.
+            post.sort_players()
+            for row in all_players:
+                '''Takes in row of all_players 
+                and returns a tally of those players
+                that are available this week'''
+                if row[0] in available_players:
+                    game_player_tally.append(("x"))
+                else:
+                    game_player_tally.append(("o"))
+
+            ##Save the tally of available players
+            result = post.update_tally(game_player_tally)
+            print("Running tally function")   
+
             ##Takes in game_players and returns teams and totals
             team_a,team_b,team_a_total,team_b_total = get_even_teams(game_players)
 
