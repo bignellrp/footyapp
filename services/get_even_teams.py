@@ -33,7 +33,7 @@ def get_even_teams(game_players):
     team_a = set(sorted_teams[num])
     print(f'Using Random Number {num} Team A: {team_a}')
     team_b = comp(team_a)
-    print(f'Using Random Number {num} Team B: {team_a}')
+    print(f'Using Random Number {num} Team B: {team_b}')
     
     ##Convert Back to a list
     team_a = list(team_a)
