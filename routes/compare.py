@@ -18,11 +18,17 @@ def compare():
         ##Use GetList to put the data from the index template into the array
         available_players_a = request.form.getlist('available_players_a')
         available_players_b = request.form.getlist('available_players_b')
+        check =  any(item in available_players_a for item in available_players_b)
 
         if len(available_players_a) < 5 or len(available_players_b) < 5:
             '''If available players less than 10'''
             print("Not enough players!")
             error = "*ERROR*: Please select 10 players!"
+            return render_template('compare.html', player_names = player_names, error = error)
+        elif check is True:
+            '''If Player from ListA is in ListB'''
+            print("You cannot have a player in both teams!")
+            error = "*ERROR*: You cannot have a player in both teams!" 
             return render_template('compare.html', player_names = player_names, error = error)
         else:
             ##Build teams out of available players from all_players using an if 
