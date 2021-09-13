@@ -46,11 +46,11 @@
                             <h1>Lineup:</h1>
                             <div class="text-pre">
                             <p><h3><b>Team A: {{ scorea }}</b></h3></p>
-                            <p>{% for item in teama %}| {{ item }} |{% endfor %}</p>
+                            <p>{% for player in teama %}{{ player }}<br>{% endfor %}</p>
                             </div>
                             <div class="text-pre">
                             <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
-                            <p>{% for item in teamb %}| {{ item }} |{% endfor %}</p>
+                            <p>{% for player in teamb %}{{ player }}<br>{% endfor %}</p>
                             </div>
                             <h3><b>Save lineup?</b></h3>
                             <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Store">
