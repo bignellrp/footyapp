@@ -94,6 +94,47 @@ def update_playing_status(player):
     print("Updated playing status for:",player)
     return
 
+def swap_player(player):
+    '''Takes in a list of two players
+    finds their score and swaps them in the results table'''
+
+    player_current = wsp.find(player[0]) #Find the Current Players name and the row
+    player_new = wsp.find(player[1]) #Find the New Players name and the row
+    clm_total = wsp.find('Total') #Find the Total column
+    clm_total = colnum_string(clm_total.col) #Convert Total Col Number to a Letter
+    player_current_range = str(clm_total)+str(player_current.row) #Combine Col letter and row num into range
+    player_new_range = str(clm_total)+str(player_new.row) #Combine Col letter and row num into range
+    player_current_score = wsp.acell(player_current_range).value #Grab score cell using range
+    player_new_score = wsp.acell(player_new_range).value #Grab score cell using range
+    player_score_difference = int(player_current_score) - int(player_new_score) #Work out difference between player scores
+    print(f"The difference between player scores is {player_score_difference}")
+    row = wsr.find('-') #Find the row with dash
+    player_current = wsr.find(player[0], in_row=row.row) #Find the Current Players name on the row with a dash
+
+    if player_current.col > 10 : #If player col number > 10 E.g. above J then team is B
+        team = "B"
+    else:
+        team = "A"
+
+    col_result_num = wsr.find('Team ' + team + ' Total') #Find the column with the score from Team A or B
+    col_result = colnum_string(col_result_num.col) #Convert Col Number to a Letter
+    team_result_range = str(col_result)+str(row.row) #Combine Col letter and row num into range
+    team_result = wsr.acell(team_result_range).value #Grab current score for Team A or B
+    new_result = int(team_result) - player_score_difference #New Result is current result minus difference
+
+    ##Update cell with new score,
+    ##using the row with the dash,
+    ##and column with Team Result
+    wsr.update_cell(row.row, col_result_num.col, new_result)
+
+    ##Update cell with new player,
+    ##using the row with the dash,
+    ##and column with Player Current
+    wsr.update_cell(row.row, player_current.col, player[1])
+
+    print("Swapped player and updated score")
+    return
+
 def modify_playing_status(player):
     '''Takes in a player
     and adds o into the playing column'''
