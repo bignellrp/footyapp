@@ -1,4 +1,5 @@
 import discord
+from discord import team
 from discord.ext import commands
 import services.post_spread as post
 from services.get_spread import player, results
@@ -187,7 +188,38 @@ class AdminCommands(commands.Cog):
                     print("Running append function")
                     await ctx.send(f"Teams Saved!")
                 return
-
+    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def swap(self, ctx, *args):
+        """Swap player"""
+        players = player()
+        player_names = players.player_names()
+        player_names = [pname[0] for pname in player_names]
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        scorea = result.scorea()
+        teams = teama + teamb
+        if len(args) != 2:
+            print('You must have 2 players!')
+            await ctx.send('You must have 2 players!')
+        elif scorea != "-":
+            print('Game has already been played this week!')
+            await ctx.send('Game has already been played this week!')
+        elif args[0] not in teams:
+            print(f'{args[0]} is not in the {teams} list!')
+            await ctx.send(f'{args[0]} is not in the team list!')
+        elif args[1] not in player_names:
+            print(f'{args[1]} is not in the player list!')
+            await ctx.send(f'{args[1]} is not in the player list!')
+        elif args[1] in teams:
+            print(f'{args[1]} is already on the team!')
+            await ctx.send(f'{args[1]} is already on the team!')
+        else:
+            post.swap_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+            
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):
