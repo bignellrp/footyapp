@@ -1,5 +1,4 @@
 import discord
-from discord import team
 from discord.ext import commands
 import services.post_spread as post
 from services.get_spread import player, results
@@ -22,6 +21,16 @@ class AdminCommands(commands.Cog):
             await ctx.channel.purge(limit=number)
         except:
             await ctx.send('Couldnt delete these messages!')
+    
+    @commands.command(pass_context = True)
+    @commands.has_permissions(administrator=True)
+    async def wipe(self, ctx):
+        """Wipe Tally"""
+        try:
+            post.wipe_tally()
+            await ctx.send('Tally wiped!')
+        except:
+            await ctx.send('Error: Couldnt wipe tally!')
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)

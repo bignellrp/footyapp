@@ -11,18 +11,18 @@ ss = gc.open_by_key(SPREADSHEET_ID)
 
 if IFBRANCH in GITBRANCH:
     print("Using Pro Worksheet for Get Commands")
-    wsp = ss.worksheet('Players')
-    wsr = ss.worksheet('Results')
+    ws_players = ss.worksheet('Players')
+    ws_results = ss.worksheet('Results')
 else:
     print("Using Dev Worksheet for Get Commands")
-    wsp = ss.worksheet('Dev Players')
-    wsr = ss.worksheet('Dev Results')
+    ws_players = ss.worksheet('Dev Players')
+    ws_results = ss.worksheet('Dev Results')
 
 class player():
 	
     def __init__(self):
         ##Initialise the class and get all the values from the players sheet
-        players_table = wsp.get_all_values()
+        players_table = ws_players.get_all_values()
         self.df = pd.DataFrame(players_table[1:], columns=players_table[0])
         ##Sort df values by name to hide what score players have
         ##Otherwise best players would show at the top
@@ -170,7 +170,7 @@ class results():
 
     def __init__(self):
         ##Initialise the class and get all the values from the results sheet
-        results_table = wsr.get_all_values()
+        results_table = ws_results.get_all_values()
         ##Add values to data frame
         self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
