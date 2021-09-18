@@ -1,7 +1,10 @@
 from flask import render_template, Blueprint
 from services.get_spread import results, player
 
-stats_blueprint = Blueprint('stats', __name__, template_folder='templates', static_folder='static')
+stats_blueprint = Blueprint('stats', 
+                            __name__, 
+                            template_folder='templates', 
+                            static_folder='static')
 
 @stats_blueprint.route('/stats', methods=['GET'])
 def stats():
@@ -14,4 +17,6 @@ def stats():
     game_stats = result.game_stats()
     player_stats = players.player_stats()
     
-    return render_template('stats.html', game_stats = game_stats, player_game_stats = player_stats)
+    return render_template('stats.html', 
+                           game_stats = game_stats, 
+                           player_game_stats = player_stats)

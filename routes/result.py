@@ -6,19 +6,25 @@ from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 
-result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
+result_blueprint = Blueprint('result', 
+                             __name__, 
+                             template_folder='templates', 
+                             static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 def result():
     '''A function for building the results page.
-    Takes in teama and teamb from flask session so result carries between pages
-    and returns the body to the google sheet in row format'''
+    Takes in teama and teamb from flask 
+    session so result carries between pages
+    and returns the body to the google sheet 
+    in row format'''
     
     if request.method == 'POST':
         if request.form['submit_button'] == 'Store':
 
             ##Pull data from flask session
-            ##Taken from reddit https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
+            ##Taken from reddit 
+            ##https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
             teama_passback = session['team_a']
             teamb_passback = session['team_b']
             scorea_passback = session['team_a_total']
@@ -34,7 +40,9 @@ def result():
             google_output.extend((teama_passback))
             google_output.extend((teamb_passback))
 
-            ##Now vars are safely in the google output remove them from the session so they are not carried from page to page unnecessarily.
+            ##Now vars are safely in the google output remove 
+            ##them from the session so they are not carried 
+            ##from page to page unnecessarily.
             session.pop('team_a', None)
             session.pop('team_b', None)
             session.pop('team_a_total', None)
@@ -57,12 +65,16 @@ def result():
                 url = lookup("discord_webhook_dev")
             teama_json = "\n".join(item for item in teama_passback)
             teamb_json = "\n".join(item for item in teamb_passback)
-            webhook = discord.Webhook.from_url(url, adapter=discord.RequestsWebhookAdapter())
+            webhook = discord.Webhook.from_url(url, 
+                                            adapter=discord.RequestsWebhookAdapter())
             ##Embed Message
-            embed=discord.Embed(title="Here are this weeks teams:",color=discord.Color.dark_green())
+            embed=discord.Embed(title="Here are this weeks teams:",
+                                color=discord.Color.dark_green())
             embed.set_author(name="footyapp")
-            embed.add_field(name="TEAM A:", value=teama_json, inline=True)
-            embed.add_field(name="TEAM B:", value=teamb_json, inline=True)
+            embed.add_field(name="TEAM A:", 
+                            value=teama_json, inline=True)
+            embed.add_field(name="TEAM B:", 
+                            value=teamb_json, inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             webhook.send(file = file, embed = embed)
             

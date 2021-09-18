@@ -48,11 +48,17 @@ class player():
 
     def player_stats(self):
         ##Filter Player Stats
-        self.player_stats = self.df.filter(['Name','Wins','Draws','Losses','Score','Win Percentage'])
+        self.player_stats = self.df.filter(
+                ['Name','Wins','Draws','Losses','Score','Win Percentage'])
         ##Convert multiple columns to numeric
-        self.player_stats[['Wins','Draws','Losses','Score','Win Percentage']] = self.player_stats[['Wins','Draws','Losses','Score','Win Percentage']].apply(pd.to_numeric)
+        self.player_stats[['Wins','Draws',
+                           'Losses','Score',
+                           'Win Percentage']] = self.player_stats[['Wins',
+                           'Draws','Losses','Score',
+                           'Win Percentage']].apply(pd.to_numeric)
         ##Sort by Score
-        self.player_stats = self.player_stats.sort_values(by=['Score'],ascending=False)
+        self.player_stats = self.player_stats.sort_values(by=['Score'],
+                                                          ascending=False)
         ##Convert from df to list without index to be used in forms
         self.player_stats = self.player_stats.to_records(index=False)
         self.player_stats = list(self.player_stats)
@@ -63,7 +69,8 @@ class player():
         self.leaderboard = self.df.filter(['Name','Score'])
         ##Convert Score column to numeric so they can be added up
         self.leaderboard['Score'] = pd.to_numeric(self.leaderboard['Score'])
-        self.leaderboard = self.leaderboard.sort_values(by=['Score'],ascending=False)
+        self.leaderboard = self.leaderboard.sort_values(by=['Score'],
+                                                        ascending=False)
         ##Head the top10
         self.leaderboard = self.leaderboard.head(10)
         ##Convert from df to list without index to be used in forms
@@ -75,8 +82,10 @@ class player():
         ##Filter Game Stats for winpercentage
         self.winpercentage = self.df.filter(['Name','Win Percentage'])
         ##Convert Score column to numeric so they can be added up
-        self.winpercentage['Win Percentage'] = pd.to_numeric(self.winpercentage['Win Percentage'])
-        self.winpercentage = self.winpercentage.sort_values(by=['Win Percentage'],ascending=False)
+        self.winpercentage['Win Percentage'] = pd.to_numeric(
+                self.winpercentage['Win Percentage'])
+        self.winpercentage = self.winpercentage.sort_values(
+                by=['Win Percentage'],ascending=False)
         ##Head the top10
         self.winpercentage = self.winpercentage.head(10)
         ##Convert from df to list without index to be used in forms
@@ -129,7 +138,8 @@ class player():
             that are available this week'''
             if row[1] == "x":
                 game_player_tally.append((row[0]))
-        self.game_player_tally_with_index = enumerate(game_player_tally, start=1)
+        self.game_player_tally_with_index = enumerate(game_player_tally, 
+                                                      start=1)
         return self.game_player_tally_with_index
 
     def game_player_tally_with_score(self):
@@ -166,6 +176,7 @@ class player():
         self.game_player_tally_with_score_and_index = game_player_tally
         return self.game_player_tally_with_score_and_index
 
+
 class results():
 
     def __init__(self):
@@ -174,48 +185,63 @@ class results():
         ##Add values to data frame
         self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
-        self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', errors='ignore')
+        self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', 
+                                         errors='ignore')
     
     def game_stats(self):
         ##Filter All Players
-        self.game_stats = self.df.filter(['Date','Team A Result?','Team B Result?'])
+        self.game_stats = self.df.filter(['Date','Team A Result?',
+                                          'Team B Result?'])
         ##Take only the last 10 games
         self.game_stats = self.game_stats.tail(10)
         ##Sort by date
-        self.game_stats = self.game_stats.sort_values(by=['Date'],ascending=False)
+        self.game_stats = self.game_stats.sort_values(by=['Date'],
+                                                      ascending=False)
         ##Convert from df to list without index to be used in forms
         self.game_stats = self.game_stats.to_records(index=False)
         self.game_stats = list(self.game_stats)
         return self.game_stats
     
     def teama(self):
-        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and column's' as the second value
+        ##Use iloc to get last row and 
+        ##columns for teama,
+        ##teamb,scorea,scoreb and date
+        ##iloc takes the row as the first 
+        ##value and column's' 
+        ##as the second value
         self.teama = self.df.iloc[-1,5:10]
         self.teama = list(self.teama)
         return self.teama
 
     def teamb(self):
-        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and column's' as the second value
+        ##Use iloc to get last row and columns for teama,
+        ##teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value and 
+        ##column's' as the second value
         self.teamb = self.df.iloc[-1,10:15]
         self.teamb = list(self.teamb)
         return self.teamb
 
     def scorea(self):
-        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and column's' as the second value
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
         self.scorea = self.df.iloc[-1,1]
         return self.scorea
     
     def scoreb(self):
-        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and column's' as the second value
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
         self.scoreb = self.df.iloc[-1,2]
         return self.scoreb
 
     def date(self):
-        ##Use iloc to get last row and columns for teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and column's' as the second value
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        # and column's' as the second value
         self.date = self.df.iloc[-1,0]
         return self.date

@@ -7,4 +7,5 @@ client = WebClient(token=slack_token)
 def _message_slack_channel(text):
     '''Sends a slack message to the footy channel'''
     print("Slack Message Sent!")
-    return client.chat_postMessage(channel="footy", text=text)
+    return client.chat_postMessage(channel="footy", 
+                                   text=text)
