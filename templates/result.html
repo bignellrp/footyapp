@@ -46,10 +46,26 @@
                             <h1>Lineup:</h1>
                             <div class="text-pre">
                             <p><h3><b>Team A: {{ scorea }}</b></h3></p>
+                            <select id="changeImageA">
+                                <option>other</option>
+                                <option>blue</option>
+                                <option>white</option>
+                                <option>black</option>
+                                <option>red</option>
+                            </select>
+                            <img id="imageA" src='/static/other.png' width="50" height="60">
                             <p>{% for player in teama %}{{ player }}<br>{% endfor %}</p>
                             </div>
                             <div class="text-pre">
                             <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
+                            <select id="changeImageB">
+                                <option>other</option>
+                                <option>blue</option>
+                                <option>white</option>
+                                <option>black</option>
+                                <option>red</option>
+                            </select>
+                            <img id="imageB" src='/static/other.png' width="50" height="60">
                             <p>{% for player in teamb %}{{ player }}<br>{% endfor %}</p>
                             </div>
                             <h3><b>Save lineup?</b></h3>
