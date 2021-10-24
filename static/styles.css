@@ -10407,7 +10407,11 @@ body {
 }
 
 .center-item {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-text {
+  text-align: center;
 }
