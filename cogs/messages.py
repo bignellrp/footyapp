@@ -31,8 +31,7 @@ class Messages(commands.Cog):
                     print("Player is in:", message.author.display_name)
                     players = player()
                     count = players.player_count()
-                    msg = f'You are on the team {message.author.display_name}\
-                            . There are {count} places remaining'
+                    msg = f'You are on the team {message.author.display_name}. There are {count} places remaining'
                     await message.channel.send(msg)
                 else:
                     msg = "Sorry there are no places left this week."
@@ -49,8 +48,7 @@ class Messages(commands.Cog):
                 print("Player is out:", message.author.display_name)
                 players = player()
                 players = players.player_count()
-                msg = f'Now we have {players} places left. \
-                        Hopefully see you next week {message.author.display_name}'
+                msg = f'Now we have {players} places left. Hopefully see you next week {message.author.display_name}'
                 await message.channel.send(msg)
             except:
                 print("Couldn't find player", message.author.display_name)

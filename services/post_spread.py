@@ -156,7 +156,7 @@ def swap_player(player):
     #Find the Current Players name on the row with a dash
     player_current = ws_results.find(player[0], in_row=row.row) 
 
-#If player col number > 10 E.g. above J then team is B  
+    #If player col number > 10 E.g. above J then team is B  
     if player_current.col > 10 : 
         team = "B"
     else:
@@ -189,6 +189,104 @@ def swap_player(player):
 
     print("Swapped player and updated score")
     return
+
+def swap_existing_player(player):
+    '''Takes in a list of two players
+    finds their score and swaps them 
+    in the results table if players
+    are both playing'''
+
+    #Find the Current Players name and the row
+    player_current = ws_players.find(player[0])
+
+    #Find the New Players name and the row
+    player_new = ws_players.find(player[1]) 
+
+    #Find the Total column
+    clm_total = ws_players.find('Total')
+
+    #Convert Total Col Number to a Letter
+    clm_total = colnum_string(clm_total.col) 
+
+    #Combine Col letter and row num into range
+    player_current_range = str(clm_total)+str(player_current.row)
+
+    #Combine Col letter and row num into range
+    player_new_range = str(clm_total)+str(player_new.row) 
+
+    #Grab score cell using range
+    player_current_score = ws_players.acell(player_current_range).value 
+
+    #Grab score cell using range
+    player_new_score = ws_players.acell(player_new_range).value 
+
+    #Work out difference between player scores
+    player_score_difference = int(player_current_score) \
+                                  - int(player_new_score)
+
+    print(f"The difference between player \
+        scores is {player_score_difference}")
+    row = ws_results.find('-') #Find the row with dash
+
+    #Find the Current Players name on the row with a dash
+    player_current = ws_results.find(player[0], in_row=row.row) 
+
+    #Find the New Players name on the row with a dash
+    player_new = ws_results.find(player[1], in_row=row.row) 
+
+    #If player col number > 10 E.g. above J then team is B  
+    if player_current.col > 10 : 
+        team_curr = "B"
+        team_new = "A"
+    else:
+        team_curr = "A"
+        team_new = "B"
+
+    #Find the column with the score from Team A or B
+    col_result_num_a = ws_results.find('Team ' + team_curr + ' Total')
+
+    #Find the column with the score from Team A or B
+    col_result_num_b = ws_results.find('Team ' + team_new + ' Total') 
+
+    #Convert Col Number to a Letter
+    col_result_a = colnum_string(col_result_num_a.col)
+
+    #Convert Col Number to a Letter
+    col_result_b = colnum_string(col_result_num_b.col)
+
+    #Combine Col letter and row num into range
+    team_result_range_a = str(col_result_a)+str(row.row)
+
+    #Combine Col letter and row num into range
+    team_result_range_b = str(col_result_b)+str(row.row)
+
+    #Grab current score for Team A
+    team_result_a = ws_results.acell(team_result_range_a).value
+
+    #Grab current score for Team B
+    team_result_b = ws_results.acell(team_result_range_b).value
+
+    #New Result is current result minus difference
+    new_result_a = int(team_result_a) - player_score_difference
+
+    #New Result is current result minus difference
+    new_result_b = int(team_result_b) - player_score_difference
+
+    ##Update cell with new score,
+    ##using the row with the dash,
+    ##and column with Team Result
+    ws_results.update_cell(row.row, col_result_num_a.col, new_result_a)
+    ws_results.update_cell(row.row, col_result_num_b.col, new_result_b)
+
+    ##Update cell with new player,
+    ##using the row with the dash,
+    ##and column with Player Current/New
+    ws_results.update_cell(row.row, player_current.col, player[1])
+    ws_results.update_cell(row.row, player_new.col, player[0])
+
+    print("Swapped player and updated score")
+    return
+
 
 def modify_playing_status(player):
     '''Takes in a player
