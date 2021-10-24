@@ -71,10 +71,14 @@ def result():
             embed=discord.Embed(title="Here are this weeks teams:",
                                 color=discord.Color.dark_green())
             embed.set_author(name="footyapp")
-            embed.add_field(name="TEAM A:", 
-                            value=teama_json, inline=True)
-            embed.add_field(name="TEAM B:", 
-                            value=teamb_json, inline=True)
+            embed.add_field(name="TeamA (" 
+                            + str(scorea_passback) 
+                            + "):", value=teama_json, 
+                            inline=True)
+            embed.add_field(name="TeamB (" 
+                            + str(scoreb_passback) 
+                            + "):", value=teamb_json, 
+                            inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             webhook.send(file = file, embed = embed)
             
@@ -93,6 +97,18 @@ def result():
             return render_template('post.html')
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
+            ##Send Rerun message to discord
+            if IFBRANCH in GITBRANCH:
+                url = lookup("discord_webhook")
+            else:
+                url = lookup("discord_webhook_dev")
+            webhook = discord.Webhook.from_url(url, 
+                                            adapter=discord.RequestsWebhookAdapter())
+            ##Embed Message
+            embed=discord.Embed(title="Rerun button pressed",
+                                color=discord.Color.dark_green())
+            embed.set_author(name="footyapp")
+            webhook.send(embed = embed)
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET

@@ -249,10 +249,84 @@ class AdminCommands(commands.Cog):
             between teams when both players are playing'''
             post.swap_existing_player(args)
             await ctx.send(f'{args[0]} swapped with {args[1]}')
+            await ctx.send(f'Run command !lineup for updated teams/scores')
+        else:
+            post.swap_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+            await ctx.send(f'Run command !lineup for updated teams/scores')
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def lineup(self, ctx):
+        """Lineup"""
+        file = discord.File("static/football.png")
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        totala = result.totala()
+        totalb = result.totalb()
+        team_a = "\n".join(item for item in teama)
+        team_b = "\n".join(item for item in teamb)
+        # Embed Message
+        embed=discord.Embed(
+            title="Here are the teams:",
+            url="http://football.richardbignell.co.uk",
+            color=discord.Color.dark_green()
+        )
+        embed.add_field(name="TeamA (" 
+                        + str(totala) 
+                        + "):", value=team_a, 
+                        inline=True)
+        embed.add_field(name="TeamB (" 
+                        + str(totalb) 
+                        + "):", value=team_b, 
+                        inline=True)
+        embed.set_thumbnail(url="attachment://football.png")
+        embed.set_footer(text="Use the website above to rerun the saved lineup")
+        await ctx.send(file=file, embed=embed)
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def swap(self, ctx, *args):
+        """Swap player"""
+        players = player()
+        player_names = players.player_names()
+        player_names = [pname[0] for pname in player_names]
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        scorea = result.scorea()
+        teams = teama + teamb
+        if len(args) != 2:
+            print('You must have 2 players!')
+            await ctx.send('You must have 2 players!')
+        elif scorea != "-":
+            print('Game has already been played this week!')
+            await ctx.send('Game has already been played this week!')
+        elif args[0] not in teams:
+            print(f'{args[0]} is not in the {teams} list!')
+            await ctx.send(f'{args[0]} is not in the team list!')
+        elif args[1] not in player_names:
+            print(f'{args[1]} is not in the player list!')
+            await ctx.send(f'{args[1]} is not in the player list!')
+        elif all([args[0] in teama, args[1] in teama]):
+            print(f'{args[0]} and {args[1]} are in Team A: {teama}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
+        elif all([args[0] in teamb, args[1] in teamb]):
+            print(f'{args[0]} and {args[1]} are in Team B: {teamb}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
+        elif args[1] in teams:
+            '''Using a separate function for swapping players
+            between teams when both players are playing'''
+            post.swap_existing_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
         else:
             post.swap_player(args)
             await ctx.send(f'{args[0]} swapped with {args[1]}')
             
+            post.swap_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):

@@ -245,3 +245,19 @@ class results():
         # and column's' as the second value
         self.date = self.df.iloc[-1,0]
         return self.date
+
+    def totala(self):
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
+        self.totala = self.df.iloc[-1,3]
+        return self.totala
+    
+    def totalb(self):
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
+        self.totalb = self.df.iloc[-1,4]
+        return self.totalb
