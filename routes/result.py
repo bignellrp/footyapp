@@ -22,6 +22,9 @@ def result():
     if request.method == 'POST':
         if request.form['submit_button'] == 'Store':
 
+            ##Get Colour from form
+            teama_colour = request.form.get('ImageA')
+            teamb_colour = request.form.get('ImageB')
             ##Pull data from flask session
             ##Taken from reddit 
             ##https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
@@ -58,7 +61,8 @@ def result():
             #result = _message_slack_channel(text)
 
             ##Send the teams to discord
-            file = discord.File("static/football.png")
+            fileA = discord.File("static/"+teama_colour+".png")
+            fileB = discord.File("static/"+teamb_colour+".png")
             if IFBRANCH in GITBRANCH:
                 url = lookup("discord_webhook")
             else:
@@ -68,19 +72,25 @@ def result():
             webhook = discord.Webhook.from_url(url, 
                                             adapter=discord.RequestsWebhookAdapter())
             ##Embed Message
-            embed=discord.Embed(title="Here are this weeks teams:",
+            embed1=discord.Embed(title="TEAM A:",
                                 color=discord.Color.dark_green())
-            embed.set_author(name="footyapp")
-            embed.add_field(name="TeamA (" 
+            embed1.set_author(name="footyapp")
+            embed1.add_field(name="TeamA (" 
                             + str(scorea_passback) 
                             + "):", value=teama_json, 
                             inline=True)
-            embed.add_field(name="TeamB (" 
+            embed1.set_thumbnail(url="attachment://"+teama_colour+".png")
+            webhook.send(file = fileA, embed = embed1)
+
+            embed2=discord.Embed(title="TEAM B:",
+                                color=discord.Color.dark_green())
+            embed2.set_author(name="footyapp")
+            embed2.add_field(name="TeamB (" 
                             + str(scoreb_passback) 
                             + "):", value=teamb_json, 
                             inline=True)
-            embed.set_thumbnail(url="attachment://football.png")
-            webhook.send(file = file, embed = embed)
+            embed2.set_thumbnail(url="attachment://"+teamb_colour+".png")
+            webhook.send(file = fileB, embed = embed2)
             
             ##Run Update Functions, either update or append
             if date == next_wednesday and scorea == "-":

@@ -10405,3 +10405,9 @@ body {
 .leaderboard li:nth-child(5) {
   background: #c24448;
 }
+
+.center-item {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
