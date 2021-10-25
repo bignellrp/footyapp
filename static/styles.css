@@ -10406,16 +10406,11 @@ body {
   background: #c24448;
 }
 
-.center-item {
+img.center {
   display: block;
-  margin-left: 1%;
-  margin-right: auto;
-  padding: 0;
+  margin: 0 auto;
 }
 
-.center-text {
-  text-align: center;
-  margin-left: 1%;
-  margin-right: auto;
-  padding: 0;
+.form-control {
+  text-align:center;
 }
