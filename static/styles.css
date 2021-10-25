@@ -10408,10 +10408,14 @@ body {
 
 .center-item {
   display: block;
-  margin-left: auto;
+  margin-left: 1%;
   margin-right: auto;
+  padding: 0;
 }
 
 .center-text {
   text-align: center;
+  margin-left: 1%;
+  margin-right: auto;
+  padding: 0;
 }

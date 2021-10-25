@@ -44,9 +44,8 @@
                         <div class="featured-text text-center text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                             <h1>Lineup:</h1>
-                            <div class="text-pre">
+                            <div class="text-pre center-item center-text">
                             <p><h3><b>Team A: {{ scorea }}</b></h3></p>
-                            <div class="center-item center-text">
                             <select name="ImageA" id="changeImageA">
                                 <option value="other">other</option>
                                 <option value="blue">blue</option>
@@ -61,10 +60,9 @@
                                 <option value="darrenschoice">darrenschoice</option>
                             </select>
                             <img id="imageA" src='/static/other.png' width="50" height="60">
-                            </div>
                             <p>{% for player in teama %}{{ player }}<br>{% endfor %}</p>
                             </div>
-                            <div class="text-pre">
+                            <div class="text-pre center-item center-text">
                             <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
                             <select name="ImageB" id="changeImageB">
                                 <option value="other">other</option>
