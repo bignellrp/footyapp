@@ -1,7 +1,10 @@
 from flask import render_template, request, Blueprint, session
 from services.get_spread import player
 
-compare_blueprint = Blueprint('compare', __name__, template_folder='templates', static_folder='static')
+compare_blueprint = Blueprint('compare', 
+                              __name__, 
+                              template_folder='templates', 
+                              static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
 def compare():
@@ -15,23 +18,30 @@ def compare():
     
     if request.method == 'POST':
 
-        ##Use GetList to put the data from the index template into the array
+        ##Use GetList to put the data 
+        ##from the index template into the array
         available_players_a = request.form.getlist('available_players_a')
         available_players_b = request.form.getlist('available_players_b')
-        check =  any(item in available_players_a for item in available_players_b)
+        check = any(item in available_players_a for item 
+                                            in available_players_b)
 
         if len(available_players_a) < 5 or len(available_players_b) < 5:
             '''If available players less than 10'''
             print("Not enough players!")
             error = "*ERROR*: Please select 10 players!"
-            return render_template('compare.html', player_names = player_names, error = error)
+            return render_template('compare.html', 
+                                   player_names = player_names, 
+                                   error = error)
         elif check is True:
             '''If Player from ListA is in ListB'''
             print("You cannot have a player in both teams!")
             error = "*ERROR*: You cannot have a player in both teams!" 
-            return render_template('compare.html', player_names = player_names, error = error)
+            return render_template('compare.html', 
+                                   player_names = player_names, 
+                                   error = error)
         else:
-            ##Build teams out of available players from all_players using an if 
+            ##Build teams out of available players 
+            ##from all_players using an if 
             team_a = []
             team_b = []
             for row in all_players: 
@@ -55,6 +65,12 @@ def compare():
             session['team_b_total'] = team_b_total
 
             ##Return Team A and Team B to the results template
-            return render_template('result.html', teama = team_a_names, teamb = team_b_names, scorea = team_a_total, scoreb = team_b_total)
-    ##If request method is not POST then it must be GET so render compare.html including player_names
-    return render_template('compare.html', player_names = player_names)
+            return render_template('result.html', 
+                                   teama = team_a_names, 
+                                   teamb = team_b_names, 
+                                   scorea = team_a_total, 
+                                   scoreb = team_b_total)
+    ##If request method is not POST then it must be GET 
+    ##so render compare.html including player_names
+    return render_template('compare.html', 
+                            player_names = player_names)

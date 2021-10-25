@@ -10405,3 +10405,12 @@ body {
 .leaderboard li:nth-child(5) {
   background: #c24448;
 }
+
+img.center {
+  display: block;
+  margin: 0 auto;
+}
+
+.form-control {
+  text-align:center;
+}

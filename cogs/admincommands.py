@@ -88,8 +88,14 @@ class AdminCommands(commands.Cog):
                 url="http://football.richardbignell.co.uk/score",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA Score (" + str(scorea) + "):", value=teama, inline=True)
-            embed.add_field(name="TeamB Score (" + str(scoreb) + "):", value=teamb, inline=True)
+            embed.add_field(name="TeamA Score (" 
+                            + str(scorea) 
+                            + "):", value=teama, 
+                            inline=True)
+            embed.add_field(name="TeamB Score (" 
+                            + str(scoreb) 
+                            + "):", value=teamb, 
+                            inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
@@ -98,7 +104,8 @@ class AdminCommands(commands.Cog):
                 match = re.match("(^[0-9]{1,2}$)",m.content)
                 return m.channel == ctx.channel and match
             try:
-                msg = await self.bot.wait_for("message", timeout=60.0, check=check)
+                msg = await self.bot.wait_for("message", 
+                                              timeout=60.0, check=check)
             except asyncio.TimeoutError:
                 await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
                 return
@@ -110,7 +117,8 @@ class AdminCommands(commands.Cog):
                     match = re.match("(^[0-9]{1,2}$)",m.content)
                     return m.channel == ctx.channel and match
                 try:
-                    msg = await self.bot.wait_for("message", timeout=60.0, check=check)
+                    msg = await self.bot.wait_for("message", 
+                                                  timeout=60.0, check=check)
                 except asyncio.TimeoutError:
                     await ctx.send("You didnt enter a 1 or 2 digit number in 60 seconds.")
                     return
@@ -155,7 +163,8 @@ class AdminCommands(commands.Cog):
             await ctx.send("Too many players!")
         else:
             print('Running even teams function!')
-            team_a,team_b,team_a_total,team_b_total = get_even_teams(game_player_tally_with_score)
+            team_a,team_b,team_a_total,team_b_total = get_even_teams(
+                game_player_tally_with_score)
             google_output = []
             google_output.append((next_wednesday))
             google_output.append(str("-"))
@@ -172,8 +181,14 @@ class AdminCommands(commands.Cog):
                 url="http://football.richardbignell.co.uk",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline=True)
-            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline=True)
+            embed.add_field(name="TeamA (" 
+                            + str(team_a_total) 
+                            + "):", value=team_a, 
+                            inline=True)
+            embed.add_field(name="TeamB (" 
+                            + str(team_b_total) 
+                            + "):", value=team_b, 
+                            inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file=file, embed=embed)
@@ -182,7 +197,8 @@ class AdminCommands(commands.Cog):
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
             try:
-                msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+                msg = await self.bot.wait_for("message", 
+                                              timeout=10.0, check=check)
             except asyncio.TimeoutError: 
                 print("Teams command timeout!")
                 await ctx.send("You didnt type SAVE in 10 seconds. Run !teams again")
@@ -222,13 +238,95 @@ class AdminCommands(commands.Cog):
         elif args[1] not in player_names:
             print(f'{args[1]} is not in the player list!')
             await ctx.send(f'{args[1]} is not in the player list!')
+        elif all([args[0] in teama, args[1] in teama]):
+            print(f'{args[0]} and {args[1]} are in Team A: {teama}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
+        elif all([args[0] in teamb, args[1] in teamb]):
+            print(f'{args[0]} and {args[1]} are in Team B: {teamb}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
         elif args[1] in teams:
-            print(f'{args[1]} is already on the team!')
-            await ctx.send(f'{args[1]} is already on the team!')
+            '''Using a separate function for swapping players
+            between teams when both players are playing'''
+            post.swap_existing_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+            await ctx.send(f'Run command !lineup for updated teams/scores')
+        else:
+            post.swap_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+            await ctx.send(f'Run command !lineup for updated teams/scores')
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def lineup(self, ctx):
+        """Lineup"""
+        file = discord.File("static/football.png")
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        totala = result.totala()
+        totalb = result.totalb()
+        team_a = "\n".join(item for item in teama)
+        team_b = "\n".join(item for item in teamb)
+        # Embed Message
+        embed=discord.Embed(
+            title="Here are the teams:",
+            url="http://football.richardbignell.co.uk",
+            color=discord.Color.dark_green()
+        )
+        embed.add_field(name="TeamA (" 
+                        + str(totala) 
+                        + "):", value=team_a, 
+                        inline=True)
+        embed.add_field(name="TeamB (" 
+                        + str(totalb) 
+                        + "):", value=team_b, 
+                        inline=True)
+        embed.set_thumbnail(url="attachment://football.png")
+        embed.set_footer(text="Use the website above to rerun the saved lineup")
+        await ctx.send(file=file, embed=embed)
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def swap(self, ctx, *args):
+        """Swap player"""
+        players = player()
+        player_names = players.player_names()
+        player_names = [pname[0] for pname in player_names]
+        result = results()
+        teama = result.teama()
+        teamb = result.teamb()
+        scorea = result.scorea()
+        teams = teama + teamb
+        if len(args) != 2:
+            print('You must have 2 players!')
+            await ctx.send('You must have 2 players!')
+        elif scorea != "-":
+            print('Game has already been played this week!')
+            await ctx.send('Game has already been played this week!')
+        elif args[0] not in teams:
+            print(f'{args[0]} is not in the {teams} list!')
+            await ctx.send(f'{args[0]} is not in the team list!')
+        elif args[1] not in player_names:
+            print(f'{args[1]} is not in the player list!')
+            await ctx.send(f'{args[1]} is not in the player list!')
+        elif all([args[0] in teama, args[1] in teama]):
+            print(f'{args[0]} and {args[1]} are in Team A: {teama}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
+        elif all([args[0] in teamb, args[1] in teamb]):
+            print(f'{args[0]} and {args[1]} are in Team B: {teamb}')
+            await ctx.send(f'{args[0]} and {args[1]} are on the same team!')
+        elif args[1] in teams:
+            '''Using a separate function for swapping players
+            between teams when both players are playing'''
+            post.swap_existing_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
         else:
             post.swap_player(args)
             await ctx.send(f'{args[0]} swapped with {args[1]}')
             
+            post.swap_player(args)
+            await ctx.send(f'{args[0]} swapped with {args[1]}')
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def add(self, ctx, *args):
@@ -241,7 +339,8 @@ class AdminCommands(commands.Cog):
                 players = player()
                 count = players.player_count()
                 if count > 0:
-                    post.update_playing_status(name) #Should this allow lower case?
+                    ##Should this allow lower case?
+                    post.update_playing_status(name) 
                     print("Player is in:", name)
                     players = player()
                     count = players.player_count()
@@ -282,7 +381,9 @@ class AdminCommands(commands.Cog):
         args_count = len(args) #Count the args to use in validation
         args = list(map(int, args)) #Convert all args in list to ints
         arg_match = all(i <= 10 for i in args) #True if all args are <= 10
-        if not args: #If no args added then send playing list so user can choose from list
+
+        ##If no args added then send playing list so user can choose from list
+        if not args: 
             await ctx.invoke(self.bot.get_command('play'))
         if args_count != 5:
             await ctx.send('You must enter 5 numbers')
@@ -321,8 +422,14 @@ class AdminCommands(commands.Cog):
                 url="http://football.richardbignell.co.uk",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline=True)
-            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline=True)
+            embed.add_field(name="TeamA (" 
+                            + str(team_a_total) 
+                            + "):", value=team_a, 
+                            inline=True)
+            embed.add_field(name="TeamB (" 
+                            + str(team_b_total) 
+                            + "):", value=team_b, 
+                            inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file = file, embed=embed)
@@ -332,7 +439,8 @@ class AdminCommands(commands.Cog):
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
             try:
-                msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+                msg = await self.bot.wait_for("message", 
+                                              timeout=10.0, check=check)
             except asyncio.TimeoutError: 
                 print("Teams command timeout!")
                 await ctx.send("You didnt type SAVE in 10 seconds. Run !man again")
@@ -369,7 +477,9 @@ class AdminCommands(commands.Cog):
         #         if re.match("(^[0-9]{1,2}$)", i):
         #             return False #I think this needs to be True
         #     return True
-        if not args: #If no args added then send all players so user can choose from list
+
+        #If no args added then send all players so user can choose from list
+        if not args: 
             await ctx.invoke(self.bot.get_command('allplayers'))
         elif args_count != 10:
             await ctx.send('You must enter 10 numbers')
@@ -406,8 +516,14 @@ class AdminCommands(commands.Cog):
                 url="http://football.richardbignell.co.uk",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA (" + str(team_a_total) + "):", value=team_a, inline=True)
-            embed.add_field(name="TeamB (" + str(team_b_total) + "):", value=team_b, inline=True)
+            embed.add_field(name="TeamA (" 
+                            + str(team_a_total) 
+                            + "):", value=team_a, 
+                            inline=True)
+            embed.add_field(name="TeamB (" 
+                            + str(team_b_total) 
+                            + "):", value=team_b, 
+                            inline=True)
             embed.set_thumbnail(url="attachment://football.png")
             embed.set_footer(text="Enter on the website if you prefer using the link above")
             await ctx.send(file = file, embed=embed)
@@ -417,7 +533,8 @@ class AdminCommands(commands.Cog):
             def check(m):
                 return m.content == "SAVE" and m.channel == ctx.channel
             try:
-                msg = await self.bot.wait_for("message", timeout=10.0, check=check)
+                msg = await self.bot.wait_for("message", 
+                                              timeout=10.0, check=check)
             except asyncio.TimeoutError: 
                 print("Teams command timeout!")
                 await ctx.send("You didnt type SAVE in 10 seconds. Run !man again")

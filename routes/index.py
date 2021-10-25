@@ -1,9 +1,16 @@
-from flask import render_template, request, Blueprint, session, redirect, url_for
+from flask import render_template, \
+                request, Blueprint, session, redirect, url_for
 from services.get_spread import player
 import services.post_spread as post
 from services.get_even_teams import get_even_teams
+from services.get_oscommand import GITBRANCH, IFBRANCH
+import discord
+from services.lookup import lookup
 
-index_blueprint = Blueprint('index', __name__, template_folder='templates', static_folder='static')
+index_blueprint = Blueprint('index', 
+                            __name__, 
+                            template_folder='templates', 
+                            static_folder='static')
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 def index():
@@ -18,17 +25,23 @@ def index():
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
-            ##Use GetList to put the data from the index template into the array
+            ##Use GetList to put the data 
+            ##from the index template into the array
             available_players = request.form.getlist('available_players')
             error = None
             if len(available_players) < 10:
                 '''If available players less than 10'''
                 print("Not enough players!")
                 error = "*ERROR*: Please select 10 players!"
-                return render_template('index.html', player_names = player_names, player_count = player_count, error = error)
+                return render_template('index.html', 
+                                        player_names = player_names, 
+                                        player_count = player_count, 
+                                        error = error)
             else:
-                ##Build list of game_players if name exists in available_players
-                ##Also build a tally of available players to use as a running session
+                ##Build list of game_players if 
+                ##name exists in available_players
+                ##Also build a tally of available players 
+                ##to use as a running session
                 game_players = []
                 for row in all_players:
                     '''Takes in row of all_players 
@@ -38,7 +51,8 @@ def index():
                         game_players.append((row[0] , int(row[1])))
 
                 game_player_tally = []
-                ##To update in a batch this requires the list to be alphabetical
+                ##To update in a batch this requires 
+                ##the list to be alphabetical
                 ##Updating these one by one takes too long.
                 post.sort_players()
                 for row in all_players:
@@ -63,14 +77,47 @@ def index():
                 session['team_a_total'] = team_a_total
                 session['team_b_total'] = team_b_total
                 print("Posting to results page")
+
+                ##Send the teams to discord
+                file = discord.File("static/football.png")
+                if IFBRANCH in GITBRANCH:
+                    url = lookup("discord_webhook")
+                else:
+                    url = lookup("discord_webhook_dev")
+                teama_json = "\n".join(item for item in team_a)
+                teamb_json = "\n".join(item for item in team_b)
+                webhook = discord.Webhook.from_url(url, 
+                                                adapter=discord.RequestsWebhookAdapter())
+                ##Embed Message
+                embed=discord.Embed(title="PRE-SAVE:",
+                                    color=discord.Color.dark_green())
+                embed.set_author(name="footyapp")
+                embed.add_field(name="TeamA (" 
+                                + str(team_a_total) 
+                                + "):", value=teama_json, 
+                                inline=True)
+                embed.add_field(name="TeamB (" 
+                                + str(team_b_total) 
+                                + "):", value=teamb_json, 
+                                inline=True)
+                embed.set_thumbnail(url="attachment://football.png")
+                webhook.send(file = file, embed = embed)
+
                 # Return Team A and Team B to the results template
-                return render_template('result.html', teama = team_a, teamb = team_b, scorea = team_a_total, scoreb = team_b_total)
+                return render_template('result.html', 
+                                        teama = team_a, 
+                                        teamb = team_b, 
+                                        scorea = team_a_total, 
+                                        scoreb = team_b_total)
         elif request.form['submit_button'] == 'Save':
-            ##Use GetList to put the data from the index template into the array
+            ##Use GetList to put the data 
+            ##from the index template into the array
             available_players = request.form.getlist('available_players')
-            ##Build a tally of available players to use as a running session
+            ##Build a tally of available players 
+            ##to use as a running session
             game_player_tally = []
-            ##To update in a batch this requires the list to be alphabetical
+            ##To update in a batch this requires 
+            ##the list to be alphabetical
             ##Updating these one by one takes too long.
             post.sort_players()
             for row in all_players:
@@ -95,4 +142,6 @@ def index():
             print("No button pressed")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
-        return render_template('index.html', player_names = player_names, player_count = player_count)
+        return render_template('index.html', 
+                                player_names = player_names, 
+                                player_count = player_count)

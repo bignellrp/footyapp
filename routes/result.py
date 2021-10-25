@@ -6,19 +6,28 @@ from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 
-result_blueprint = Blueprint('result', __name__, template_folder='templates', static_folder='static')
+result_blueprint = Blueprint('result', 
+                             __name__, 
+                             template_folder='templates', 
+                             static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 def result():
     '''A function for building the results page.
-    Takes in teama and teamb from flask session so result carries between pages
-    and returns the body to the google sheet in row format'''
+    Takes in teama and teamb from flask 
+    session so result carries between pages
+    and returns the body to the google sheet 
+    in row format'''
     
     if request.method == 'POST':
         if request.form['submit_button'] == 'Store':
 
+            ##Get Colour from form
+            teama_colour = request.form.get('ImageA')
+            teamb_colour = request.form.get('ImageB')
             ##Pull data from flask session
-            ##Taken from reddit https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
+            ##Taken from reddit 
+            ##https://www.reddit.com/r/flask/comments/nsghsf/hidden_list/
             teama_passback = session['team_a']
             teamb_passback = session['team_b']
             scorea_passback = session['team_a_total']
@@ -34,7 +43,9 @@ def result():
             google_output.extend((teama_passback))
             google_output.extend((teamb_passback))
 
-            ##Now vars are safely in the google output remove them from the session so they are not carried from page to page unnecessarily.
+            ##Now vars are safely in the google output remove 
+            ##them from the session so they are not carried 
+            ##from page to page unnecessarily.
             session.pop('team_a', None)
             session.pop('team_b', None)
             session.pop('team_a_total', None)
@@ -50,21 +61,36 @@ def result():
             #result = _message_slack_channel(text)
 
             ##Send the teams to discord
-            file = discord.File("static/football.png")
+            fileA = discord.File("static/"+teama_colour+".png")
+            fileB = discord.File("static/"+teamb_colour+".png")
             if IFBRANCH in GITBRANCH:
                 url = lookup("discord_webhook")
             else:
                 url = lookup("discord_webhook_dev")
             teama_json = "\n".join(item for item in teama_passback)
             teamb_json = "\n".join(item for item in teamb_passback)
-            webhook = discord.Webhook.from_url(url, adapter=discord.RequestsWebhookAdapter())
+            webhook = discord.Webhook.from_url(url, 
+                                            adapter=discord.RequestsWebhookAdapter())
             ##Embed Message
-            embed=discord.Embed(title="Here are this weeks teams:",color=discord.Color.dark_green())
-            embed.set_author(name="footyapp")
-            embed.add_field(name="TEAM A:", value=teama_json, inline=True)
-            embed.add_field(name="TEAM B:", value=teamb_json, inline=True)
-            embed.set_thumbnail(url="attachment://football.png")
-            webhook.send(file = file, embed = embed)
+            embed1=discord.Embed(title="TEAM A:",
+                                color=discord.Color.dark_green())
+            embed1.set_author(name="footyapp")
+            embed1.add_field(name="TeamA (" 
+                            + str(scorea_passback) 
+                            + "):", value=teama_json, 
+                            inline=True)
+            embed1.set_thumbnail(url="attachment://"+teama_colour+".png")
+            webhook.send(file = fileA, embed = embed1)
+
+            embed2=discord.Embed(title="TEAM B:",
+                                color=discord.Color.dark_green())
+            embed2.set_author(name="footyapp")
+            embed2.add_field(name="TeamB (" 
+                            + str(scoreb_passback) 
+                            + "):", value=teamb_json, 
+                            inline=True)
+            embed2.set_thumbnail(url="attachment://"+teamb_colour+".png")
+            webhook.send(file = fileB, embed = embed2)
             
             ##Run Update Functions, either update or append
             if date == next_wednesday and scorea == "-":
@@ -81,6 +107,18 @@ def result():
             return render_template('post.html')
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
+            ##Send Rerun message to discord
+            if IFBRANCH in GITBRANCH:
+                url = lookup("discord_webhook")
+            else:
+                url = lookup("discord_webhook_dev")
+            webhook = discord.Webhook.from_url(url, 
+                                            adapter=discord.RequestsWebhookAdapter())
+            ##Embed Message
+            embed=discord.Embed(title="Rerun button pressed",
+                                color=discord.Color.dark_green())
+            embed.set_author(name="footyapp")
+            webhook.send(embed = embed)
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET

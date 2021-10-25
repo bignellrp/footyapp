@@ -3,7 +3,8 @@ import random
 
 def get_even_teams(game_players):
     '''A brute force function for calulating even teams.
-    Takes in a list of game_players and returns two lists of even score.
+    Takes in a list of game_players and 
+    returns two lists of even score.
         team_a: A list of teama players
         team_b: A list of teamb players
         team_a_total: Total of teama

@@ -107,4 +107,16 @@
         $('.compbtotalchecked').html(5 - compbnumber);
     });
 
+    // Change Image with dropdown
+
+    $('#changeImageA').change(function(){
+        $('#imageA')[0].src = "/static/"+this.value+".png";
+    });
+
+    // Change Image with dropdown
+
+    $('#changeImageB').change(function(){
+        $('#imageB')[0].src = "/static/"+this.value+".png";
+    });
+
 })(jQuery); // End of use strict
