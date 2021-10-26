@@ -10421,6 +10421,7 @@ body {
 }
 
 img.center {
+  border-radius: 15px;
   float: right;
   margin: 0 auto;
 }
