@@ -13,7 +13,7 @@
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/styles.css" rel="stylesheet" />
+        <link href="/static/styles.css?v=0.0.9" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -44,8 +44,6 @@
                         <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                             <h1>Lineup:</h1>
-                            <div class="text-pre">
-                            <p><h3><b>Team A: {{ scorea }}</b></h3></p>
                             <select class="form-control" name="ImageA" id="changeImageA">
                                 <option value="other">other</option>
                                 <option value="blue">blue</option>
@@ -59,12 +57,12 @@
                                 <option value="multicoloured">multicoloured</option>
                                 <option value="darrenschoice">darrenschoice</option>
                             </select>
-                            <img id="imageA" src='/static/other.png' width="50" height="60" class="center">
-                            <p>{% for player in teama %}{{ player }}<br>{% endfor %}</p>
-                            </div>
-                            <div class="text-pre">
-                            <p><h3><b>Team B: {{ scoreb }}</b></h3></p>
-                            <select class="form-control" name="ImageB" id="changeImageB">
+                            <p id="rcorners">
+                                <img id="imageA" src='/static/other.png' width="50" height="60" class="center">
+                                <b>Team A({{ scorea }}):</b><br>
+                                {% for player in teama %}{{ player }}<br>{% endfor %}
+                            </p>
+                            <select class="form-control" name="ImageA" id="changeImageA">
                                 <option value="other">other</option>
                                 <option value="blue">blue</option>
                                 <option value="white">white</option>
@@ -77,9 +75,11 @@
                                 <option value="multicoloured">multicoloured</option>
                                 <option value="darrenschoice">darrenschoice</option>
                             </select>
-                            <img id="imageB" src='/static/other.png' width="50" height="60" class="center">
-                            <p>{% for player in teamb %}{{ player }}<br>{% endfor %}</p>
-                            </div>
+                            <p id="rcorners">
+                                <img id="imageB" src='/static/other.png' width="50" height="60" class="center">
+                                <b>Team B({{ scoreb }}):</b><br>
+                                {% for player in teamb %}{{ player }}<br>{% endfor %}
+                            </p>
                             <h3><b>Save lineup?</b></h3>
                             <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Store">
                             <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Rerun">
