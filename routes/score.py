@@ -20,6 +20,10 @@ def score():
     date = result.date()
     scorea = result.scorea()
     scoreb = result.scoreb()
+    coloura = result.coloura()
+    colourb = result.colourb()
+    coloura = "/static/"+str(coloura)+".png"
+    colourb = "/static/"+str(colourb)+".png"
 
     if request.method == 'POST':
 
@@ -56,9 +60,13 @@ def score():
                                teama = teama, 
                                teamb = teamb, 
                                date = date, 
-                               error = error)
+                               error = error,
+                               coloura = coloura,
+                               colourb = colourb)
     ##If request method is not POST then it must be GET
     return render_template('score.html', 
                            teama = teama, 
                            teamb = teamb, 
-                           date = date)
+                           date = date,
+                           coloura = coloura,
+                           colourb = colourb)

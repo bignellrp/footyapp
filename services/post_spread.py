@@ -107,6 +107,24 @@ def update_scoreb(value):
     col = ws_results.find('Team B Result?')
     return ws_results.update_cell(row.row, col.col, value)
 
+def update_coloura(value):
+    '''Function to update the colour using 
+    the values from the results page
+    Takes in value to be added to sheet and 
+    returns the gspread command for updating cell'''
+    row = ws_results.find('-')
+    col = ws_results.find('Team A Colour')
+    return ws_results.update_cell(row.row, col.col, value)
+
+def update_colourb(value):
+    '''Function to update the colour using 
+    the values from the results page
+    Takes in value to be added to sheet and 
+    returns the gspread command for updating cell'''
+    row = ws_results.find('-')
+    col = ws_results.find('Team B Colour')
+    return ws_results.update_cell(row.row, col.col, value)
+
 def update_playing_status(player):
     '''Takes in a player 
     and adds x into the playing column'''

@@ -42,6 +42,8 @@ def result():
             google_output.append((scoreb_passback))
             google_output.extend((teama_passback))
             google_output.extend((teamb_passback))
+            google_output.append((teama_colour))
+            google_output.append((teamb_colour))
 
             ##Now vars are safely in the google output remove 
             ##them from the session so they are not carried 
