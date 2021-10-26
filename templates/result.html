@@ -45,7 +45,7 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                             <h1>Lineup:</h1>
                             <select class="form-control" name="ImageA" id="changeImageA">
-                                <option value="other">other</option>
+                                <option value="teama">teama</option>
                                 <option value="blue">blue</option>
                                 <option value="white">white</option>
                                 <option value="black">black</option>
@@ -58,12 +58,12 @@
                                 <option value="darrenschoice">darrenschoice</option>
                             </select>
                             <p id="rcorners">
-                                <img id="imageA" src='/static/other.png' width="90" height="100" class="center">
+                                <img id="imageA" src='/static/teama.png' width="90" height="100" class="center">
                                 <b>Team A({{ scorea }}):</b><br>
                                 {% for player in teama %}{{ player }}<br>{% endfor %}
                             </p>
                             <select class="form-control" name="ImageB" id="changeImageB">
-                                <option value="other">other</option>
+                                <option value="teamb">teamb</option>
                                 <option value="blue">blue</option>
                                 <option value="white">white</option>
                                 <option value="black">black</option>
@@ -76,7 +76,7 @@
                                 <option value="darrenschoice">darrenschoice</option>
                             </select>
                             <p id="rcorners">
-                                <img id="imageB" src='/static/other.png' width="90" height="100" class="center">
+                                <img id="imageB" src='/static/teamb.png' width="90" height="100" class="center">
                                 <b>Team B({{ scoreb }}):</b><br>
                                 {% for player in teamb %}{{ player }}<br>{% endfor %}
                             </p>
