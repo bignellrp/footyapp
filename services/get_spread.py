@@ -261,3 +261,19 @@ class results():
         ##and column's' as the second value
         self.totalb = self.df.iloc[-1,4]
         return self.totalb
+
+    def coloura(self):
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
+        self.coloura = self.df.iloc[-1,15]
+        return self.coloura
+    
+    def colourb(self):
+        ##Use iloc to get last row and columns for 
+        ##teama,teamb,scorea,scoreb and date
+        ##iloc takes the row as the first value 
+        ##and column's' as the second value
+        self.colourb = self.df.iloc[-1,16]
+        return self.colourb

@@ -13,7 +13,7 @@
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/styles.css?v=0.1.1" rel="stylesheet" />
+        <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -43,46 +43,49 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
-                            <h1>Lineup:</h1>
-                            <select class="form-control" name="ImageA" id="changeImageA">
-                                <option value="teama">teama</option>
-                                <option value="blue">blue</option>
-                                <option value="white">white</option>
-                                <option value="black">black</option>
-                                <option value="red">red</option>
-                                <option value="green">green</option>
-                                <option value="pink">pink</option>
-                                <option value="stripes">stripes</option>
-                                <option value="yellow">yellow</option>
-                                <option value="multicoloured">multicoloured</option>
-                                <option value="darrenschoice">darrenschoice</option>
-                            </select>
-                            <p id="rcorners">
-                                <img id="imageA" src='/static/teama.png' width="90" height="100" class="center">
-                                <b>Team A({{ scorea }}):</b><br>
-                                {% for player in teama %}{{ player }}<br>{% endfor %}
-                            </p>
-                            <select class="form-control" name="ImageB" id="changeImageB">
-                                <option value="teamb">teamb</option>
-                                <option value="blue">blue</option>
-                                <option value="white">white</option>
-                                <option value="black">black</option>
-                                <option value="red">red</option>
-                                <option value="green">green</option>
-                                <option value="pink">pink</option>
-                                <option value="stripes">stripes</option>
-                                <option value="yellow">yellow</option>
-                                <option value="multicoloured">multicoloured</option>
-                                <option value="darrenschoice">darrenschoice</option>
-                            </select>
-                            <p id="rcorners">
-                                <img id="imageB" src='/static/teamb.png' width="90" height="100" class="center">
-                                <b>Team B({{ scoreb }}):</b><br>
-                                {% for player in teamb %}{{ player }}<br>{% endfor %}
-                            </p>
-                            <h3><b>Save lineup?</b></h3>
-                            <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Store">
-                            <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Rerun">
+                                <h1>Lineup:</h1>
+                                <br>
+                                <select class="form-control" name="ImageA" id="changeImageA">
+                                    <option value="teama">teama</option>
+                                    <option value="blue">blue</option>
+                                    <option value="white">white</option>
+                                    <option value="black">black</option>
+                                    <option value="red">red</option>
+                                    <option value="green">green</option>
+                                    <option value="pink">pink</option>
+                                    <option value="stripes">stripes</option>
+                                    <option value="yellow">yellow</option>
+                                    <option value="multicoloured">multicoloured</option>
+                                    <option value="darrenschoice">darrenschoice</option>
+                                </select>
+                                <p id="rcorners">
+                                    <img id="imageA" src='/static/teama.png' width="90" height="100" class="center">
+                                    <b>Team A({{ scorea }}):</b><br>
+                                    {% for player in teama %}{{ player }}<br>{% endfor %}
+                                </p>
+                                <br>
+                                <select class="form-control" name="ImageB" id="changeImageB">
+                                    <option value="teamb">teamb</option>
+                                    <option value="blue">blue</option>
+                                    <option value="white">white</option>
+                                    <option value="black">black</option>
+                                    <option value="red">red</option>
+                                    <option value="green">green</option>
+                                    <option value="pink">pink</option>
+                                    <option value="stripes">stripes</option>
+                                    <option value="yellow">yellow</option>
+                                    <option value="multicoloured">multicoloured</option>
+                                    <option value="darrenschoice">darrenschoice</option>
+                                </select>
+                                <p id="rcorners">
+                                    <img id="imageB" src='/static/teamb.png' width="90" height="100" class="center">
+                                    <b>Team B({{ scoreb }}):</b><br>
+                                    {% for player in teamb %}{{ player }}<br>{% endfor %}
+                                </p>
+                                <br>
+                                <h3><b>Save lineup?</b></h3>
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Store">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Rerun">
                             </form>
                         </div>
                     </div>

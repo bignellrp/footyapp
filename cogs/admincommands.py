@@ -67,14 +67,17 @@ class AdminCommands(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def score(self, ctx, *args):
-        """Update score"""
-        file = discord.File("static/football.png")
+        """Update score (no args for lineup)"""
         result = results()
         teama = result.teama()
         teamb = result.teamb()
         date = result.date()
         scorea = result.scorea()
         scoreb = result.scoreb()
+        teama_colour = result.coloura()
+        teamb_colour = result.colourb()
+        fileA = discord.File("static/"+teama_colour+".png")
+        fileB = discord.File("static/"+teamb_colour+".png")
         teama = "\n".join(item for item in teama)
         teamb = "\n".join(item for item in teamb)
         if scorea != "-":
@@ -82,23 +85,32 @@ class AdminCommands(commands.Cog):
             await ctx.send('Score already entered for this week')
         elif not args:
             print('Display this weeks teams')
-            # Embed Message
-            embed=discord.Embed(
+            # Embed Message A
+            embeda=discord.Embed(
                 title="Here were the teams for:"+str(date),
                 url="http://football.richardbignell.co.uk/score",
                 color=discord.Color.dark_green()
             )
-            embed.add_field(name="TeamA Score (" 
+            embeda.add_field(name="TeamA (" 
                             + str(scorea) 
                             + "):", value=teama, 
                             inline=True)
-            embed.add_field(name="TeamB Score (" 
+            embeda.set_thumbnail(url="attachment://"+teama_colour+".png")
+            embeda.set_footer(text="Use the website above to rerun the saved lineup")
+            # Embed Message B
+            embedb=discord.Embed(
+                title="Here were the teams for:"+str(date),
+                url="http://football.richardbignell.co.uk/score",
+                color=discord.Color.dark_green()
+            )
+            embedb.add_field(name="TeamB (" 
                             + str(scoreb) 
                             + "):", value=teamb, 
                             inline=True)
-            embed.set_thumbnail(url="attachment://football.png")
-            embed.set_footer(text="Enter on the website if you prefer using the link above")
-            await ctx.send(file=file, embed=embed)
+            embedb.set_thumbnail(url="attachment://"+teamb_colour+".png")
+            embedb.set_footer(text="Use the website above to rerun the saved lineup")
+            await ctx.send(file=fileA, embed=embeda)
+            await ctx.send(file=fileB, embed=embedb)
             await ctx.send("Please enter the score for TeamA: (1 or 2 digits)")
             def check(m):
                 match = re.match("(^[0-9]{1,2}$)",m.content)
@@ -173,6 +185,8 @@ class AdminCommands(commands.Cog):
             google_output.append((team_b_total))
             google_output.extend((team_a))
             google_output.extend((team_b))
+            google_output.append(str("teama"))
+            google_output.append(str("teamb"))
             team_a = "\n".join(item for item in team_a)
             team_b = "\n".join(item for item in team_b)
             # Embed Message
@@ -259,31 +273,44 @@ class AdminCommands(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def lineup(self, ctx):
         """Lineup"""
-        file = discord.File("static/football.png")
         result = results()
         teama = result.teama()
         teamb = result.teamb()
         totala = result.totala()
         totalb = result.totalb()
+        date = result.date()
+        teama_colour = result.coloura()
+        teamb_colour = result.colourb()
+        fileA = discord.File("static/"+teama_colour+".png")
+        fileB = discord.File("static/"+teamb_colour+".png")
         team_a = "\n".join(item for item in teama)
         team_b = "\n".join(item for item in teamb)
-        # Embed Message
-        embed=discord.Embed(
-            title="Here are the teams:",
-            url="http://football.richardbignell.co.uk",
+        # Embed Message A
+        embeda=discord.Embed(
+            title="Here were the teams for:"+str(date),
+            url="http://football.richardbignell.co.uk/score",
             color=discord.Color.dark_green()
         )
-        embed.add_field(name="TeamA (" 
+        embeda.add_field(name="TeamA (" 
                         + str(totala) 
                         + "):", value=team_a, 
                         inline=True)
-        embed.add_field(name="TeamB (" 
+        embeda.set_thumbnail(url="attachment://"+teama_colour+".png")
+        embeda.set_footer(text="Use the website above to rerun the saved lineup")
+        # Embed Message B
+        embedb=discord.Embed(
+            title="Here were the teams for:"+str(date),
+            url="http://football.richardbignell.co.uk/score",
+            color=discord.Color.dark_green()
+        )
+        embedb.add_field(name="TeamB (" 
                         + str(totalb) 
                         + "):", value=team_b, 
                         inline=True)
-        embed.set_thumbnail(url="attachment://football.png")
-        embed.set_footer(text="Use the website above to rerun the saved lineup")
-        await ctx.send(file=file, embed=embed)
+        embedb.set_thumbnail(url="attachment://"+teamb_colour+".png")
+        embedb.set_footer(text="Use the website above to rerun the saved lineup")
+        await ctx.send(file=fileA, embed=embeda)
+        await ctx.send(file=fileB, embed=embedb)
 
     @commands.command()
     @commands.has_permissions(administrator=True)
