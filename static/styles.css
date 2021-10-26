@@ -10406,11 +10406,29 @@ body {
   background: #c24448;
 }
 
+ /*https://www.w3schools.com/css/css3_borders.asp*/
+  
+ #rcorners {
+  text-align:left;
+  margin: auto;
+  width: 50%;
+  border-radius: 15px;
+  background: #2F3136;
+  padding: 20px;
+  width: 300px;
+  height: 180px;
+  color: white;
+}
+
 img.center {
-  display: block;
+  float: right;
   margin: 0 auto;
 }
 
 .form-control {
+  margin: auto;
+  width: 50%;
   text-align:center;
+  width: 300px;
+  color: white;
 }
