@@ -370,7 +370,7 @@ def copy_formulas(player):
     score_formula = f'=IFERROR((C{row}*3+D{row}),0)'
     played_formula = f'=C{row}+D{row}+E{row}'
     percent_formula = f'=IFERROR((C{row}/H{row}*100),0)'
-    percent3_formula = f'=IF(H{row}<3,0,I{row})'
+    percent3_formula = f'=IF(H{row}<5,0,I{row})'
     ws_players.update_cell(row,
                            clm_wins.col,
                            wins_formula)
