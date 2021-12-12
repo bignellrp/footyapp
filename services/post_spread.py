@@ -361,8 +361,9 @@ def copy_formulas(player):
                      = $A{row})*(Results!$B$2:$B$929>Results!$C$2:$C$929)))\
                      +(SUMPRODUCT((Results!$K$2:$O$929 \
                      = $A{row})*(Results!$B$2:$B$929<Results!$C$2:$C$929)))'
-    draws_formula = f'=SUM(SUMPRODUCT((Results!$F$2:$O$929 \
-                      = $A{row})*(Results!$B$2:$B$929=Results!$C$2:$C$929)))'
+    draws_formula = f'=SUMPRODUCT((Results!$F$2:$O$929 \
+                      = $A{row})*(Results!$B$2:$B$929=Results!$C$2:$C$929)\
+                      *ISNUMBER(Results!$B$2:$B$929 * Results!$C$2:$C$929))'
     losses_formula = f'=SUM(SUMPRODUCT((Results!$F$2:$J$929 \
                        = $A{row})*(Results!$B$2:$B$929<Results!$C$2:$C$929)))\
                        +(SUMPRODUCT((Results!$K$2:$O$929 \
