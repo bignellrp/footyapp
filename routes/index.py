@@ -1,11 +1,12 @@
 from flask import render_template, \
                 request, Blueprint, session, redirect, url_for
+from flask_discord import requires_authorization
 from services.get_spread import player
 import services.post_spread as post
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
-import discord
 from services.lookup import lookup
+import discord
 
 index_blueprint = Blueprint('index', 
                             __name__, 
@@ -13,7 +14,9 @@ index_blueprint = Blueprint('index',
                             static_folder='static')
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
+@requires_authorization
 def index():
+
     '''A function for building the index page.
     Takes in available players from a flask form 
     and returns an even set of two 5 a side teams'''
