@@ -1,13 +1,12 @@
 from flask import render_template, \
                 request, Blueprint, session, redirect, url_for
-from flask_discord import requires_authorization
+from flask_discord import requires_authorization, DiscordOAuth2Session
 from services.get_spread import player
 import services.post_spread as post
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
 import discord
-from flask_discord import DiscordOAuth2Session
 
 discord_blueprint = DiscordOAuth2Session()
 index_blueprint = Blueprint('index', 
