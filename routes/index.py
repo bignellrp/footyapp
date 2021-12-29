@@ -7,6 +7,7 @@ from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
 import discord
+from init import create_app
 
 index_blueprint = Blueprint('index', 
                             __name__, 
