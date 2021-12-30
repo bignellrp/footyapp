@@ -1,4 +1,5 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
+from flask_discord import requires_authorization, DiscordOAuth2Session
 from services.get_date import next_wednesday
 import services.post_spread as post
 from services.get_spread import results
@@ -6,12 +7,14 @@ from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 
+discord_blueprint = DiscordOAuth2Session()
 result_blueprint = Blueprint('result', 
                              __name__, 
                              template_folder='templates', 
                              static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
+@requires_authorization
 def result():
     '''A function for building the results page.
     Takes in teama and teamb from flask 
