@@ -1,15 +1,15 @@
 from flask import render_template, request, Blueprint, session
 from services.get_spread import player
-from flask_discord import requires_authorization, DiscordOAuth2Session
+##from flask_discord import requires_authorization, DiscordOAuth2Session
 
-discord_blueprint = DiscordOAuth2Session()
+##discord_blueprint = DiscordOAuth2Session()
 compare_blueprint = Blueprint('compare', 
                               __name__, 
                               template_folder='templates', 
                               static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
-@requires_authorization
+##@requires_authorization
 def compare():
     '''A function for building the compare page.
     Takes in available players from a flask form 

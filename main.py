@@ -27,26 +27,27 @@ if 'http://' in app.config["DISCORD_REDIRECT_URI"]:
 
 discord = DiscordOAuth2Session(app)
 
-def welcome_user(user):
-    dm_channel = discord.bot_request("/users/@me/channels", "POST", json={"recipient_id": user.id})
-    return discord.bot_request(
-        f"/channels/{dm_channel['id']}/messages", "POST", json={"content": "Thanks for authorizing the app!"}
-    )
+if lookup("discord_auth_enabled") == "YES":
+    def welcome_user(user):
+        dm_channel = discord.bot_request("/users/@me/channels", "POST", json={"recipient_id": user.id})
+        return discord.bot_request(
+            f"/channels/{dm_channel['id']}/messages", "POST", json={"content": "Thanks for authorizing the app!"}
+        )
 
-@app.route("/login/")
-def login():
-    return discord.create_session()
+    @app.route("/login/")
+    def login():
+        return discord.create_session()
 
-@app.route("/callback/")
-def callback():
-    discord.callback()
-    user = discord.fetch_user()
-    welcome_user(user)
-    return redirect(url_for("index.index"))
+    @app.route("/callback/")
+    def callback():
+        discord.callback()
+        user = discord.fetch_user()
+        welcome_user(user)
+        return redirect(url_for("index.index"))
 
-@app.errorhandler(Unauthorized)
-def redirect_unauthorized(e):
-    return redirect(url_for("login"))
+    @app.errorhandler(Unauthorized)
+    def redirect_unauthorized(e):
+        return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=False, port=5000)
