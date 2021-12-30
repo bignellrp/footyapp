@@ -11,7 +11,6 @@ app = create_app()
 
 app.secret_key = lookup("session")
 # OAuth2 must make use of HTTPS in production environment.
-app.config["DISCORD_REDIRECT_URI"] = lookup("discord_redirect_uri")
 if 'http://' in app.config["DISCORD_REDIRECT_URI"]:
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = 'true'
 
@@ -19,10 +18,12 @@ if IFBRANCH in GITBRANCH:
     app.config["DISCORD_CLIENT_ID"] = lookup("discord_client_id")
     app.config["DISCORD_CLIENT_SECRET"] = lookup("discord_client_secret")
     app.config["DISCORD_BOT_TOKEN"] = lookup("discord_token")
+    app.config["DISCORD_REDIRECT_URI"] = lookup("discord_redirect_uri")
 else:
     app.config["DISCORD_CLIENT_ID"] = lookup("discord_client_id_dev")
     app.config["DISCORD_CLIENT_SECRET"] = lookup("discord_client_secret_dev")
     app.config["DISCORD_BOT_TOKEN"] = lookup("discord_token_dev")
+    app.config["DISCORD_REDIRECT_URI"] = lookup("discord_redirect_uri_dev")
 
 discord = DiscordOAuth2Session(app)
 
