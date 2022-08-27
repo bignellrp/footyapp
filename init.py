@@ -12,5 +12,6 @@ def create_app():
     app.register_blueprint(stats_blueprint)
     app.register_blueprint(result_blueprint)
     app.register_blueprint(score_blueprint)
+    app.register_blueprint(playertotals_blueprint)
 
     return app
