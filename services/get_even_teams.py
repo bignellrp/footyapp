@@ -30,7 +30,6 @@ def get_even_teams(game_players):
             paired_down.add(team)
     sorted_teams = sorted(paired_down, key = score_diff)
     num = random.randint(0, 5)
-    print(num)
     team_a = set(sorted_teams[num])
     print(f'Using Random Number {num} Team A: {team_a}')
     team_b = comp(team_a)

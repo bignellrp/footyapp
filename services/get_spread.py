@@ -2,28 +2,121 @@ import gspread
 import pandas as pd
 from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
+import sqlite3
+from sqlite3 import Error
 
 SERVICE_ACCOUNT_FILE = '../tokens/keys.json'
 SPREADSHEET_ID = lookup("SPREADSHEET_ID")
+DATABASE = '../tokens/database.db'
+sql_create_players_table = '''  CREATE TABLE IF NOT EXISTS "players" (
+                                    "Name"	TEXT,
+                                    "Total"	INTEGER,
+                                    "Wins"	INTEGER,
+                                    "Draws"	INTEGER,
+                                    "Losses"	INTEGER,
+                                    "Score"	INTEGER,
+                                    "Playing"	TEXT,
+                                    "Played"	INTEGER,
+                                    "Percent Calc"	INTEGER,
+                                    "Win Percentage"	INTEGER
+                                ); '''
+sql_create_results_table = '''  CREATE TABLE "results" (
+                                    "Date"	TEXT,
+                                    "Team A Result?"	INTEGER,
+                                    "Team B Result?"	INTEGER,
+                                    "Team A Total"	INTEGER,
+                                    "Team B Total"	INTEGER,
+                                    "Team A Player 1"	TEXT,
+                                    "Team A Player 2"	TEXT,
+                                    "Team A Player 3"	TEXT,
+                                    "Team A Player 4"	TEXT,
+                                    "Team A Player 5"	TEXT,
+                                    "Team B Player 1"	TEXT,
+                                    "Team B Player 2"	TEXT,
+                                    "Team B Player 3"	TEXT,
+                                    "Team B Player 4"	TEXT,
+                                    "Team B Player 5"	TEXT,
+                                    "Team A Colour"	TEXT,
+                                    "Team B Colour"	TEXT
+                                ); '''
+# gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
+# ss = gc.open_by_key(SPREADSHEET_ID)
 
-gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
-ss = gc.open_by_key(SPREADSHEET_ID)
+# if IFBRANCH in GITBRANCH:
+#         print("Using Pro Worksheet for Get Commands")
+#         ws_players = ss.worksheet('Players')
+#         ws_results = ss.worksheet('Results')
+# else:
+#         print("Using Dev Worksheet for Get Commands")
+#         ws_players = ss.worksheet('Dev Players')
+#         ws_results = ss.worksheet('Dev Results')
 
-if IFBRANCH in GITBRANCH:
-    print("Using Pro Worksheet for Get Commands")
-    ws_players = ss.worksheet('Players')
-    ws_results = ss.worksheet('Results')
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file, check_same_thread=False)
+        return conn
+    except Error as e:
+        print(e)
+
+    return conn
+
+def create_table(conn, create_table_sql):
+    """ create a table from the create_table_sql statement
+    :param conn: Connection object
+    :param create_table_sql: a CREATE TABLE statement
+    :return:
+    """
+    try:
+        c = conn.cursor()
+        c.execute(create_table_sql)
+    except Error as e:
+        print(e)
+
+
+#conn = sqlite3.connect('../tokens/database.db', check_same_thread=False)
+#c = conn.cursor()
+
+conn = create_connection(DATABASE)
+c = conn.cursor()
+# get the count of tables with the name  
+tablename = 'players' 
+c.execute("SELECT count(name) FROM sqlite_master WHERE type='table' AND name=? ", (tablename, ))
+fetch = c.fetchone() # this SHOULD BE in a tuple containing count(name) integer.
+
+# check if the db has existing table names players
+# if the count is 1, then table exists 
+if fetch[0] == 1 : 
+    print('Table exists, starting app!')
+    pass
 else:
-    print("Using Dev Worksheet for Get Commands")
-    ws_players = ss.worksheet('Dev Players')
-    ws_results = ss.worksheet('Dev Results')
+
+    # create projects table
+    create_table(conn, sql_create_players_table)
+    players_table = pd.read_csv('../tokens/players.csv')
+    players_table.to_sql('players', conn, if_exists='fail', index = False)
+    print("Creating players table from csv.")
+
+    # create results table
+    create_table(conn, sql_create_results_table)
+    results_table = pd.read_csv('../tokens/results.csv')
+    results_table.to_sql('results', conn, if_exists='fail', index = False)
+    print("Creating results table from csv.")
+    conn.commit()
+
 
 class player():
 	
     def __init__(self):
         ##Initialise the class and get all the values from the players sheet
-        players_table = ws_players.get_all_values()
-        self.df = pd.DataFrame(players_table[1:], columns=players_table[0])
+        #players_table = ws_players.get_all_values()
+        #self.df = pd.DataFrame(players_table[1:], columns=players_table[0])
+        self.df = pd.read_sql('''SELECT * FROM players''', conn)
         ##Sort df values by name to hide what score players have
         ##Otherwise best players would show at the top
         self.df = self.df.sort_values(by=['Name'],ascending=True)
@@ -181,13 +274,20 @@ class results():
 
     def __init__(self):
         ##Initialise the class and get all the values from the results sheet
-        results_table = ws_results.get_all_values()
+        #results_table = ws_results.get_all_values()
         ##Add values to data frame
-        self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
+        self.df = pd.read_sql('''SELECT * FROM results''', conn)
+        #self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
         self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', 
                                          errors='ignore')
     
+    def all_results(self):
+        ##Get all results including column names
+        self.all_results = self.df
+        return self.all_results
+
+
     def game_stats(self):
         ##Filter All Players
         self.game_stats = self.df.filter(['Date','Team A Result?',

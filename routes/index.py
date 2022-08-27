@@ -6,6 +6,7 @@ import services.post_spread as post
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
+from services.get_auth import auth
 import discord
 
 ##discord_blueprint = DiscordOAuth2Session()
@@ -16,6 +17,7 @@ index_blueprint = Blueprint('index',
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 ##@requires_authorization
+@auth.login_required
 def index():
 
     '''A function for building the index page.
@@ -56,23 +58,24 @@ def index():
                     if row[0] in available_players:
                         game_players.append((row[0] , int(row[1])))
 
-                game_player_tally = []
+                #game_player_tally = []
                 ##To update in a batch this requires 
                 ##the list to be alphabetical
                 ##Updating these one by one takes too long.
-                post.sort_players()
-                for row in all_players:
-                    '''Takes in row of all_players 
-                    and returns a tally of those players
-                    that are available this week'''
-                    if row[0] in available_players:
-                        game_player_tally.append(("x"))
-                    else:
-                        game_player_tally.append(("o"))
+                #post.sort_players()
+                # for row in all_players:
+                #     '''Takes in row of all_players 
+                #     and returns a tally of those players
+                #     that are available this week'''
+                #     if row[0] in available_players:
+                #         game_player_tally.append(("x"))
+                #     else:
+                #         game_player_tally.append(("o"))
 
                 ##Save the tally of available players
-                result = post.update_tally(game_player_tally)
-                print("Running tally function")   
+                #result = post.update_tally(game_player_tally)
+                result = post.update_tally(available_players)
+                print("Running tally function")
 
                 ##Takes in game_players and returns teams and totals
                 team_a,team_b,team_a_total,team_b_total = get_even_teams(game_players)
@@ -119,22 +122,23 @@ def index():
             available_players = request.form.getlist('available_players')
             ##Build a tally of available players 
             ##to use as a running session
-            game_player_tally = []
+            #game_player_tally = []
             ##To update in a batch this requires 
             ##the list to be alphabetical
             ##Updating these one by one takes too long.
-            post.sort_players()
-            for row in all_players:
-                '''Takes in row of all_players 
-                and returns a tally of those players
-                that are available this week'''
-                if row[0] in available_players:
-                    game_player_tally.append(("x"))
-                else:
-                    game_player_tally.append(("o"))
+            #post.sort_players()
+            # for row in all_players:
+            #     '''Takes in row of all_players 
+            #     and returns a tally of those players
+            #     that are available this week'''
+            #     if row[0] in available_players:
+            #         game_player_tally.append(("x"))
+            #     else:
+            #         game_player_tally.append(("o"))
 
             ##Save the tally of available players
-            result = post.update_tally(game_player_tally)
+            #result = post.update_tally(game_player_tally)
+            result = post.update_tally(available_players)
             print("Running tally function")    
             return redirect(url_for('index.index'))
         elif request.form['submit_button'] == 'Wipe':

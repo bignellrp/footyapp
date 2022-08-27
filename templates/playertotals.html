@@ -45,35 +45,37 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
                         <div class="featured-text text-center text-center">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/playertotals">
                                 <table class="mx-auto text-lg-left" style="width: 50%">
                                     <colgroup>
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span>:</h2>
+                                    <h2>Update Player Totals:</h2>
                                     {% if error %}
                                     <div class="tool_tip"><h2> {{ error }} </h2></div>
                                     {% endif %}
-                                    {% for name, playing in player_names %}
-                                    <tr class="form-check checkbox-slider--default">
-                                        <td>
-                                            <label>
-                                                <input class="single-checkbox" type="checkbox" 
-                                                {% if playing == "x" %} 
-                                                checked="true"
-                                                {% else %}
-                                                {% endif %}
-                                                name="available_players" value="{{ name }}">
-                                                <span>{{ name }}</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                    <table>
+                                        <tr>
+                                          <th>Name</th>
+                                          <th>Total</th>
+                                        </tr>
+                                        {% for name, total in player_names %}
+                                        <tr>
+                                          <td><input class="form-control" type="text" id="player_name" name="player_name" value="{{ name }}"></td>
+                                          <td><input class="form-control" type="text" id="player_total" name="player_total" value="{{ total }}"></td>
+                                        </tr>
+                                        {% endfor %}
+                                      </table>
                                 </table>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Player">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Total">
+                                <br>
+                                <br>
+                                <h2>Add New Player:</h2><input class="form-control" type="text" id="add_player" name="add_player">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Add">
+                                <br>
+                                <br>
                                 </form>
                         </div>
                     </div>
