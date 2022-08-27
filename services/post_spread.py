@@ -319,12 +319,12 @@ def swap_player(players):
     #Find the column with the score from Team A or B
     #col_result_num = ws_results.find('Team ' + team + ' Total')
     #col_result_num = f'"Team " + {team} + " Total"'
-    col_result_num = f'"Team " + {team} + " Total"'
-    col_player1 = f'"Team " + {team} + " Player 1"'
-    col_player2 = f'"Team " + {team} + " Player 2"'
-    col_player3 = f'"Team " + {team} + " Player 3"'
-    col_player4 = f'"Team " + {team} + " Player 4"'
-    col_player5 = f'"Team " + {team} + " Player 5"'
+    col_result_num = f'Team {team} Total'
+    col_player1 = f'Team {team} Player 1'
+    col_player2 = f'Team {team} Player 2'
+    col_player3 = f'Team {team} Player 3'
+    col_player4 = f'Team {team} Player 4'
+    col_player5 = f'Team {team} Player 5'
 
     #Convert Col Number to a Letter
     #col_result = colnum_string(col_result_num.col) 
@@ -336,7 +336,7 @@ def swap_player(players):
     #team_result = ws_results.acell(team_result_range).value
 
     team_result = c.execute(
-        f'SELECT {col_result_num} FROM results WHERE "Date" = "{next_wednesday}"')
+        f'SELECT "{col_result_num}" FROM results WHERE "Date" = "{next_wednesday}"')
     team_result = c.fetchone()
     team_result = team_result[0]
     #New Result is current result minus difference
@@ -346,17 +346,17 @@ def swap_player(players):
     ##using the row with the dash,
     ##and column with Team Result
     #ws_results.update_cell(row.row, col_result_num.col, new_result)
-    c.execute(f'UPDATE results SET {col_result_num} = {new_result} WHERE "Date" = "{next_wednesday}"')
+    c.execute(f'UPDATE results SET "{col_result_num}" = {new_result} WHERE "Date" = "{next_wednesday}"')
 
     ##Update cell with new player,
     ##using the row with the dash,
     ##and column with Player Current
     #ws_results.update_cell(row.row, player_current.col, player[1])
-    c.execute(f'UPDATE results SET "{col_player1}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{col_player1}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{col_player2}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{col_player2}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{col_player3}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{col_player3}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{col_player4}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{col_player4}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{col_player5}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{col_player5}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{col_player1}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{col_player1}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{col_player2}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{col_player2}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{col_player3}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{col_player3}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{col_player4}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{col_player4}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{col_player5}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{col_player5}" = "{player_current}"')
 
     print("Swapped player and updated score")
     return
@@ -441,16 +441,16 @@ def swap_existing_player(players):
         team_curr = "A"
         team_new = "B"
 
-    curr_player1 = f'"Team " + {team_curr} + " Player 1"'
-    curr_player2 = f'"Team " + {team_curr} + " Player 2"'
-    curr_player3 = f'"Team " + {team_curr} + " Player 3"'
-    curr_player4 = f'"Team " + {team_curr} + " Player 4"'
-    curr_player5 = f'"Team " + {team_curr} + " Player 5"'
-    new_player1 = f'"Team " + {team_new} + " Player 1"'
-    new_player2 = f'"Team " + {team_new} + " Player 2"'
-    new_player3 = f'"Team " + {team_new} + " Player 3"'
-    new_player4 = f'"Team " + {team_new} + " Player 4"'
-    new_player5 = f'"Team " + {team_new} + " Player 5"'
+    curr_player1 = f'Team {team_curr} Player 1'
+    curr_player2 = f'Team {team_curr} Player 2'
+    curr_player3 = f'Team {team_curr} Player 3'
+    curr_player4 = f'Team {team_curr} Player 4'
+    curr_player5 = f'Team {team_curr} Player 5'
+    new_player1 = f'Team {team_new} Player 1'
+    new_player2 = f'Team {team_new} Player 2'
+    new_player3 = f'Team {team_new} Player 3'
+    new_player4 = f'Team {team_new} Player 4'
+    new_player5 = f'Team {team_new} Player 5'
 
     # #Find the column with the score from Team A or B
     # col_result_num_a = ws_results.find('Team ' + team_curr + ' Total')
@@ -503,16 +503,16 @@ def swap_existing_player(players):
     # ##and column with Player Current/New
     # ws_results.update_cell(row.row, player_current.col, player[1])
     # ws_results.update_cell(row.row, player_new.col, player[0])
-    c.execute(f'UPDATE results SET "{curr_player1}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{curr_player1}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{curr_player2}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{curr_player2}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{curr_player3}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{curr_player3}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{curr_player4}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{curr_player4}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{curr_player5}" = {player_new} WHERE "Date" = "{next_wednesday}" AND "{curr_player5}" = "{player_current}"')
-    c.execute(f'UPDATE results SET "{new_player1}" = {player_current} WHERE "Date" = "{next_wednesday}" AND "{new_player1}" = "{player_new}"')
-    c.execute(f'UPDATE results SET "{new_player2}" = {player_current} WHERE "Date" = "{next_wednesday}" AND "{new_player2}" = "{player_new}"')
-    c.execute(f'UPDATE results SET "{new_player3}" = {player_current} WHERE "Date" = "{next_wednesday}" AND "{new_player3}" = "{player_new}"')
-    c.execute(f'UPDATE results SET "{new_player4}" = {player_current} WHERE "Date" = "{next_wednesday}" AND "{new_player4}" = "{player_new}"')
-    c.execute(f'UPDATE results SET "{new_player5}" = {player_current} WHERE "Date" = "{next_wednesday}" AND "{new_player5}" = "{player_new}"')
+    c.execute(f'UPDATE results SET "{curr_player1}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{curr_player1}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{curr_player2}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{curr_player2}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{curr_player3}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{curr_player3}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{curr_player4}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{curr_player4}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{curr_player5}" = "{player_new}" WHERE "Date" = "{next_wednesday}" AND "{curr_player5}" = "{player_current}"')
+    c.execute(f'UPDATE results SET "{new_player1}" = "{player_current}" WHERE "Date" = "{next_wednesday}" AND "{new_player1}" = "{player_new}"')
+    c.execute(f'UPDATE results SET "{new_player2}" = "{player_current}" WHERE "Date" = "{next_wednesday}" AND "{new_player2}" = "{player_new}"')
+    c.execute(f'UPDATE results SET "{new_player3}" = "{player_current}" WHERE "Date" = "{next_wednesday}" AND "{new_player3}" = "{player_new}"')
+    c.execute(f'UPDATE results SET "{new_player4}" = "{player_current}" WHERE "Date" = "{next_wednesday}" AND "{new_player4}" = "{player_new}"')
+    c.execute(f'UPDATE results SET "{new_player5}" = "{player_current}" WHERE "Date" = "{next_wednesday}" AND "{new_player5}" = "{player_new}"')
     print("Swapped player and updated score")
     return
 
