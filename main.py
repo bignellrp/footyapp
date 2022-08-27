@@ -1,5 +1,5 @@
 #from flask import redirect, url_for
-#import bot #Used even though shows as not accessed
+import bot #Used even though shows as not accessed
 from init import create_app
 from services.lookup import lookup
 #from flask_discord import DiscordOAuth2Session, Unauthorized
