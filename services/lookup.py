@@ -16,24 +16,21 @@ def lookup(value):
         print('Tokens do not exist. Creating tokens!')
         with open(path_to_file, 'w+') as f:
             sys.stdout = f
-            print('{\n'
-                +'"session": "'
-                +os.urandom(24).hex()
-                +'",\n'
-                +'"slack_token": "",\n'
-                +'"discord_token": "",\n'
-                +'"discord_token_dev": "",\n'
-                +'"discord_webhook": "",\n'
-                +'"discord_webhook_dev": "",\n'
-                +'"SPREADSHEET_ID": "",\n'
-                +'"channel_id": "",\n'
-                +'"channel_id_dev": "",\n'
-                +'"gitbranchdev": "main",\n'
-                +'"httpauth_admin"'
-                +os.urandom(12)
-                +'",\n'
-                +'}'
-                )
+            dictionary = {
+                'session':os.urandom(24).hex(), 
+                'slack_token':'', 
+                'discord_token':'',
+                'discord_token_dev':'',
+                'discord_webhook':'',
+                'discord_webhook_dev':'',
+                'SPREADSHEET_ID':'',
+                'channel_id':'',
+                'channel_id_dev':'',
+                'gitbranchdev':'main',
+                'httpauth_admin':os.urandom(12)
+                }
+            jsonString = json.dumps(dictionary, indent=4)
+            print(jsonString)
         with open(path_to_file, "r") as handler:
             info = json.load(handler)
     return info[value]
