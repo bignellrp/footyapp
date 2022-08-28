@@ -7,7 +7,6 @@ path = Path(path_to_file) #Used for checking the file exists
 
 def lookup(value):
     if path.is_file():
-        print(f'The file {path_to_file} exists')
         with open(path_to_file, "r") as handler:
             info = json.load(handler)
     else:
