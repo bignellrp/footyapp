@@ -1,12 +1,11 @@
-import gspread
+#import gspread
 import pandas as pd
-from services.lookup import lookup
-from services.get_oscommand import GITBRANCH, IFBRANCH
+#from services.lookup import lookup
+#from services.get_oscommand import GITBRANCH, IFBRANCH
 import sqlite3
 from sqlite3 import Error
 
-SERVICE_ACCOUNT_FILE = '../tokens/keys.json'
-SPREADSHEET_ID = lookup("SPREADSHEET_ID")
+#SERVICE_ACCOUNT_FILE = '../tokens/keys.json'
 DATABASE = '../tokens/database.db'
 sql_create_players_table = '''  CREATE TABLE IF NOT EXISTS "players" (
                                     "Name"	TEXT,
@@ -39,8 +38,6 @@ sql_create_results_table = '''  CREATE TABLE "results" (
                                     "Team A Colour"	TEXT,
                                     "Team B Colour"	TEXT
                                 ); '''
-# gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
-# ss = gc.open_by_key(SPREADSHEET_ID)
 
 # if IFBRANCH in GITBRANCH:
 #         print("Using Pro Worksheet for Get Commands")
@@ -67,62 +64,63 @@ def create_connection(db_file):
     return conn
 
 def create_table(conn, create_table_sql):
-    """ create a table from the create_table_sql statement
+    '''create a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
     :return:
-    """
+    '''
     try:
         c = conn.cursor()
         c.execute(create_table_sql)
     except Error as e:
         print(e)
 
-
-#conn = sqlite3.connect('../tokens/database.db', check_same_thread=False)
-#c = conn.cursor()
-
 conn = create_connection(DATABASE)
 c = conn.cursor()
-# get the count of tables with the name  
-tablename = 'players' 
-c.execute("SELECT count(name) FROM sqlite_master WHERE type='table' AND name=? ", (tablename, ))
-fetch = c.fetchone() # this SHOULD BE in a tuple containing count(name) integer.
+
+c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="players"')
+fetch1 = c.fetchone()
+print(fetch1)
+
+c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="results"')
+fetch2 = c.fetchone()
+print(fetch2)
+
+c.execute('SELECT count(*) FROM players')
+fetch3 = c.fetchone()
+print(fetch3)
 
 # check if the db has existing table names players
 # if the count is 1, then table exists 
-if fetch[0] == 1 : 
-    print('Table exists, starting app!')
+if (fetch1[0] == 1 and fetch2[0] == 1 and fetch3[0] != 0):
+    print('Tables exist and contains data, starting app!')
     pass
 else:
-
     # create projects table
     create_table(conn, sql_create_players_table)
-    players_table = pd.read_csv('../tokens/players.csv')
-    players_table.to_sql('players', conn, if_exists='fail', index = False)
+    players_table = pd.read_csv('players_master.csv')
+    players_table.to_sql('players', conn, if_exists='replace', index = False)
     print("Creating players table from csv.")
 
     # create results table
     create_table(conn, sql_create_results_table)
-    results_table = pd.read_csv('../tokens/results.csv')
-    results_table.to_sql('results', conn, if_exists='fail', index = False)
+    results_table = pd.read_csv('results_master.csv')
+    results_table.to_sql('results', conn, if_exists='replace', index = False)
     print("Creating results table from csv.")
     conn.commit()
-
 
 class player():
 	
     def __init__(self):
-        ##Initialise the class and get all the values from the players sheet
-        #players_table = ws_players.get_all_values()
-        #self.df = pd.DataFrame(players_table[1:], columns=players_table[0])
+        '''Initialise the class and get all the 
+        values from the players table'''
         self.df = pd.read_sql('''SELECT * FROM players''', conn)
         ##Sort df values by name to hide what score players have
         ##Otherwise best players would show at the top
         self.df = self.df.sort_values(by=['Name'],ascending=True)
 
     def player_names(self):
-        ##Filter Names and convert to list
+        '''Filter Names and convert to list'''
         self.player_names = self.df.filter(['Name','Playing'])
         ##Convert from df to list without index to be used in forms
         self.player_names = self.player_names.to_records(index=False)
@@ -130,7 +128,7 @@ class player():
         return self.player_names
 		
     def all_players(self):
-        ##Filter All Players
+        '''Filter All Players'''
         self.all_players = self.df.filter(['Name','Total'])
         ##Convert Total column to numeric so they can be added up
         self.all_players['Total'] = pd.to_numeric(self.all_players['Total'])
@@ -140,7 +138,7 @@ class player():
         return self.all_players
 
     def player_stats(self):
-        ##Filter Player Stats
+        '''Filter Player Stats'''
         self.player_stats = self.df.filter(
                 ['Name','Wins','Draws','Losses','Score','Win Percentage'])
         ##Convert multiple columns to numeric
@@ -158,7 +156,7 @@ class player():
         return self.player_stats
 
     def leaderboard(self):
-        ##Filter Game Stats for Leaderboard
+        '''Filter Game Stats for Leaderboard'''
         self.leaderboard = self.df.filter(['Name','Score'])
         ##Convert Score column to numeric so they can be added up
         self.leaderboard['Score'] = pd.to_numeric(self.leaderboard['Score'])
@@ -172,7 +170,7 @@ class player():
         return self.leaderboard
 
     def winpercentage(self):
-        ##Filter Game Stats for winpercentage
+        '''Filter Game Stats for winpercentage'''
         self.winpercentage = self.df.filter(['Name','Win Percentage'])
         ##Convert Score column to numeric so they can be added up
         self.winpercentage['Win Percentage'] = pd.to_numeric(
@@ -187,7 +185,7 @@ class player():
         return self.winpercentage
 
     def player_count(self):
-        ##Count the number of players in tally
+        '''Count the number of players in tally'''
         game_tally = []
         game_player_tally = []
         player_names = self.df.filter(['Name','Playing'])
@@ -203,7 +201,7 @@ class player():
         return self.player_count
     
     def game_player_tally(self):
-        ##List of player names playing
+        '''List of player names playing'''
         game_player_tally = []
         player_names = self.df.filter(['Name','Playing'])
         ##Convert from df to list without index to be used in forms
@@ -219,7 +217,8 @@ class player():
         return self.game_player_tally
     
     def game_player_tally_with_index(self):
-        ##List of player names playing
+        '''List of player names playing
+        with index'''
         game_player_tally = []
         player_names = self.df.filter(['Name','Playing'])
         ##Convert from df to list without index to be used in forms
@@ -236,7 +235,8 @@ class player():
         return self.game_player_tally_with_index
 
     def game_player_tally_with_score(self):
-        ##List of player names playing
+        '''List of player names playing
+        with score'''
         game_player_tally = []
         player_names = self.df.filter(['Name','Total','Playing'])
         ##Convert from df to list without index to be used in forms
@@ -252,7 +252,7 @@ class player():
         return self.game_player_tally_with_score
 
     def game_player_tally_with_score_and_index(self):
-        ##List of player names playing
+        '''List of player names playing'''
         game_player_tally = []
         player_names = self.df.filter(['Name','Total','Playing'])
         ##Convert from df to list without index to be used in forms
@@ -273,22 +273,22 @@ class player():
 class results():
 
     def __init__(self):
-        ##Initialise the class and get all the values from the results sheet
-        #results_table = ws_results.get_all_values()
+        '''Initialise the class and get 
+        all the values from the results table'''
         ##Add values to data frame
         self.df = pd.read_sql('''SELECT * FROM results''', conn)
-        #self.df = pd.DataFrame(results_table[1:], columns=results_table[0])
         ##Convert date column to datetime using format YYYY-MM-DD
         self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', 
                                          errors='ignore')
     
     def all_results(self):
-        ##Get all results including column names
+        '''Get all results including column names'''
         self.all_results = self.df
         return self.all_results
 
 
     def game_stats(self):
+        '''Get all stats for stats page'''
         ##Filter All Players
         self.game_stats = self.df.filter(['Date','Team A Result?',
                                           'Team B Result?'])
@@ -303,77 +303,77 @@ class results():
         return self.game_stats
     
     def teama(self):
-        ##Use iloc to get last row and 
-        ##columns for teama,
-        ##teamb,scorea,scoreb and date
-        ##iloc takes the row as the first 
-        ##value and column's' 
-        ##as the second value
+        '''Use iloc to get last row and 
+        columns for teama,
+        teamb,scorea,scoreb and date
+        iloc takes the row as the first 
+        value and column's' 
+        as the second value'''
         self.teama = self.df.iloc[-1,5:10]
         self.teama = list(self.teama)
         return self.teama
 
     def teamb(self):
-        ##Use iloc to get last row and columns for teama,
-        ##teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value and 
-        ##column's' as the second value
+        '''Use iloc to get last row and columns for teama,
+        teamb,scorea,scoreb and date
+        iloc takes the row as the first value and 
+        column's' as the second value'''
         self.teamb = self.df.iloc[-1,10:15]
         self.teamb = list(self.teamb)
         return self.teamb
 
     def scorea(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value
+        and column's' as the second value'''
         self.scorea = self.df.iloc[-1,1]
         return self.scorea
     
     def scoreb(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.scoreb = self.df.iloc[-1,2]
         return self.scoreb
 
     def date(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        # and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.date = self.df.iloc[-1,0]
         return self.date
 
     def totala(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.totala = self.df.iloc[-1,3]
         return self.totala
     
     def totalb(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.totalb = self.df.iloc[-1,4]
         return self.totalb
 
     def coloura(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.coloura = self.df.iloc[-1,15]
         return self.coloura
     
     def colourb(self):
-        ##Use iloc to get last row and columns for 
-        ##teama,teamb,scorea,scoreb and date
-        ##iloc takes the row as the first value 
-        ##and column's' as the second value
+        '''Use iloc to get last row and columns for 
+        teama,teamb,scorea,scoreb and date
+        iloc takes the row as the first value 
+        and column's' as the second value'''
         self.colourb = self.df.iloc[-1,16]
         return self.colourb
