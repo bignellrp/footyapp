@@ -78,46 +78,52 @@ def create_table(conn, create_table_sql):
 conn = create_connection(DATABASE)
 c = conn.cursor()
 
-c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="players"')
-fetch1 = c.fetchone()
-print(fetch1)
-
-c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="results"')
-fetch2 = c.fetchone()
-print(fetch2)
-
-c.execute('SELECT count(*) FROM players')
-fetch3 = c.fetchone()
-print(fetch3)
+# c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="players"')
+# fetch1 = c.fetchone()
+# c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="results"')
+# fetch2 = c.fetchone()
+# c.execute('SELECT count(*) FROM players')
+# fetch3 = c.fetchone()
+# c.execute('SELECT count(*) FROM results')
+# fetch4 = c.fetchone()
 
 # check if the db has existing table names players
 # if the count is 1, then table exists 
-if (fetch1[0] == 1 and fetch2[0] == 1 and fetch3[0] != 0):
-    print('Tables exist and contains data, starting app!')
-    pass
-else:
-    # create projects table
-    create_table(conn, sql_create_players_table)
-    players_table = pd.read_csv('players_master.csv')
-    players_table.to_sql('players', conn, if_exists='replace', index = False)
-    print("Creating players table from csv.")
+# if (fetch1[0] == 1 and fetch2[0] == 1 and fetch3[0] != 0):
+#     print('Tables exist and contains data, starting app!')
+#     pass
+# else:
+#     # create projects table
+#     create_table(conn, sql_create_players_table)
+#     players_table = pd.read_csv('players_master.csv')
+#     players_table.to_sql('players', conn, if_exists='replace', index = False)
+#     print("Creating players table from csv.")
 
-    # create results table
-    create_table(conn, sql_create_results_table)
-    results_table = pd.read_csv('results_master.csv')
-    results_table.to_sql('results', conn, if_exists='replace', index = False)
-    print("Creating results table from csv.")
-    conn.commit()
+#     # create results table
+#     create_table(conn, sql_create_results_table)
+#     results_table = pd.read_csv('results_master.csv')
+#     results_table.to_sql('results', conn, if_exists='replace', index = False)
+#     print("Creating results table from csv.")
+#     conn.commit()
 
 class player():
 	
     def __init__(self):
         '''Initialise the class and get all the 
         values from the players table'''
-        self.df = pd.read_sql('''SELECT * FROM players''', conn)
-        ##Sort df values by name to hide what score players have
-        ##Otherwise best players would show at the top
-        self.df = self.df.sort_values(by=['Name'],ascending=True)
+        c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="players"')
+        fetch1 = c.fetchone()
+        if (fetch1[0] == 1):
+            self.df = pd.read_sql('''SELECT * FROM players''', conn)
+            self.df = self.df.sort_values(by=['Name'],ascending=True)
+        else:
+            create_table(conn, sql_create_players_table)
+            results_table = pd.read_csv('players_master.csv')
+            results_table.to_sql('players', conn, if_exists='replace', index = False)
+            print("Creating players table from csv.")
+            conn.commit()
+            self.df = pd.read_sql('''SELECT * FROM players''', conn)
+            self.df = self.df.sort_values(by=['Name'],ascending=True)
 
     def player_names(self):
         '''Filter Names and convert to list'''
@@ -275,12 +281,20 @@ class results():
     def __init__(self):
         '''Initialise the class and get 
         all the values from the results table'''
-        ##Add values to data frame
-        self.df = pd.read_sql('''SELECT * FROM results''', conn)
-        ##Convert date column to datetime using format YYYY-MM-DD
-        self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', 
-                                         errors='ignore')
-    
+        c.execute('SELECT count(name) FROM sqlite_master WHERE type="table" AND name="results"')
+        fetch2 = c.fetchone()
+        if (fetch2[0] == 1):
+            self.df = pd.read_sql('''SELECT * FROM results''', conn)
+            self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', errors='ignore')
+        else:
+            create_table(conn, sql_create_results_table)
+            results_table = pd.read_csv('results_master.csv')
+            results_table.to_sql('results', conn, if_exists='replace', index = False)
+            print("Creating results table from csv.")
+            conn.commit()
+            self.df = pd.read_sql('''SELECT * FROM results''', conn)
+            self.df['Date'] = pd.to_datetime(self.df.Date, format='%Y%m%d', errors='ignore')
+
     def all_results(self):
         '''Get all results including column names'''
         self.all_results = self.df
