@@ -11,6 +11,9 @@ print('{\n'
     +'"SPREADSHEET_ID": "",\n'
     +'"channel_id": "",\n'
     +'"channel_id_dev": "",\n'
-    +'"gitbranchdev": ""\n'
+    +'"gitbranchdev": "main",\n'
+    +'"httpauth_admin"'
+    +os.urandom(12)
+    +'",\n'
     +'}'
     )

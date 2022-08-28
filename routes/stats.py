@@ -16,6 +16,11 @@ def stats():
     players = player()
     game_stats = result.game_stats()
     player_stats = players.player_stats()
+
+    #Fix Internal Server Error if Stats are empty
+    if len(game_stats) == 0:
+        print("List is Empty!")
+        game_stats = ["Empty", "Empty", "Empty"]
     
     return render_template('stats.html', 
                            game_stats = game_stats, 
