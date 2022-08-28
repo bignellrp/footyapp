@@ -1,23 +1,20 @@
 import json
-import os
-import sys
 from pathlib import Path
+import secrets
+
+path_to_file = '../tokens/tokens.json'
+path = Path(path_to_file) #Used for checking the file exists
 
 def lookup(value):
-    original_stdout = sys.stdout
-    path_to_file = '../tokens/tokens.json'
-    path = Path(path_to_file)
-
     if path.is_file():
         print(f'The file {path_to_file} exists')
         with open(path_to_file, "r") as handler:
             info = json.load(handler)
     else:
         print('Tokens do not exist. Creating tokens!')
-        session = os.urandom(24).hex()
-        auth = os.urandom(12)
-        with open(path_to_file, 'w+') as f:
-            sys.stdout = f
+        session = secrets.token_urlsafe(24)
+        auth = secrets.token_urlsafe(12)
+        with open(path_to_file, "a+") as handler:
             dictionary = {
                 'session':session, 
                 'slack_token':'', 
@@ -28,11 +25,11 @@ def lookup(value):
                 'SPREADSHEET_ID':'',
                 'channel_id':'',
                 'channel_id_dev':'',
-                'gitbranchdev':'main',
+                'git_branch':'main',
                 'httpauth_admin':auth
                 }
-            jsonString = json.dumps(dictionary, indent=4)
-            print(jsonString)
-        with open(path_to_file, "r") as handler:
-            info = json.load(handler)
+            jsonString = json.dumps(dictionary, indent=4) #Format the dict into json
+            handler.write(jsonString) #Write json to file
+            handler.seek(0) #Move cursor back to the top once written
+            info = json.load(handler) #Read requried json value into info
     return info[value]
