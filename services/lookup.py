@@ -14,10 +14,12 @@ def lookup(value):
             info = json.load(handler)
     else:
         print('Tokens do not exist. Creating tokens!')
+        session = os.urandom(24).hex()
+        auth = os.urandom(12)
         with open(path_to_file, 'w+') as f:
             sys.stdout = f
             dictionary = {
-                'session':os.urandom(24).hex(), 
+                'session':session, 
                 'slack_token':'', 
                 'discord_token':'',
                 'discord_token_dev':'',
@@ -27,7 +29,7 @@ def lookup(value):
                 'channel_id':'',
                 'channel_id_dev':'',
                 'gitbranchdev':'main',
-                'httpauth_admin':os.urandom(12)
+                'httpauth_admin':auth
                 }
             jsonString = json.dumps(dictionary, indent=4)
             print(jsonString)
