@@ -2,7 +2,7 @@ from flask import render_template, \
                 request, Blueprint
 from services.get_spread import player
 import services.post_spread as post
-from services.get_auth import auth
+#from services.get_auth import auth
 
 ##discord_blueprint = DiscordOAuth2Session()
 playertotals_blueprint = Blueprint('playertotals', 
@@ -12,7 +12,7 @@ playertotals_blueprint = Blueprint('playertotals',
 
 @playertotals_blueprint.route('/playertotals', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def playertotals():
 
     '''A function for building the playerstotal page.

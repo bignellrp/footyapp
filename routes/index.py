@@ -6,8 +6,9 @@ import services.post_spread as post
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
-from services.get_auth import auth
+#from services.get_auth import auth
 import discord
+#from zenora import APIClient
 
 ##discord_blueprint = DiscordOAuth2Session()
 index_blueprint = Blueprint('index', 
@@ -17,7 +18,7 @@ index_blueprint = Blueprint('index',
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def index():
 
     '''A function for building the index page.
@@ -25,11 +26,13 @@ def index():
     and returns an even set of two 5 a side teams'''
 
     ##user = discord_blueprint.fetch_user()
-
+    #access_token = session.get("access_token")
     players = player()
     all_players = players.all_players()
     player_names = players.player_names()
     player_count = players.player_count()
+    #bearer_client = APIClient(access_token, bearer=True)
+    #current_user = bearer_client.users.get_current_user()
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -153,4 +156,5 @@ def index():
         return render_template('index.html', 
                                 player_names = player_names, 
                                 player_count = player_count)
+                                ##user=current_user)
                                 ##user = user)

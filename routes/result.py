@@ -6,6 +6,7 @@ from services.get_spread import results
 from services.lookup import lookup
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
+#from services.get_auth import auth
 
 ##discord_blueprint = DiscordOAuth2Session()
 result_blueprint = Blueprint('result', 
@@ -15,6 +16,7 @@ result_blueprint = Blueprint('result',
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
 ##@requires_authorization
+#@auth.login_required
 def result():
     '''A function for building the results page.
     Takes in teama and teamb from flask 

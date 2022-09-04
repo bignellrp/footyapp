@@ -11,18 +11,39 @@ Coded using Python, HTML and Flask using
 You can test this by installing this docker image and cloning this repo to
 replace the contents of the /app folder
 
-tiangolo/meinheld-gunicorn-flask
+[tiangolo/meinheld-gunicorn-flask](https://github.com/tiangolo/meinheld-gunicorn-flask-docker)
 
-```bash
-docker pull tiangolo/meinheld-gunicorn-flask
-docker run -t -i -e WEB_CONCURRENCY="1" -p 80:80 tiangolo/meinheld-gunicorn-flask
-docker exec -it flask /bin/bash
-rm -rf /app
-mkdir app
-cd app
-git clone https://github.com/bignellrp/footyapp.git .
-python3 services/generate_tokens.py > services/tokens.json
-pip3 install -r requirements.txt
+Using the below Dockerfile
+
+```
+FROM tiangolo/meinheld-gunicorn-flask
+
+# set environment variables
+ENV WEB_CONCURRENCY 1
+ENV PYTHONUNBUFFERED 1
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+COPY . /app
+```
+
+And below docker-compose.yml
+
+```
+services:
+  web:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/app/
+    ports:
+      - 5000:5000
+```
+
+
+```
+docker-compose build
+docker-compose up -d
 ```
 
 or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
@@ -31,21 +52,11 @@ or if you're using Docker on Unraid add these parameters to the "Advanced View" 
 Name:flaskpro
 Repository: tiangolo/meinheld-gunicorn-flask
 Extra Parameters: -e WEB_CONCURRENCY="1" -e PYTHONUNBUFFERED="1"
-Post Arguments: ;sleep 2;docker start flaskpro;sleep 2;docker exec flaskpro bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;python3 services/generate_tokens.py > /tokens/tokens.json;pip3 install -r requirements.txt";docker restart flaskpro
+Post Arguments: ;sleep 2;docker start flaskpro;sleep 2;docker exec flaskpro bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;pip3 install -r requirements.txt";docker restart flaskpro
 Tokens(Custom Folder): Container Path: /tokens
 ```
 
-This branch adds google sheets support to have the player list generated from a
-google sheet. Submit allows the user to push the results back to google sheets. 
-
 The score page allows the user to update the score from that weeks game.
-
-To test the google sheet function you need to follow this
-[guide](https://www.youtube.com/watch?v=4ssigWmExak)
-to work with the google sheets api. For this you need to have the credentials (keys)
-json. Save the keys.json to the services folder.
-
-If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static) **Note** the static branch is now a few versions behind the latest.
 
 In the latest version of the app a Discord helper bot is included that is integrated with the Flask webapp.
 

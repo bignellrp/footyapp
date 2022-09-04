@@ -3,12 +3,16 @@ import bot #Used even though shows as not accessed
 from init import create_app
 from services.lookup import lookup
 #from flask_discord import DiscordOAuth2Session, Unauthorized
-#from services.get_oscommand import GITBRANCH, IFBRANCH
+from flask import Flask, render_template, request, redirect, session
+from services.get_oscommand import GITBRANCH, IFBRANCH
 #import os
+#from zenora import APIClient
+#from urllib.parse import quote
 
 app = create_app()
 
 app.secret_key = lookup("session")
+
 
 # if IFBRANCH in GITBRANCH:
 #     app.config["DISCORD_CLIENT_ID"] = lookup("discord_client_id")
@@ -20,6 +24,41 @@ app.secret_key = lookup("session")
 #     app.config["DISCORD_CLIENT_SECRET"] = lookup("discord_client_secret_dev")
 #     app.config["DISCORD_BOT_TOKEN"] = lookup("discord_token_dev")
 #     app.config["DISCORD_REDIRECT_URI"] = lookup("discord_redirect_uri_dev")
+
+# if IFBRANCH in GITBRANCH:
+#     DISCORD_CLIENT_ID = lookup("discord_client_id")
+#     DISCORD_CLIENT_SECRET = lookup("discord_client_secret")
+#     DISCORD_BOT_TOKEN = lookup("discord_token")
+#     DISCORD_REDIRECT_URI = lookup("discord_redirect_uri")
+# else:
+#     DISCORD_CLIENT_ID = lookup("discord_client_id_dev")
+#     DISCORD_CLIENT_SECRET = lookup("discord_client_secret_dev")
+#     DISCORD_BOT_TOKEN = lookup("discord_token_dev")
+#     DISCORD_REDIRECT_URI = lookup("discord_redirect_uri_dev")
+
+# OAUTH_URL = f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&redirect_uri={quote(DISCORD_REDIRECT_URI)}&response_type=code&scope=identify"
+# client = APIClient(DISCORD_BOT_TOKEN, client_secret=DISCORD_CLIENT_SECRET)
+
+# @app.route("/login")
+# def login():
+#     return redirect(OAUTH_URL)
+
+
+# @app.route("/logout")
+# def logout():
+#     session.pop("access_token")
+#     return redirect("/")
+
+
+# @app.route("/oauth/callback")
+# def oauth_callback():
+#     code = request.args["code"]
+#     access_token = client.oauth.get_access_token(
+#         code, redirect_uri=DISCORD_REDIRECT_URI
+#     ).access_token
+#     session["access_token"] = access_token
+
+#     return redirect("/")
 
 # # OAuth2 must make use of HTTPS in production environment.
 # if 'http://' in app.config["DISCORD_REDIRECT_URI"]:

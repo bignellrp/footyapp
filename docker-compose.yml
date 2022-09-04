@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/app/
+    ports:
+      - 5000:5000

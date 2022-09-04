@@ -3,7 +3,7 @@ from flask import render_template, request, Blueprint
 import services.post_spread as post
 from services.get_spread import results
 import re
-from services.get_auth import auth
+#from services.get_auth import auth
 
 ##discord_blueprint = DiscordOAuth2Session()
 score_blueprint = Blueprint('score', 
@@ -13,7 +13,7 @@ score_blueprint = Blueprint('score',
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def score():
     '''A function for building the score page.
     Takes in this weeks score as form input from flask form
