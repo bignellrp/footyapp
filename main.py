@@ -4,7 +4,7 @@ from init import create_app
 from services.lookup import lookup
 #from flask_discord import DiscordOAuth2Session, Unauthorized
 from flask import Flask, render_template, request, redirect, session
-from services.get_oscommand import GITBRANCH, IFBRANCH
+from services.get_oscommand import GITBRANCH, IFBRANCH, DISCORD
 #import os
 #from zenora import APIClient
 #from urllib.parse import quote

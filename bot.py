@@ -4,7 +4,7 @@ from discord.ext import commands
 from threading import Thread
 import asyncio
 from services.lookup import lookup
-from services.get_oscommand import GITBRANCH, IFBRANCH
+from services.get_oscommand import GITBRANCH, IFBRANCH, DISCORD
 
 ##Initialise our app and the bot itself
 ##https://discordpy.readthedocs.io/en/latest/intents.html
@@ -44,4 +44,7 @@ class async_discord_thread(Thread):
         self.loop.create_task(self.starter())
         self.loop.run_forever()
 
-discord_thread = async_discord_thread()
+if DISCORD == "":
+    print("Discord token is empty. Discord bot will not run!")
+else:
+    discord_thread = async_discord_thread()

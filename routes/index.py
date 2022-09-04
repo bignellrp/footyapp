@@ -4,7 +4,7 @@ from flask import render_template, \
 from services.get_spread import player
 import services.post_spread as post
 from services.get_even_teams import get_even_teams
-from services.get_oscommand import GITBRANCH, IFBRANCH
+from services.get_oscommand import GITBRANCH, IFBRANCH, DISCORD
 from services.lookup import lookup
 #from services.get_auth import auth
 import discord
@@ -92,26 +92,29 @@ def index():
 
                 ##Send the teams to discord presave (only for main)
                 file = discord.File("static/football.png")
-                if IFBRANCH in GITBRANCH:
-                    url = lookup("discord_webhook")
-                    teama_json = "\n".join(item for item in team_a)
-                    teamb_json = "\n".join(item for item in team_b)
-                    webhook = discord.Webhook.from_url(url, 
-                                                    adapter=discord.RequestsWebhookAdapter())
-                    ##Embed Message
-                    embed=discord.Embed(title="PRE-SAVE:",
-                                        color=discord.Color.dark_green())
-                    embed.set_author(name="footyapp")
-                    embed.add_field(name="TeamA (" 
-                                    + str(team_a_total) 
-                                    + "):", value=teama_json, 
-                                    inline=True)
-                    embed.add_field(name="TeamB (" 
-                                    + str(team_b_total) 
-                                    + "):", value=teamb_json, 
-                                    inline=True)
-                    embed.set_thumbnail(url="attachment://football.png")
-                    webhook.send(file = file, embed = embed)
+                if DISCORD == "":
+                    print("Discord token is empty. Discord bot will not run!")
+                else:
+                    if IFBRANCH in GITBRANCH:
+                        url = lookup("discord_webhook")
+                        teama_json = "\n".join(item for item in team_a)
+                        teamb_json = "\n".join(item for item in team_b)
+                        webhook = discord.Webhook.from_url(url, 
+                                                        adapter=discord.RequestsWebhookAdapter())
+                        ##Embed Message
+                        embed=discord.Embed(title="PRE-SAVE:",
+                                            color=discord.Color.dark_green())
+                        embed.set_author(name="footyapp")
+                        embed.add_field(name="TeamA (" 
+                                        + str(team_a_total) 
+                                        + "):", value=teama_json, 
+                                        inline=True)
+                        embed.add_field(name="TeamB (" 
+                                        + str(team_b_total) 
+                                        + "):", value=teamb_json, 
+                                        inline=True)
+                        embed.set_thumbnail(url="attachment://football.png")
+                        webhook.send(file = file, embed = embed)
                     
                 # Return Team A and Team B to the results template
                 return render_template('result.html', 
