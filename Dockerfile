@@ -8,4 +8,6 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY . /app
 RUN mkdir /tokens
-RUN /start.sh
+COPY poststart.sh /tmp/poststart.sh
+RUN chmod +x  /tmp/poststart.sh
+RUN /tmp/poststart.sh
