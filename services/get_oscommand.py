@@ -12,7 +12,10 @@ def cmdline(command):
 ##was not matching.
 GITBRANCH = cmdline('git rev-parse --abbrev-ref HEAD')
 IFBRANCH = lookup("git_branch")
-DISCORD = lookup("discord_token")
+if IFBRANCH in GITBRANCH:
+    DISCORD = lookup("discord_token")
+else:
+    DISCORD = lookup("discord_token_dev")
 DISCORD = str(DISCORD)
 GITBRANCH = str(GITBRANCH)
 IFBRANCH = str(IFBRANCH)
