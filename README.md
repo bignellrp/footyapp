@@ -25,25 +25,8 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY . /app
-```
-
-And below docker-compose.yml
-
-```
-services:
-  web:
-    build: .
-    command: python main.py
-    volumes:
-      - .:/app/
-    ports:
-      - 5000:5000
-```
-
-
-```
-docker-compose build
-docker-compose up -d
+RUN mkdir /tokens
+RUN /start.sh
 ```
 
 or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
