@@ -26,8 +26,22 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY . /app
 RUN mkdir /tokens
-RUN /start.sh
+COPY poststart.sh /tmp/poststart.sh
+RUN chmod +x  /tmp/poststart.sh
 ```
+
+To start either run python main.py, or /tmp/poststart.sh for gunicorn server
+
+```
+cd /app
+python main.py
+
+or
+
+cd /app
+/tmp/poststart.sh
+```
+
 
 or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
 

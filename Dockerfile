@@ -10,4 +10,4 @@ COPY . /app
 RUN mkdir /tokens
 COPY poststart.sh /tmp/poststart.sh
 RUN chmod +x  /tmp/poststart.sh
-RUN /tmp/poststart.sh
+#RUN /tmp/poststart.sh
