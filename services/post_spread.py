@@ -82,12 +82,17 @@ def update_score_result(values):
     Updates both Score A and Score B 
     from a list of two values.'''
     row = ws_results.find('-')
-    row = row.row
+    #row = row.row
     col = ws_results.find('Team A Result?')
-    col = colnum_string(col.col) #Convert col number to letter
-    range = str(col)+str(row) #Put col letter with row number
-    values = [values, []] #Update func expecting list of lists
-    return ws_results.update(range, values, major_dimension='ROWS')
+    #col = colnum_string(col.col) #Convert col number to letter
+    #range = str(col)+str(row) #Put col letter with row number
+    #values = [values, []] #Update func expecting list of lists
+    ##Fudge to fix an issue with an extra apostrophe
+    ws_results.update_cell(row.row, col.col, values[0])
+    col = ws_results.find('Team B Result?')
+    ws_results.update_cell(row.row, col.col, values[1])
+    return
+    #return ws_results.update(range, values, major_dimension='ROWS')
 
 def update_scorea(value):
     '''Function to update the result using 
