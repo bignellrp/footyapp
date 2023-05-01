@@ -5,3 +5,4 @@ from routes.stats import stats_blueprint
 from routes.result import result_blueprint
 from routes.score import score_blueprint
 from routes.playertotals import playertotals_blueprint
+from routes.download import download_blueprint
