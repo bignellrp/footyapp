@@ -6,7 +6,7 @@ import services.post_spread as post
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
-from services.get_auth import auth
+#from services.get_auth import auth
 import discord
 
 ##discord_blueprint = DiscordOAuth2Session()
