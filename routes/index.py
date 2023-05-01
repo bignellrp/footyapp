@@ -17,7 +17,7 @@ index_blueprint = Blueprint('index',
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def index():
 
     '''A function for building the index page.

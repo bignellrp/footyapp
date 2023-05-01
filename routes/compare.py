@@ -10,7 +10,7 @@ compare_blueprint = Blueprint('compare',
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def compare():
     '''A function for building the compare page.
     Takes in available players from a flask form 

@@ -12,7 +12,7 @@ playertotals_blueprint = Blueprint('playertotals',
 
 @playertotals_blueprint.route('/playertotals', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def playertotals():
 
     '''A function for building the playerstotal page.

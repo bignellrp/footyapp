@@ -13,7 +13,7 @@ score_blueprint = Blueprint('score',
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
 ##@requires_authorization
-@auth.login_required
+#@auth.login_required
 def score():
     '''A function for building the score page.
     Takes in this weeks score as form input from flask form
