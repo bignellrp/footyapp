@@ -1,12 +1,25 @@
 #from flask import redirect, url_for
 #import bot #Used even though shows as not accessed
-from init import create_app
+#from init import create_app
 from services.lookup import lookup
 #from flask_discord import DiscordOAuth2Session, Unauthorized
 #from services.get_oscommand import GITBRANCH, IFBRANCH
 #import os
+from flask import Flask
+from routes import *
+app = Flask(__name__)
 
-app = create_app()
+##Register the blueprint for each route
+app.register_blueprint(index_blueprint)
+app.register_blueprint(compare_blueprint)
+app.register_blueprint(leaderboard_blueprint)
+app.register_blueprint(stats_blueprint)
+app.register_blueprint(result_blueprint)
+app.register_blueprint(score_blueprint)
+app.register_blueprint(playertotals_blueprint)
+app.register_blueprint(download_blueprint)
+
+#app = create_app()
 
 app.secret_key = lookup("session")
 
