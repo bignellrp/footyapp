@@ -33,18 +33,18 @@ for file in os.listdir("cogs"):
 ##ValueError: set_wakeup_fd only works in main thread
 ##https://github.com/Rapptz/discord.py/issues/1598
 
-class async_discord_thread(Thread):
-    def __init__(self):
-        Thread.__init__(self)
-        self.loop = asyncio.get_event_loop()
-        self.start()
+# class async_discord_thread(Thread):
+#     def __init__(self):
+#         Thread.__init__(self)
+#         self.loop = asyncio.get_event_loop()
+#         self.start()
 
-    async def starter(self):
-        await bot.start(token) #Changed to start from run
+#     async def starter(self):
+#         await bot.start(token) #Changed to start from run
 
-    def run(self):
-        self.name = 'Discord.py'
-        self.loop.create_task(self.starter())
-        self.loop.run_forever()
+#     def run(self):
+#         self.name = 'Discord.py'
+#         self.loop.create_task(self.starter())
+#         self.loop.run_forever()
 
-discord_thread = async_discord_thread()
+# discord_thread = async_discord_thread()
