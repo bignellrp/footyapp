@@ -13,7 +13,9 @@ class Messages(commands.Cog):
     async def on_message(self, message):
         '''If branch is dev then use the dev channel id
         This prevents the two bots conflicting with each other'''
-        if  IFBRANCH in GITBRANCH:
+        ##Rewite to use lookup
+        prod = False
+        if prod:
             CHANNEL_ID = lookup("channel_id")
         else:
             CHANNEL_ID = lookup("channel_id_dev")

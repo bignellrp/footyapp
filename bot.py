@@ -4,14 +4,17 @@ from discord.ext import commands
 from threading import Thread
 import asyncio
 from services.lookup import lookup
-from services.get_oscommand import GITBRANCH, IFBRANCH
+#from services.get_oscommand import GITBRANCH, IFBRANCH
 
 ##Initialise our app and the bot itself
 ##https://discordpy.readthedocs.io/en/latest/intents.html
 
 intents = discord.Intents.default()
 intents.members = True
-if  IFBRANCH in GITBRANCH:
+##Rewite to use lookup
+prod = False
+
+if prod:
     token = lookup("discord_token")
     bot = commands.Bot(command_prefix='!', intents=intents)
 else:

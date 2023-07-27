@@ -4,7 +4,7 @@ from services.get_date import next_wednesday
 import services.post_spread as post
 from services.get_spread import results
 from services.lookup import lookup
-from services.get_oscommand import GITBRANCH, IFBRANCH
+#from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 
 ##discord_blueprint = DiscordOAuth2Session()
@@ -68,7 +68,9 @@ def result():
             ##Send the teams to discord
             fileA = discord.File("static/"+teama_colour+".png")
             fileB = discord.File("static/"+teamb_colour+".png")
-            if IFBRANCH in GITBRANCH:
+            ##Rewite to use lookup
+            prod = False
+            if prod:
                 url = lookup("discord_webhook")
             else:
                 url = lookup("discord_webhook_dev")
@@ -113,7 +115,7 @@ def result():
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
             ##Send Rerun message to discord
-            if IFBRANCH in GITBRANCH:
+            if prod:
                 url = lookup("discord_webhook")
             else:
                 url = lookup("discord_webhook_dev")

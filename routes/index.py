@@ -4,7 +4,7 @@ from flask import render_template, \
 from services.get_spread import player
 import services.post_spread as post
 from services.get_even_teams import get_even_teams
-from services.get_oscommand import GITBRANCH, IFBRANCH
+#from services.get_oscommand import GITBRANCH, IFBRANCH
 from services.lookup import lookup
 #from services.get_auth import auth
 import discord
@@ -89,7 +89,9 @@ def index():
 
                 ##Send the teams to discord presave (only for main)
                 file = discord.File("static/football.png")
-                if IFBRANCH in GITBRANCH:
+                ##Rewite to use lookup
+                prod = False
+                if prod:
                     url = lookup("discord_webhook")
                     teama_json = "\n".join(item for item in team_a)
                     teamb_json = "\n".join(item for item in team_b)
