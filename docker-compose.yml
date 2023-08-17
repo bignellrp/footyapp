@@ -3,7 +3,9 @@ services:
   image:
     build:
       context: .
-    container_name: footyapp
+      args:
+        TAG: dev
+    container_name: footyapp-${TAG}
     networks:
       br0:
         ipv4_address: 192.168.0.233

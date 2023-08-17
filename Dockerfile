@@ -28,3 +28,7 @@ EXPOSE 80
 
 # Command to run the application
 CMD ["gunicorn", "--conf", "gunicorn_conf.py", "--bind", "0.0.0.0:80", "main:app"]
+
+# Metadata
+LABEL version="1.0"
+LABEL tag="${TAG}"
