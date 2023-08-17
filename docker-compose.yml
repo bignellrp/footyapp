@@ -1,10 +1,7 @@
 version: '3'
 services:
-  image:
-    build:
-      context: .
-      args:
-        TAG: ${BRANCH}
+  footyapp:
+    image: ghcr.io/bignellrp/footyapp:preprod
     container_name: footyapp-${BRANCH}
     networks:
       br0:
