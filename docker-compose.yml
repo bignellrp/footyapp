@@ -3,7 +3,7 @@ services:
   image:
     build:
       context: .
-    container_name: footyappdev
+    container_name: footyapp
     networks:
       br0:
         ipv4_address: 192.168.0.233
