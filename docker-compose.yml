@@ -1,0 +1,20 @@
+version: '3'
+services:
+  myapp:
+    build:
+      context: .
+    container_name: footyappdev
+    networks:
+      br0:
+        ipv4_address: 192.168.0.233
+    ports:
+      - "80:80"
+    environment:
+      - WEB_CONCURRENCY=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - /mnt/user/share/docker/footyapp/tokens/:/tokens
+networks:
+  br0:
+    external: true
+    name: br0
