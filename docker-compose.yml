@@ -11,6 +11,7 @@ services:
         ipv4_address: 192.168.0.233
     ports:
       - "80:80"
+    restart: always
     environment:
       - WEB_CONCURRENCY=1
       - PYTHONUNBUFFERED=1
