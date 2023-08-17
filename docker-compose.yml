@@ -4,8 +4,8 @@ services:
     build:
       context: .
       args:
-        TAG: dev
-    container_name: footyapp-${TAG}
+        TAG: ${BRANCH}
+    container_name: footyapp-${BRANCH}
     networks:
       br0:
         ipv4_address: 192.168.0.233
