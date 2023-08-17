@@ -6,20 +6,8 @@ on:
       - preprod
 
 jobs:
-  build:
+  build_tag_push_to_ghcr:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Build and Push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_TOKEN }}
+      - name: Build, Tag and Push Docker Image to GHCR
+        uses: GlueOps/github-actions-build-push-containers@v0.1.3
