@@ -8,32 +8,43 @@ for each side.
 Coded using Python, HTML and Flask using
 [grayscale bootstrap template](https://startbootstrap.com/theme/grayscale)
 
-You can test this by installing this docker image and cloning this repo to
-replace the contents of the /app folder
+You can test this by cloning this repo and modifying the docker-compose.yml
 
-tiangolo/meinheld-gunicorn-flask
-
-```bash
-docker pull tiangolo/meinheld-gunicorn-flask
-docker run -t -i -e WEB_CONCURRENCY="1" -p 80:80 tiangolo/meinheld-gunicorn-flask
-docker exec -it flask /bin/bash
-rm -rf /app
-mkdir app
-cd app
-git clone https://github.com/bignellrp/footyapp.git .
-python3 services/generate_tokens.py > services/tokens.json
-pip3 install -r requirements.txt
-```
-
-or if you're using Docker on Unraid add these parameters to the "Advanced View" of the add container page.
+BRANCH = Must match the branch you are cloning e.g preprod
+IPV4_ADDR = Edit the network accordingly
+LOCAL_TOKENS = 3 local tokens are required for Discord, Google Sheets and Slack (see below)
+Add the local folder where the tokens are saved. e.g /mnt/user/share/tokens/
 
 ```
-Name:flaskpro
-Repository: tiangolo/meinheld-gunicorn-flask
-Extra Parameters: -e WEB_CONCURRENCY="1" -e PYTHONUNBUFFERED="1"
-Post Arguments: ;sleep 2;docker start flaskpro;sleep 2;docker exec flaskpro bash -c "sleep 5;rm -rf /app/*;cd /app;git clone https://github.com/bignellrp/footyapp.git .;python3 services/generate_tokens.py > /tokens/tokens.json;pip3 install -r requirements.txt";docker restart flaskpro
-Tokens(Custom Folder): Container Path: /tokens
+version: '3'
+services:
+  footyapp:
+    image: ghcr.io/bignellrp/footyapp:${BRANCH}
+    container_name: footyapp-${BRANCH}
+    networks:
+      br0:
+        ipv4_address: ${IPV4_ADDR}
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+      - WEB_CONCURRENCY=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ${LOCAL_TOKENS}:/tokens
+networks:
+  br0:
+    external: true
+    name: br0
 ```
+
+# Tokens
+
+The secrets for this app must be loaded as a volume to /tokens and contain two files; tokens.json and keys.json
+To generate the empty tokens.json use services/generate_tokens.py
+To generate the keys.json follow the Google Sheets Token Guide below and import the csv data from the csv folder.
+
+# Google Sheets Token
 
 This branch adds google sheets support to have the player list generated from a
 google sheet. Submit allows the user to push the results back to google sheets. 
@@ -47,8 +58,16 @@ json. Save the keys.json to the services folder.
 
 If you prefer not to use google for the data checkout the [static branch](https://github.com/bignellrp/footyapp/tree/static) **Note** the static branch is now a few versions behind the latest.
 
+# Discord Token
+
 In the latest version of the app a Discord helper bot is included that is integrated with the Flask webapp.
 
 A guide for creating the bot can be found [here](https://discordpy.readthedocs.io/en/stable/discord.html)
 
 Save the token in the tokens.json file in the services folder.
+
+# Slack Token
+
+The slack token is optional as by default the slack post section routes/results.py is commented out. 
+
+If you wish to use slack to notify when the teams have been posted uncomment and add the slack token to the tokens.json
