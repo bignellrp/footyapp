@@ -8,22 +8,27 @@ for each side.
 Coded using Python, HTML and Flask using
 [grayscale bootstrap template](https://startbootstrap.com/theme/grayscale)
 
-You can test this by installing this docker image and cloning this repo to
-replace the contents of the /app folder
+You can test this by cloning this repo and modifying the docker-compose.yml
 
-https://hub.docker.com/r/that1guy15/flask-demo
+IPV4_ADDR = Edit the network accordingly
 
-```bash
-docker pull that1guy15/flask-demo
-docker run -t -i -p 80:80 thatguy15/flask-demo
-docker exec -it flask /bin/bash
-rm -rf /app
-mkdir app
-cd app
-git clone https://github.com/bignellrp/footyapp.git .
 ```
-
-```bash
-docker exec -it flask /bin/bash
-pip install -r requirements.txt
+version: '3'
+services:
+  footyapp:
+    image: ghcr.io/bignellrp/footyapp:static
+    container_name: footyapp-static
+    networks:
+      br0:
+        ipv4_address: ${IPV4_ADDR}
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+      - WEB_CONCURRENCY=1
+      - PYTHONUNBUFFERED=1
+networks:
+  br0:
+    external: true
+    name: br0
 ```

@@ -1,0 +1,13 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - static
+
+jobs:
+  build_tag_push_to_ghcr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build, Tag and Push Docker Image to GHCR
+        uses: GlueOps/github-actions-build-push-containers@v0.1.3
