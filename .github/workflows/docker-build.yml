@@ -11,3 +11,17 @@ jobs:
     steps:
       - name: Build, Tag and Push Docker Image to GHCR
         uses: GlueOps/github-actions-build-push-containers@v0.1.3
+
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+
+      - name: Deploy stack to Portainer
+        uses: carlrygart/portainer-stack-deploy@v1
+        with:
+          portainer-host: ${{ secrets.PORTAINER_HOST }}
+          username: ${{ secrets.PORTAINER_USERNAME }}
+          password: ${{ secrets.PORTAINER_PASSWORD }}
+          stack-name: 'footyapp-{{ env.IMAGE_TAG }}-new'
+          stack-definition: 'docker-compose.yml'
+          image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
