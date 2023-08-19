@@ -23,6 +23,7 @@ jobs:
           portainer-username: ${{ secrets.PORTAINER_USERNAME }}
           portainer-password: ${{ secrets.PORTAINER_PASSWORD }}
           portainer-endpoint: 2
-          name: 'footyapp-{{ env.IMAGE_TAG }}-new'
+          name: 'footyapp-{{ env.IMAGE_TAG }}'
           file: docker-compose.yml
           variables: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
+          delete: true
