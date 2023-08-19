@@ -16,12 +16,13 @@ jobs:
         run: sleep 10s
         shell: bash
 
-      - name: Deploy stack to Portainer
-        uses: carlrygart/portainer-stack-deploy@v1
+      - name: Deploy Stack
+        uses: kgierke/portainer-stack-deployment@v1
         with:
-          portainer-host: ${{ secrets.PORTAINER_HOST }}
-          username: ${{ secrets.PORTAINER_USERNAME }}
-          password: ${{ secrets.PORTAINER_PASSWORD }}
-          stack-name: 'footyapp-{{ env.IMAGE_TAG }}-new'
-          stack-definition: 'docker-compose.yml'
-          image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
+          portainer-url: ${{ secrets.PORTAINER_HOST }}
+          portainer-username: ${{ secrets.PORTAINER_USERNAME }}
+          portainer-password: ${{ secrets.PORTAINER_PASSWORD }}
+          portainer-endpoint: 2
+          name: 'footyapp-{{ env.IMAGE_TAG }}-new'
+          file: docker-compose.yml
+          variables: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
