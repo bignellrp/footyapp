@@ -1,0 +1,12 @@
+version: '3'
+services:
+  footyapp-dev:
+    image: ghcr.io/bignellrp/footyapp:preprod
+    container_name: footyapp-dev
+    ports:
+      - "8080:80"
+    environment:
+      - DEBUG_MODE=true
+    volumes:
+      - .:/app
+      - ../tokens/:/tokens
