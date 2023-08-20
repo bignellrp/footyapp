@@ -25,5 +25,5 @@ jobs:
           portainer-endpoint: 2
           name: 'footyapp-{{ env.IMAGE_TAG }}'
           file: docker-compose.yml
-          repo-name: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
+          repo-name: ghcr.io/bignellrp/footyapp:preprod
           delete: true
