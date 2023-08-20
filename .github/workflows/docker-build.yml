@@ -17,7 +17,7 @@ jobs:
         shell: bash
 
       - name: Deploy Stack
-        uses: kgierke/portainer-stack-deployment@v1
+        uses: ./
         with:
           portainer-url: ${{ secrets.PORTAINER_HOST }}
           portainer-username: ${{ secrets.PORTAINER_USERNAME }}
@@ -25,5 +25,5 @@ jobs:
           portainer-endpoint: 2
           name: 'footyapp-{{ env.IMAGE_TAG }}'
           file: docker-compose.yml
-          variables: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
+          repo-name: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
           delete: true
